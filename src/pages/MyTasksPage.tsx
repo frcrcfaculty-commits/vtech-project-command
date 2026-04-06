@@ -1,16 +1,248 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle2, Clock, AlertTriangle, ChevronRight } from 'lucide-react';
+import { useTasks } from '@/hooks/useTasks';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
-import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/Button';
+import { cn, isOverdue, formatRelativeDate, getPriorityColor } from '@/lib/utils';
+import { TASK_PRIORITIES } from '@/lib/constants';
+import type { ITask } from '@/lib/types';
 
 export function MyTasksPage() {
   const { user } = useAuth();
-  if (!user) return <Spinner size="lg" />;
+  const { tasks, loading, fetchByUser, updateTask } = useTasks();
+  const navigate = useNavigate();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const load = useCallback(async () => {
+    if (!user?.id) return;
+    await fetchByUser(user.id);
+  }, [user?.id, fetchByUser]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await load();
+    setRefreshing(false);
+  };
+
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+  const overdue = tasks.filter(
+    (t) => t.due_date && t.due_date < todayStr && t.status !== 'done'
+  );
+  const today = tasks.filter(
+    (t) => (t.due_date === todayStr || t.status === 'in_progress') && t.status !== 'done'
+  );
+  const upcoming = tasks.filter(
+    (t) =>
+      t.due_date &&
+      t.due_date >= todayStr &&
+      t.due_date <= weekFromNow &&
+      t.status === 'todo'
+  );
+
+  const cycleStatus = async (task: ITask) => {
+    const order = ['todo', 'in_progress', 'done'];
+    const idx = order.indexOf(task.status);
+    if (idx === -1 || idx === order.length - 1) return;
+    const next = order[idx + 1];
+    await updateTask(task.id, { status: next });
+    await load();
+  };
+
+  if (!user) return null;
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-[var(--color-text)]">My Tasks</h1>
-      <Card>
-        <p className="text-[var(--color-text-secondary)]">Tasks list coming soon.</p>
-      </Card>
-    </div>
+    <main className="max-w-2xl mx-auto px-4 py-6">
+      <header className="mb-6">
+        <h1 className="text-xl font-bold text-[#0B1F3F]">My Tasks</h1>
+        <p className="text-sm text-[#6B7280] mt-0.5">Your assigned work at a glance</p>
+      </header>
+
+      {loading && tasks.length === 0 ? (
+        <div className="flex justify-center py-12">
+          <Spinner />
+        </div>
+      ) : tasks.length === 0 ? (
+        <div className="text-center py-16">
+          <CheckCircle2 size={48} className="mx-auto text-gray-300 mb-3" />
+          <p className="text-sm font-medium text-[#1A1A2E]">No tasks assigned to you</p>
+          <p className="text-xs text-[#6B7280] mt-1">Check with your team lead.</p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+
+          {/* Overdue */}
+          {overdue.length > 0 && (
+            <section>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#C62828] mb-3">
+                <AlertTriangle size={14} /> Overdue ({overdue.length})
+              </h2>
+              <div className="flex flex-col gap-2">
+                {overdue.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    borderColor="border-l-[#C62828]"
+                    onStatusCycle={() => cycleStatus(task)}
+                    onLogTime={() => navigate(`/time?project=${task.project_id}&phase=${task.phase_id}&task=${task.id}`)}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Today */}
+          {today.length > 0 && (
+            <section>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#1E88E5] mb-3">
+                <Clock size={14} /> Today ({today.length})
+              </h2>
+              <div className="flex flex-col gap-2">
+                {today.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    borderColor="border-l-[#1E88E5]"
+                    onStatusCycle={() => cycleStatus(task)}
+                    onLogTime={() => navigate(`/time?project=${task.project_id}&phase=${task.phase_id}&task=${task.id}`)}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Upcoming */}
+          {upcoming.length > 0 && (
+            <section>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#6B7280] mb-3">
+                Upcoming ({upcoming.length})
+              </h2>
+              <div className="flex flex-col gap-2">
+                {([...upcoming].sort((a, b) => (a.due_date ?? '').localeCompare(b.due_date ?? '')))
+                  .map((task) => (
+                    <TaskCard
+                      key={task.id}
+                      task={task}
+                      borderColor="border-l-gray-300"
+                      onStatusCycle={() => cycleStatus(task)}
+                      onLogTime={() => navigate(`/time?project=${task.project_id}&phase=${task.phase_id}&task=${task.id}`)}
+                    />
+                  ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
+      {/* Pull to refresh hint */}
+      <div className="text-center mt-6">
+        <button
+          onClick={onRefresh}
+          disabled={refreshing}
+          className="text-xs text-[#6B7280] hover:text-[#1A1A2E] disabled:opacity-50"
+        >
+          {refreshing ? 'Refreshing...' : 'Tap to refresh'}
+        </button>
+      </div>
+    </main>
+  );
+}
+
+interface TaskCardProps {
+  task: ITask;
+  borderColor: string;
+  onStatusCycle: () => void;
+  onLogTime: () => void;
+}
+
+function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps) {
+  const overdue = task.due_date && isOverdue(task.due_date) && task.status !== 'done';
+  const statusColors: Record<string, string> = {
+    todo: 'bg-gray-100 text-gray-500',
+    in_progress: 'bg-blue-50 text-[#1E88E5]',
+    done: 'bg-green-50 text-[#2E7D32]',
+    blocked: 'bg-red-50 text-[#C62828]',
+  };
+
+  return (
+    <Card className={cn('border-l-4 pl-3 pr-4 py-3', borderColor)}>
+      {/* Project + Phase */}
+      <div className="flex items-center gap-2 mb-1">
+        {task.project_name && (
+          <span className="text-xs text-[#6B7280]">{task.project_name}</span>
+        )}
+        {task.phase_name && (
+          <Badge className="text-[10px] px-1.5 py-0 bg-gray-100 text-[#6B7280]">
+            {task.phase_name}
+          </Badge>
+        )}
+      </div>
+
+      {/* Title */}
+      <p className="text-sm font-semibold text-[#1A1A2E] mb-1">{task.title}</p>
+
+      {/* Assigned by */}
+      {task.assigner_name && (
+        <p className="text-xs text-[#6B7280] mb-2">Assigned by {task.assigner_name}</p>
+      )}
+
+      {/* Priority + Due date row */}
+      <div className="flex items-center justify-between">
+        <Badge
+          className="text-[10px] px-1.5 py-0"
+          style={{
+            backgroundColor: getPriorityColor(task.priority) + '20',
+            color: getPriorityColor(task.priority),
+          }}
+        >
+          {task.priority}
+        </Badge>
+        {task.due_date && (
+          <span className={cn('text-xs font-medium', overdue ? 'text-[#C62828]' : 'text-[#6B7280]')}>
+            {formatRelativeDate(task.due_date)}
+          </span>
+        )}
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex items-center gap-2 mt-3">
+        <button
+          onClick={onStatusCycle}
+          className={cn(
+            'flex-1 py-2 rounded-[6px] text-xs font-medium transition-colors',
+            task.status === 'done'
+              ? 'bg-gray-100 text-[#6B7280]'
+              : 'bg-[#2E7D32] text-white hover:bg-[#256427]'
+          )}
+        >
+          {task.status === 'done' ? 'Completed' : 'Mark Done'}
+        </button>
+        <Button
+          size="sm"
+          variant="secondary"
+          onClick={onLogTime}
+          className="flex-1 text-xs"
+        >
+          Log Time
+        </Button>
+        <button
+          onClick={onLogTime}
+          className="p-2 text-[#6B7280] hover:text-[#1A1A2E]"
+          aria-label="More options"
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </Card>
   );
 }

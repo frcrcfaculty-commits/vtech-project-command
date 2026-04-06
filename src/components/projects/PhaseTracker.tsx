@@ -1,0 +1,279 @@
+import { useState } from 'react';
+import { Check, X, Circle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Card, Select, Badge } from '@/components/ui';
+import { StatusBadge } from '@/components/ui/Badge';
+import { formatDate, cn } from '@/lib/utils';
+import { PHASE_STATUS_COLORS, TEAM_NAMES } from '@/lib/constants';
+import type { IProjectPhase, PhaseStatus } from '@/lib/types';
+
+export interface PhaseTrackerProps {
+  phases: IProjectPhase[];
+  isOwner?: boolean;
+  isTeamLead?: boolean;
+  onPhaseUpdate?: (phaseId: string, updates: Partial<IProjectPhase>) => Promise<void>;
+}
+
+export function PhaseTracker({ phases, isOwner = false, isTeamLead = false, onPhaseUpdate }: PhaseTrackerProps) {
+  const [expandedPhaseId, setExpandedPhaseId] = useState<string | null>(null);
+  const [updatingPhaseId, setUpdatingPhaseId] = useState<string | null>(null);
+
+  const sortedPhases = [...phases].sort((a, b) => a.phase_number - b.phase_number);
+  const canEdit = isOwner || isTeamLead;
+
+  const handleStatusChange = async (phaseId: string, newStatus: PhaseStatus) => {
+    if (!onPhaseUpdate) return;
+    
+    setUpdatingPhaseId(phaseId);
+    try {
+      const updates: Partial<IProjectPhase> = { status: newStatus };
+      
+      // Auto-set actual_start when transitioning to in_progress
+      if (newStatus === 'in_progress') {
+        const phase = phases.find(p => p.id === phaseId);
+        if (phase && !phase.actual_start_date) {
+          updates.actual_start_date = new Date().toISOString().split('T')[0];
+        }
+      }
+      
+      // Auto-set actual_end when transitioning to completed
+      if (newStatus === 'completed') {
+        updates.actual_end_date = new Date().toISOString().split('T')[0];
+      }
+      
+      await onPhaseUpdate(phaseId, updates);
+    } finally {
+      setUpdatingPhaseId(null);
+    }
+  };
+
+  const handleExpand = (phaseId: string) => {
+    setExpandedPhaseId(prev => prev === phaseId ? null : phaseId);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Desktop Stepper */}
+      <div className="hidden md:block">
+        <HorizontalStepper
+          phases={sortedPhases}
+          expandedPhaseId={expandedPhaseId}
+          canEdit={canEdit}
+          onExpand={handleExpand}
+          onStatusChange={handleStatusChange}
+          updatingPhaseId={updatingPhaseId}
+        />
+      </div>
+
+      {/* Mobile Stepper */}
+      <div className="md:hidden">
+        <VerticalStepper
+          phases={sortedPhases}
+          expandedPhaseId={expandedPhaseId}
+          canEdit={canEdit}
+          onExpand={handleExpand}
+          onStatusChange={handleStatusChange}
+          updatingPhaseId={updatingPhaseId}
+        />
+      </div>
+
+      {/* Expanded Phase Detail */}
+      {expandedPhaseId && (
+        <PhaseDetail
+          phase={sortedPhases.find(p => p.id === expandedPhaseId)!}
+          canEdit={canEdit}
+          onStatusChange={handleStatusChange}
+          isUpdating={updatingPhaseId === expandedPhaseId}
+        />
+      )}
+    </div>
+  );
+}
+
+interface StepperProps {
+  phases: IProjectPhase[];
+  expandedPhaseId: string | null;
+  canEdit: boolean;
+  onExpand: (phaseId: string) => void;
+  onStatusChange: (phaseId: string, status: PhaseStatus) => void;
+  updatingPhaseId: string | null;
+}
+
+function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatusChange, updatingPhaseId }: StepperProps) {
+  return (
+    <div className="flex items-start justify-between">
+      {phases.map((phase, index) => (
+        <div key={phase.id} className="flex items-center">
+          {/* Step Circle + Label */}
+          <div className="flex flex-col items-center">
+            <button
+              onClick={() => onExpand(phase.id)}
+              className={cn(
+                'w-10 h-10 rounded-full flex items-center justify-center transition-all',
+                'ring-4 ring-white',
+                expandedPhaseId === phase.id && 'ring-4 ring-blue-200',
+                canEdit && 'cursor-pointer hover:scale-110'
+              )}
+            >
+              <PhaseCircle status={phase.status} />
+            </button>
+            <span className={cn(
+              'mt-2 text-xs font-medium text-center max-w-[80px]',
+              expandedPhaseId === phase.id ? 'text-[#1A1A2E]' : 'text-[#6B7280]'
+            )}>
+              {phase.phase_name}
+            </span>
+          </div>
+          
+          {/* Connector Line */}
+          {index < phases.length - 1 && (
+            <div className={cn(
+              'w-8 h-0.5 mx-1 mt-[-20px]',
+              phases[index + 1]?.status === 'completed' || phase.status === 'completed'
+                ? 'bg-[#2E7D32]'
+                : 'bg-gray-200'
+            )} />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function VerticalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatusChange, updatingPhaseId }: StepperProps) {
+  return (
+    <div className="space-y-2">
+      {phases.map((phase) => (
+        <div key={phase.id}>
+          <button
+            onClick={() => onExpand(phase.id)}
+            className={cn(
+              'w-full flex items-center gap-3 p-3 rounded-lg transition-colors',
+              expandedPhaseId === phase.id ? 'bg-blue-50' : 'bg-gray-50 hover:bg-gray-100',
+              canEdit && 'cursor-pointer'
+            )}
+          >
+            <PhaseCircle status={phase.status} />
+            <span className="flex-1 text-left font-medium text-sm">{phase.phase_name}</span>
+            <StatusBadge status={phase.status} />
+            {expandedPhaseId === phase.id ? (
+              <ChevronUp className="h-4 w-4 text-gray-400" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-gray-400" />
+            )}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PhaseCircle({ status }: { status: PhaseStatus }) {
+  const config = PHASE_STATUS_COLORS[status];
+
+  const iconClass = cn(
+    'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
+    config.bg,
+    config.text
+  );
+
+  switch (status) {
+    case 'completed':
+      return <div className={iconClass}><Check className="h-4 w-4" /></div>;
+    case 'blocked':
+      return <div className={iconClass}><X className="h-4 w-4" /></div>;
+    case 'in_progress':
+      return (
+        <div className={cn(iconClass, 'animate-pulse')}>
+          <Circle className="h-4 w-4 fill-current" />
+        </div>
+      );
+    default:
+      return <div className={iconClass}><Circle className="h-4 w-4" /></div>;
+  }
+}
+
+interface PhaseDetailProps {
+  phase: IProjectPhase;
+  canEdit: boolean;
+  onStatusChange: (phaseId: string, status: PhaseStatus) => void;
+  isUpdating: boolean;
+}
+
+function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetailProps) {
+  const milestonesCount = phase.milestones?.length || 0;
+  const completedMilestones = phase.milestones?.filter(m => m.status === 'completed').length || 0;
+
+  const statusOptions = [
+    { value: 'not_started', label: 'Not Started' },
+    { value: 'in_progress', label: 'In Progress' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'blocked', label: 'Blocked' },
+  ];
+
+  return (
+    <Card className="mt-4 border-l-4 border-l-[#1E88E5]">
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-[#1A1A2E]">{phase.phase_name}</h3>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="info">{phase.team_name || 'Unassigned'}</Badge>
+            </div>
+          </div>
+          {canEdit && (
+            <Select
+              options={statusOptions}
+              value={phase.status}
+              onChange={(e) => onStatusChange(phase.id, e.target.value as PhaseStatus)}
+              disabled={isUpdating}
+              className="w-40"
+            />
+          )}
+        </div>
+
+        {/* Dates Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <span className="text-[#6B7280]">Planned Start</span>
+            <p className="font-medium">{formatDate(phase.planned_start_date)}</p>
+          </div>
+          <div>
+            <span className="text-[#6B7280]">Planned End</span>
+            <p className="font-medium">{formatDate(phase.planned_end_date)}</p>
+          </div>
+          <div>
+            <span className="text-[#6B7280]">Actual Start</span>
+            <p className="font-medium">{formatDate(phase.actual_start_date) || '-'}</p>
+          </div>
+          <div>
+            <span className="text-[#6B7280]">Actual End</span>
+            <p className="font-medium">{formatDate(phase.actual_end_date) || '-'}</p>
+          </div>
+        </div>
+
+        {/* Milestones & Hours */}
+        <div className="flex items-center gap-6 text-sm">
+          <div>
+            <span className="text-[#6B7280]">Milestones: </span>
+            <span className="font-medium">
+              {milestonesCount > 0 ? `${completedMilestones}/${milestonesCount} complete` : 'No milestones'}
+            </span>
+          </div>
+          <div>
+            <span className="text-[#6B7280]">Hours: </span>
+            <span className="font-medium">0 work hours + 0 travel hours</span>
+          </div>
+        </div>
+
+        {/* Notes */}
+        {phase.notes && (
+          <div className="pt-2 border-t">
+            <span className="text-sm text-[#6B7280]">Notes</span>
+            <p className="text-sm mt-1">{phase.notes}</p>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}

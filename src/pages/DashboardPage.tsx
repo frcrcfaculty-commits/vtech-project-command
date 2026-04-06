@@ -1,16 +1,19 @@
-import { Card } from '@/components/ui/Card';
-import { Spinner } from '@/components/ui/Spinner';
-import { useAuth } from '@/hooks/useAuth';
+import { Navigate } from 'react-router-dom';
+import { OwnerDashboard } from '@/components/dashboard/OwnerDashboard';
+import { TeamLeadDashboard } from '@/components/dashboard/TeamLeadDashboard';
+
+// Stub useAuth until hook agent delivers it
+// Replace with: import { useAuth } from '@/hooks/useAuth';
+function useAuth() {
+  return {
+    user: { id: '1', name: 'Admin', role: 'owner' as const },
+  };
+}
 
 export function DashboardPage() {
   const { user } = useAuth();
-  if (!user) return <Spinner size="lg" />;
-  return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-[var(--color-text)]">Dashboard</h1>
-      <Card>
-        <p className="text-[var(--color-text-secondary)]">Welcome, {user.name}. Dashboard content coming soon.</p>
-      </Card>
-    </div>
-  );
+
+  if (user?.role === 'owner') return <OwnerDashboard />;
+  if (user?.role === 'team_lead') return <TeamLeadDashboard />;
+  return <Navigate to="/tasks" replace />;
 }
