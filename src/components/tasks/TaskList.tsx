@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Circle, CheckCircle2, AlertCircle, Clock, Plus } from 'lucide-react';
 import { useTasks } from '@/hooks/useTasks';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
+
 import { TaskForm } from './TaskForm';
 import { Badge } from '@/components/ui/Badge';
 import { cn, isOverdue, getPriorityColor } from '@/lib/utils';
@@ -96,14 +97,11 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
                   <span className="text-xs text-[#6B7280]">{task.assignee_name}</span>
                 )}
                 <Badge
+                  status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
+                  label={task.priority as string}
                   className="text-[10px] px-1.5 py-0"
-                  style={{
-                    backgroundColor: getPriorityColor(task.priority) + '20',
-                    color: getPriorityColor(task.priority),
-                  }}
-                >
-                  {task.priority}
-                </Badge>
+                />
+
               </div>
             </div>
 
@@ -123,7 +121,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
                 </button>
                 {statusOpen === task.id && (
                   <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-[6px] shadow-md z-10 min-w-[100px]">
-                    {TASK_STATUSES.map((s) => (
+                    {TASK_STATUSES.map((s: any) => (
                       <button
                         key={s.value}
                         onClick={async () => {
@@ -136,6 +134,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
                         {s.label}
                       </button>
                     ))}
+
                   </div>
                 )}
               </div>

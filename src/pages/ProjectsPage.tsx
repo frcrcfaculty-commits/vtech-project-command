@@ -57,17 +57,18 @@ export function ProjectsPage() {
     switch (sortBy) {
       case 'deadline_soon':
         return filtered.sort((a, b) => 
-          new Date(a.target_end_date).getTime() - new Date(b.target_end_date).getTime()
+          new Date(a.target_end_date || 0).getTime() - new Date(b.target_end_date || 0).getTime()
         );
       case 'name_az':
         return filtered.sort((a, b) => a.name.localeCompare(b.name));
       case 'newest':
       default:
         return filtered.sort((a, b) => 
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
         );
     }
   }, [projects, sortBy]);
+
 
   const hasActiveFilters = statusFilter !== 'all' || projectTypeFilter || cityFilter || debouncedSearch;
 
@@ -119,7 +120,7 @@ export function ProjectsPage() {
           <Select
             options={sortOptions}
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            onChange={(val) => setSortBy(val as SortOption)}
             className="w-48"
           />
         </div>
@@ -151,7 +152,7 @@ export function ProjectsPage() {
             <Select
               options={projectTypeOptions}
               value={projectTypeFilter}
-              onChange={(e) => setProjectTypeFilter(e.target.value)}
+              onChange={setProjectTypeFilter}
               className="w-full"
             />
           </div>
@@ -159,7 +160,7 @@ export function ProjectsPage() {
             <Select
               options={cityOptions}
               value={cityFilter}
-              onChange={(e) => setCityFilter(e.target.value)}
+              onChange={setCityFilter}
               className="w-full"
             />
           </div>
@@ -192,7 +193,7 @@ export function ProjectsPage() {
         <Select
           options={sortOptions}
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as SortOption)}
+          onChange={(val) => setSortBy(val as SortOption)}
           className="w-full"
         />
       </div>
@@ -218,7 +219,7 @@ export function ProjectsPage() {
         </div>
       ) : sortedProjects.length === 0 ? (
         <EmptyState
-          icon={<Filter className="h-8 w-8 text-gray-400" />}
+          icon={Filter}
           title={hasActiveFilters ? 'No projects match your filters' : 'No projects yet'}
           description={
             hasActiveFilters

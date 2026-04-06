@@ -6,11 +6,13 @@ interface EmptyStateProps {
   icon?: LucideIcon;
   title: string;
   subtitle?: string;
+  description?: string; // Alias for subtitle
   action?: { label: string; onClick: () => void };
   className?: string;
 }
 
-export function EmptyState({ icon: Icon, title, subtitle, action, className }: EmptyStateProps) {
+export function EmptyState({ icon: Icon, title, subtitle, description, action, className }: EmptyStateProps) {
+  const activeSubtitle = description || subtitle;
   return (
     <div className={cn('flex flex-col items-center justify-center py-12 px-4 text-center', className)}>
       {Icon && (
@@ -19,12 +21,14 @@ export function EmptyState({ icon: Icon, title, subtitle, action, className }: E
         </div>
       )}
       <h3 className="text-base font-semibold text-[var(--color-text)] mb-1">{title}</h3>
-      {subtitle && <p className="text-sm text-[var(--color-text-secondary)] mb-4 max-w-xs">{subtitle}</p>}
+      {activeSubtitle && <p className="text-sm text-[var(--color-text-secondary)] mb-4 max-w-xs">{activeSubtitle}</p>}
+
       {action && (
-        <Button variant="secondary" size="md" onClick={action.onClick} icon={Icon}>
+        <Button variant="secondary" size="md" onClick={action.onClick} icon={Icon ? <Icon size={16} /> : undefined}>
           {action.label}
         </Button>
       )}
+
     </div>
   );
 }

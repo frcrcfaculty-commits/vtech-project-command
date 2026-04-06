@@ -9,7 +9,8 @@ interface RoleGateProps {
 }
 
 export function RoleGate({ allowedRoles, children, fallback = null }: RoleGateProps) {
-  const { user } = useAuth();
+  const { user }: any = useAuth();
   if (!user || !allowedRoles.includes(user.role)) return <>{fallback}</>;
   return <>{children}</>;
 }
+

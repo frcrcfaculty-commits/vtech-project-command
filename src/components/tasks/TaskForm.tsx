@@ -34,7 +34,8 @@ export function TaskForm({ open, onClose, onSaved, milestoneId, phaseId, project
     if (task) {
       setTitle(task.title);
       setDescription(task.description ?? '');
-      setAssignedTo(task.assigned_to);
+      setAssignedTo(task.assigned_to || '');
+
       setPriority(task.priority);
       setDueDate(task.due_date ?? '');
     } else {
@@ -111,7 +112,8 @@ export function TaskForm({ open, onClose, onSaved, milestoneId, phaseId, project
   };
 
   return (
-    <Modal open={open} onClose={onClose} title={task ? 'Edit Task' : 'Add Task'}>
+    <Modal isOpen={open} onClose={onClose} title={task ? 'Edit Task' : 'Add Task'}>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <Input
           label="Title"
@@ -130,7 +132,7 @@ export function TaskForm({ open, onClose, onSaved, milestoneId, phaseId, project
         <Select
           label="Assign To"
           value={assignedTo}
-          onChange={(e) => setAssignedTo(e.target.value)}
+          onChange={(val: string) => setAssignedTo(val)}
           options={users.map((u) => ({ value: u.id, label: u.full_name }))}
           placeholder="Select team member"
           error={errors.assignedTo}
@@ -138,9 +140,10 @@ export function TaskForm({ open, onClose, onSaved, milestoneId, phaseId, project
         <Select
           label="Priority"
           value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          onChange={(val: string) => setPriority(val)}
           options={[...TASK_PRIORITIES]}
         />
+
         <Input
           label="Due Date"
           type="date"

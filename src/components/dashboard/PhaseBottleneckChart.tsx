@@ -1,8 +1,10 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { mockPhaseData } from './mockData';
+import { mockPhaseData, PhaseData } from './mockData';
+
 
 export function PhaseBottleneckChart() {
-  const maxDays = Math.max(...mockPhaseData.map(d => d.avgDays));
+  const maxDays = Math.max(...mockPhaseData.map((d: PhaseData) => d.avgDays));
+
 
   return (
     <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
@@ -39,7 +41,8 @@ export function PhaseBottleneckChart() {
               }}
             />
             <Bar dataKey="avgDays" radius={[0, 4, 4, 0]}>
-              {mockPhaseData.map((entry, index) => (
+              {mockPhaseData.map((entry: PhaseData, index: number) => (
+
                 <Cell 
                   key={`cell-${index}`} 
                   fill={entry.avgDays === maxDays ? 'var(--color-accent,#FF6F00)' : 'var(--color-secondary,#1E88E5)'} 

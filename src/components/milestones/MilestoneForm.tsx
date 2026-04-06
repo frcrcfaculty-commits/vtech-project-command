@@ -26,7 +26,8 @@ export function MilestoneForm({ open, onClose, onSaved, phaseId, projectId, mile
     if (milestone) {
       setTitle(milestone.title);
       setDescription(milestone.description ?? '');
-      setDueDate(milestone.due_date);
+      setDueDate(milestone.due_date || '');
+
     } else {
       setTitle('');
       setDescription('');
@@ -75,7 +76,8 @@ export function MilestoneForm({ open, onClose, onSaved, phaseId, projectId, mile
 
   return (
     <Modal
-      open={open}
+      isOpen={open}
+
       onClose={onClose}
       title={milestone ? 'Edit Milestone' : 'Add Milestone'}
     >

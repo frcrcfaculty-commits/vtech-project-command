@@ -1,6 +1,9 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { format, formatDistanceToNow, differenceInDays, isAfter, isBefore, parseISO, differenceInMinutes } from 'date-fns';
+import { format, formatDistanceToNow, differenceInDays, isAfter, isBefore, parseISO, differenceInMinutes, isToday, isYesterday } from 'date-fns';
+import type { IProjectPhase } from './types';
+
+
 
 /**
  * Merge Tailwind classes with clsx
@@ -48,6 +51,13 @@ export function daysFromNow(date: string | Date): number {
   if (!date) return 0;
   const target = typeof date === 'string' ? parseISO(date) : date;
   return differenceInDays(target, new Date());
+}
+
+export function calculateDaysElapsed(startDate?: string | Date): number {
+  if (!startDate) return 0;
+  const start = typeof startDate === 'string' ? parseISO(startDate) : startDate;
+  const diff = differenceInDays(new Date(), start);
+  return Math.max(0, diff);
 }
 
 export function isOverdue(date: string | Date): boolean {
@@ -124,3 +134,58 @@ export function slugify(str: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 }
+
+export function getPriorityColor(priority: string): string {
+  switch (priority?.toLowerCase()) {
+    case 'high': return '#D32F2F';
+    case 'medium': return '#F57C00';
+    case 'low': return '#388E3C';
+    default: return '#757575';
+  }
+}
+
+export function formatRelativeDate(dateString?: string | null): string {
+  if (!dateString) return 'No date';
+  try {
+    const date = parseISO(dateString);
+    if (isToday(date)) return 'Today';
+    if (isYesterday(date)) return 'Yesterday';
+    return format(date, 'MMM d, yyyy');
+  } catch {
+    return 'Invalid date';
+  }
+}
+
+export function getPhaseLabel(phaseName: string): string {
+  if (!phaseName) return '';
+  return phaseName
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+export function getPhaseStatusCounts(phases: IProjectPhase[]) {
+  const counts: Record<string, number> = {};
+  if (!phases) return counts;
+  phases.forEach(p => {
+    counts[p.status] = (counts[p.status] || 0) + 1;
+  });
+  return counts;
+}
+
+export function calculateDaysRemaining(endDate?: string | null): { days: number; isOverdue: boolean } {
+  if (!endDate) return { days: 0, isOverdue: false };
+  try {
+    const end = parseISO(endDate);
+    const diff = differenceInDays(end, new Date());
+    return {
+      days: Math.abs(diff),
+      isOverdue: diff < 0
+    };
+  } catch {
+    return { days: 0, isOverdue: false };
+  }
+}
+
+
+

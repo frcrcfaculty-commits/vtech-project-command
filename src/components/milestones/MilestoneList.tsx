@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronRight, Plus, Trash2 } from 'lucide-react';
 import { useMilestones } from '@/hooks/useMilestones';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
+
 import { MilestoneForm } from './MilestoneForm';
 import { TaskList } from '@/components/tasks/TaskList';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -91,12 +92,13 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
                 {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               </button>
               <span className="flex-1 text-sm font-semibold text-[#1A1A2E]">{m.title}</span>
-              <span className="text-xs text-[#6B7280]">{formatDate(m.due_date)}</span>
+              <span className="text-xs text-[#6B7280]">{formatDate(m.due_date || '')}</span>
               <Badge
-                style={{ backgroundColor: getStatusColor(m.status) + '20', color: getStatusColor(m.status) }}
-              >
-                {m.status}
-              </Badge>
+                status={m.status === 'completed' ? 'completed' : m.status === 'done' ? 'completed' : 'active'}
+                label={m.status}
+              />
+
+
             </div>
 
             {/* Progress bar */}
@@ -153,6 +155,8 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
 
       <MilestoneForm
         open={showForm}
+
+
         onClose={() => { setShowForm(false); setEditingMilestone(undefined); }}
         onSaved={() => fetchByPhase(phaseId)}
         phaseId={phaseId}

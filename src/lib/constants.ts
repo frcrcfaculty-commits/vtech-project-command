@@ -34,6 +34,9 @@ export const STATUS_COLORS: Record<string, { bg: string; text: string; dot: stri
   overdue:     { bg: '#FFEBEE', text: '#C62828', dot: '#C62828' },
 };
 
+export const PHASE_STATUS_COLORS = STATUS_COLORS;
+
+
 export const PRIORITY_COLORS: Record<string, { bg: string; text: string }> = {
   low:      { bg: '#E8F5E9', text: '#2E7D32' },
   medium:   { bg: '#FFF8E1', text: '#F57F17' },
@@ -65,7 +68,7 @@ export const PROJECT_TYPES_DETAILED = [
   { value: 'lighting_hvac', label: 'Office Lighting/HVAC', icon: Lightbulb },
 ] as const;
 
-export const PROJECT_TYPES = [
+export const PROJECT_TYPES_LIST = [
   'Boardroom',
   'Conference Room',
   'Residential/HNI',
@@ -73,6 +76,12 @@ export const PROJECT_TYPES = [
   'Auditorium',
   'Lighting/HVAC',
 ] as const;
+
+export const PROJECT_TYPES = PROJECT_TYPES_LIST.map(t => ({ 
+  value: t.toLowerCase().replace(/\s+/g, '_').replace(/\//g, '_'), 
+  label: t 
+}));
+
 
 // ─── 10 Phases ─────────────────────────────────────────────────────────────
 export const PHASE_CONFIG = [
@@ -150,3 +159,19 @@ export const ROLE_LABELS: Record<string, string> = {
   team_lead: 'Team Lead',
   field_staff: 'Field Staff',
 };
+
+export const TASK_PRIORITIES = [
+  { value: 'high', label: 'High', color: '#D32F2F' },
+  { value: 'medium', label: 'Medium', color: '#F57C00' },
+  { value: 'low', label: 'Low', color: '#388E3C' },
+] as const;
+
+export const TASK_STATUSES = [
+  { value: 'todo', label: 'To Do' },
+  { value: 'in_progress', label: 'In Progress' },
+  { value: 'done', label: 'Done' },
+  { value: 'blocked', label: 'Blocked' },
+] as const;
+
+
+

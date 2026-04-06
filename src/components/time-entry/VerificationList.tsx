@@ -171,7 +171,8 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
                           <Calendar className="w-3 h-3" />
-                          {formatDate(entry.entry_date)}
+                          {formatDate(entry.entry_date || '')}
+
                         </div>
                         <h4 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                           {entry.projects?.name}

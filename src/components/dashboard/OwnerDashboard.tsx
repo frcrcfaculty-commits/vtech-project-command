@@ -7,43 +7,48 @@ import { ProjectHealthTable } from './ProjectHealthTable';
 import { NoEntryAlert } from './NoEntryAlert';
 import { ActivityFeed } from './ActivityFeed';
 import { cn } from '@/lib/utils';
+import { useDashboardStats } from '@/hooks/useDashboardStats';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 type DateRange = 'week' | 'month' | 'quarter';
 
-// KPI mock data
-const kpiData = [
-  {
-    label: 'Active Projects',
-    value: 12,
-    trend: +8,
-    icon: Briefcase,
-    accent: 'var(--color-secondary,#1E88E5)',
-  },
-  {
-    label: 'Hours This Month',
-    value: 1248,
-    trend: +12,
-    icon: Clock,
-    accent: 'var(--color-success,#2E7D32)',
-  },
-  {
-    label: 'Travel Overhead',
-    value: '22%',
-    trend: -4,
-    icon: TrendingUp,
-    accent: 'var(--color-accent,#FF6F00)',
-  },
-  {
-    label: 'Overdue Tasks',
-    value: 7,
-    trend: +3,
-    icon: AlertTriangle,
-    accent: 'var(--color-danger,#C62828)',
-  },
-];
-
 export function OwnerDashboard() {
+  const { stats, loading } = useDashboardStats();
   const [dateRange, setDateRange] = useState<DateRange>('month');
+
+  // KPI display configuration
+  const kpiData = [
+    {
+      label: 'Active Projects',
+      value: stats?.activeProjects || 0,
+      trend: stats?.trends.projects || 0,
+      icon: Briefcase,
+      accent: 'var(--color-secondary,#1E88E5)',
+    },
+    {
+      label: 'Hours This Month',
+      value: stats?.totalHoursMonth || 0,
+      trend: stats?.trends.hours || 0,
+      icon: Clock,
+      accent: 'var(--color-success,#2E7D32)',
+    },
+    {
+      label: 'Travel Overhead',
+      value: `${stats?.travelOverhead || 0}%`,
+      trend: stats?.trends.travel || 0,
+      icon: TrendingUp,
+      accent: 'var(--color-accent,#FF6F00)',
+    },
+    {
+      label: 'Overdue Tasks',
+      value: stats?.overdueTasks || 0,
+      trend: stats?.trends.overdue || 0,
+      icon: AlertTriangle,
+      accent: 'var(--color-danger,#C62828)',
+    },
+  ];
+
+
 
   return (
     <main className="min-h-screen bg-[var(--color-bg,#F5F7FA)] p-4 md:p-6 lg:p-8">

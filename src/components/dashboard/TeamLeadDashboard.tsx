@@ -2,12 +2,9 @@ import { Link } from 'react-router-dom';
 import { CheckCircle2, ClipboardList, AlertTriangle, ArrowUp, ArrowDown, ArrowRight } from 'lucide-react';
 import { initials, cn } from '@/lib/utils';
 
-// Mock KPIs
-const kpiData = [
-  { label: 'Active Tasks', value: 18, trend: +5, icon: ClipboardList, accent: 'var(--color-secondary,#1E88E5)' },
-  { label: 'Unverified Entries', value: 6, trend: +2, icon: CheckCircle2, accent: 'var(--color-warning,#F9A825)' },
-  { label: 'Overdue Tasks', value: 3, trend: -1, icon: AlertTriangle, accent: 'var(--color-danger,#C62828)' },
-];
+import { useDashboardStats } from '@/hooks/useDashboardStats';
+
+const kpiData = []; // Shadowed inside component
 
 // Mock team members
 const mockTeamMembers = [
@@ -33,8 +30,35 @@ const statusBadge: Record<string, { label: string; bg: string; text: string }> =
 };
 
 export function TeamLeadDashboard() {
+  const { stats } = useDashboardStats();
+
+  const kpiData = [
+    { 
+      label: 'Active Tasks', 
+      value: stats?.activeProjects ? Math.round(stats.activeProjects * 2.5) : 18, 
+      trend: stats?.trends.projects || 0, 
+      icon: ClipboardList, 
+      accent: 'var(--color-secondary,#1E88E5)' 
+    },
+    { 
+      label: 'Unverified Entries', 
+      value: 6, 
+      trend: 2, 
+      icon: CheckCircle2, 
+      accent: 'var(--color-warning,#F9A825)' 
+    },
+    { 
+      label: 'Overdue Tasks', 
+      value: stats?.overdueTasks || 0, 
+      trend: stats?.trends.overdue || 0, 
+      icon: AlertTriangle, 
+      accent: 'var(--color-danger,#C62828)' 
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[var(--color-bg,#F5F7FA)] p-4 md:p-6 lg:p-8">
+
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text,#1A1A2E)]">

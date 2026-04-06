@@ -37,10 +37,11 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
         client_name: project.client_name,
         project_type: project.project_type,
         city: project.city,
-        start_date: project.start_date,
-        target_end_date: project.target_end_date,
+        start_date: project.start_date || '',
+        target_end_date: project.target_end_date || '',
         notes: project.notes || '',
       });
+
     }
   }, [project]);
 
@@ -136,28 +137,26 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
       />
 
       <Select
-        id="project_type"
-        name="project_type"
         label="Project Type"
         placeholder="Select project type"
         options={projectTypeOptions}
         value={formData.project_type}
-        onChange={handleChange}
+        onChange={(val) => setFormData(prev => ({ ...prev, project_type: val }))}
         error={validationErrors.project_type}
         required
       />
 
       <Select
-        id="city"
-        name="city"
         label="City"
         placeholder="Select city"
         options={cityOptions}
         value={formData.city}
-        onChange={handleChange}
+        onChange={(val) => setFormData(prev => ({ ...prev, city: val }))}
         error={validationErrors.city}
         required
       />
+
+
 
       <div className="grid grid-cols-2 gap-4">
         <Input

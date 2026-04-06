@@ -43,6 +43,8 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
       const projectName = entry.project?.name || 'Unknown Project';
       const dateKey = entry.entry_date;
       
+      if (!projectId || !dateKey) return;
+
       if (!data[projectId]) {
         data[projectId] = { name: projectName, days: {} };
       }
@@ -62,6 +64,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
         .reduce((sum, e) => sum + Number(e.work_hours), 0);
     });
   }, [entries, weekDays]);
+
 
   const getCellColor = (hours: number, isWeekend: boolean) => {
     if (hours === 0) return isWeekend ? 'bg-slate-50' : 'bg-white';
@@ -137,7 +140,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
                     <div>{format(day, 'EEE')}</div>
                     <div className="text-[10px] opacity-70 mt-0.5">{format(day, 'd')}</div>
                   </th>
-                )}
+                ))}
                 <th className="px-4 py-3 text-center border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
                   Total
                 </th>
@@ -189,7 +192,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
                   >
                     {total}h
                   </td>
-                )}
+                ))}
                 <td className="px-4 py-3 text-center text-sm font-mono text-slate-900 bg-slate-100/50">
                   {dailyTotals.reduce((a, b) => a + b, 0)}h
                 </td>

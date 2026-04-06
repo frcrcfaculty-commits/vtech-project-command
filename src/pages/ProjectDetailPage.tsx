@@ -49,13 +49,15 @@ export function ProjectDetailPage() {
     }
   };
 
-  const handlePhaseUpdate = async (phaseId: string, updates: Partial<IProjectPhase>) => {
+  const handlePhaseUpdate = async (phaseId: string, updates: Partial<IProjectPhase>): Promise<void> => {
     if (!project) return;
     const updatedPhases = project.project_phases?.map(p => 
       p.id === phaseId ? { ...p, ...updates } : p
     );
     setProject(prev => prev ? { ...prev, project_phases: updatedPhases } : null);
   };
+
+
 
   const handleStatusChange = async (newStatus: ProjectStatus) => {
     if (!project) return;
@@ -95,7 +97,7 @@ export function ProjectDetailPage() {
     return (
       <div className="p-6">
         <EmptyState
-          icon={<AlertCircle className="h-8 w-8 text-gray-400" />}
+          icon={AlertCircle}
           title="Project not found"
           description={error || 'The project you are looking for does not exist.'}
           action={{ label: 'Back to Projects', onClick: () => navigate('/projects') }}
@@ -241,14 +243,15 @@ function OverviewTab({
           </div>
           <Badge
             variant={
-              project.status === 'active' ? 'success' :
-              project.status === 'planning' ? 'info' :
-              project.status === 'on_hold' ? 'warning' :
-              project.status === 'completed' ? 'default' : 'danger'
+              project.status === 'active' ? 'active' :
+              project.status === 'planning' ? 'pending' :
+              project.status === 'on_hold' ? 'on_hold' :
+              project.status === 'completed' ? 'completed' : 'cancelled'
             }
           >
             {project.status.replace('_', ' ')}
           </Badge>
+
         </div>
 
         <div className="flex flex-wrap gap-4 text-sm text-[#6B7280] mb-4">
@@ -262,7 +265,7 @@ function OverviewTab({
           </div>
           <div className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
-            <span>{formatDate(project.start_date)} - {formatDate(project.target_end_date)}</span>
+            <span>{formatDate(project.start_date || '')} - {formatDate(project.target_end_date || '')}</span>
           </div>
         </div>
 
@@ -276,7 +279,7 @@ function OverviewTab({
             <Select
               options={statusOptions}
               value={project.status}
-              onChange={(e) => onStatusChange(e.target.value as ProjectStatus)}
+              onChange={(val) => onStatusChange(val as ProjectStatus)}
               className="w-40"
             />
 
@@ -341,7 +344,7 @@ function OverviewTab({
         <h3 className="font-semibold text-[#1A1A2E] mb-3">Notes</h3>
         <Textarea
           value={projectNotes}
-          onChange={(e) => setProjectNotes(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setProjectNotes(e.target.value)}
           placeholder="Add notes about this project..."
           rows={4}
           className="mb-3"
@@ -376,7 +379,9 @@ function PhasesTab({ project, phases, isOwner, isTeamLead, onPhaseUpdate }: Phas
         phases={phases}
         isOwner={isOwner}
         isTeamLead={isTeamLead}
-        onPhaseUpdate={onPhaseUpdate}
+        onPhaseUpdate={onPhaseUpdate as any}
+
+
       />
     </div>
   );
@@ -417,27 +422,29 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
               </tr>
             </thead>
             <tbody>
-              {phases.sort((a, b) => a.phase_number - b.phase_number).map(phase => (
+              {phases.sort((a, b) => (a.phase_number || 0) - (b.phase_number || 0)).map(phase => (
                 <tr key={phase.id} className="border-b last:border-0">
                   <td className="py-3">
-                    <span className="font-medium">{phase.phase_number}. {phase.phase_name}</span>
+                    <span className="font-medium">{phase.phase_number || phase.phase_order}. {phase.phase_name}</span>
                   </td>
                   <td className="py-3">
                     {isOwner ? (
                       <Select
                         options={TEAM_NAMES.map(t => ({ value: t, label: t }))}
                         value={phase.team_name || ''}
+                        onChange={() => {}}
                         className="w-40 text-sm"
                       />
                     ) : (
-                      <Badge variant="info">{phase.team_name || 'Unassigned'}</Badge>
+                      <Badge variant="pending">{phase.team_name || 'Unassigned'}</Badge>
                     )}
                   </td>
                   <td className="py-3 text-[#6B7280]">
-                    {teamHoursData.find(t => t.phaseNumber === phase.phase_number)?.hours || 0}h
+                    {teamHoursData.find(t => t.phaseNumber === (phase.phase_number || 0))?.hours || 0}h
                   </td>
                 </tr>
               ))}
+
             </tbody>
           </table>
         </div>

@@ -7,3 +7,6 @@ export { Modal } from './Modal';
 export { Table } from './Table';
 export { Spinner } from './Spinner';
 export { EmptyState } from './EmptyState';
+export { Textarea } from './Textarea';
+export { Skeleton } from './Skeleton';
+

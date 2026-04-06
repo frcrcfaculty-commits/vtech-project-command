@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Calendar } from 'lucide-react';
-import { Card } from '@/components/ui';
-import { StatusBadge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+
 import { cn, formatDate, calculateDaysRemaining, getPhaseStatusCounts } from '@/lib/utils';
 import { PROJECT_TYPES } from '@/lib/constants';
 import type { IProject, IProjectPhase, PhaseStatus } from '@/lib/types';
@@ -26,16 +27,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <Card
-      hoverable
-      className="cursor-pointer"
+      className="cursor-pointer hover:border-[var(--color-secondary)] transition-all"
       onClick={() => navigate(`/projects/${project.id}`)}
     >
+
       {/* Top row: Project name + Status badge */}
       <div className="flex items-start justify-between gap-2 mb-2">
         <h3 className="font-semibold text-[#1A1A2E] truncate flex-1">
           {project.name.length > 40 ? project.name.slice(0, 40) + '...' : project.name}
         </h3>
-        <StatusBadge status={project.status} />
+        <Badge status={project.status as any} label={project.status} />
+
       </div>
 
       {/* Second row: Client name */}
@@ -66,11 +68,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="flex items-center justify-between text-xs text-[#6B7280]">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          <span>Started {formatDate(project.start_date, 'dd MMM yyyy')}</span>
+          <span>Started {formatDate(project.start_date || '')}</span>
         </div>
         <span className={cn(isOverdue ? 'text-[#C62828] font-medium' : '')}>
           {isOverdue ? `${days} days overdue` : `${days} days remaining`}
         </span>
+
       </div>
     </Card>
   );
@@ -98,14 +101,16 @@ function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; to
   }
 
   // Sort by phase number and create segments
-  const sortedPhases = [...phases].sort((a, b) => a.phase_number - b.phase_number);
+  const sortedPhases = [...phases].sort((a, b) => (a.phase_number ?? 0) - (b.phase_number ?? 0));
+
 
   return (
     <div className="flex gap-0.5 h-2 rounded-full overflow-hidden bg-gray-100">
       {sortedPhases.map((phase) => (
         <div
           key={phase.id}
-          className={cn('flex-1 transition-colors', getSegmentColor(phase.status))}
+          className={cn('flex-1 transition-colors', getSegmentColor(phase.status as any))}
+
         />
       ))}
     </div>

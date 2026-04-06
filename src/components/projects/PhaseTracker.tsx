@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Check, X, Circle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, Select, Badge } from '@/components/ui';
-import { StatusBadge } from '@/components/ui/Badge';
 import { formatDate, cn } from '@/lib/utils';
+
 import { PHASE_STATUS_COLORS, TEAM_NAMES } from '@/lib/constants';
 import type { IProjectPhase, PhaseStatus } from '@/lib/types';
 
@@ -17,7 +17,8 @@ export function PhaseTracker({ phases, isOwner = false, isTeamLead = false, onPh
   const [expandedPhaseId, setExpandedPhaseId] = useState<string | null>(null);
   const [updatingPhaseId, setUpdatingPhaseId] = useState<string | null>(null);
 
-  const sortedPhases = [...phases].sort((a, b) => a.phase_number - b.phase_number);
+  const sortedPhases = [...phases].sort((a, b) => (a.phase_number || a.phase_order || 0) - (b.phase_number || b.phase_order || 0));
+
   const canEdit = isOwner || isTeamLead;
 
   const handleStatusChange = async (phaseId: string, newStatus: PhaseStatus) => {
@@ -30,15 +31,16 @@ export function PhaseTracker({ phases, isOwner = false, isTeamLead = false, onPh
       // Auto-set actual_start when transitioning to in_progress
       if (newStatus === 'in_progress') {
         const phase = phases.find(p => p.id === phaseId);
-        if (phase && !phase.actual_start_date) {
-          updates.actual_start_date = new Date().toISOString().split('T')[0];
+        if (phase && !phase.actual_start) {
+          updates.actual_start = new Date().toISOString().split('T')[0];
         }
       }
       
       // Auto-set actual_end when transitioning to completed
       if (newStatus === 'completed') {
-        updates.actual_end_date = new Date().toISOString().split('T')[0];
+        updates.actual_end = new Date().toISOString().split('T')[0];
       }
+
       
       await onPhaseUpdate(phaseId, updates);
     } finally {
@@ -114,7 +116,8 @@ function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatu
                 canEdit && 'cursor-pointer hover:scale-110'
               )}
             >
-              <PhaseCircle status={phase.status} />
+              <PhaseCircle status={phase.status as any} />
+
             </button>
             <span className={cn(
               'mt-2 text-xs font-medium text-center max-w-[80px]',
@@ -152,9 +155,11 @@ function VerticalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatusC
               canEdit && 'cursor-pointer'
             )}
           >
-            <PhaseCircle status={phase.status} />
+            <PhaseCircle status={phase.status as any} />
+
             <span className="flex-1 text-left font-medium text-sm">{phase.phase_name}</span>
-            <StatusBadge status={phase.status} />
+            <Badge status={phase.status as any} label={phase.status.replace('_', ' ')} />
+
             {expandedPhaseId === phase.id ? (
               <ChevronUp className="h-4 w-4 text-gray-400" />
             ) : (
@@ -225,7 +230,7 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
             <Select
               options={statusOptions}
               value={phase.status}
-              onChange={(e) => onStatusChange(phase.id, e.target.value as PhaseStatus)}
+              onChange={(val) => onStatusChange(phase.id, val as PhaseStatus)}
               disabled={isUpdating}
               className="w-40"
             />
@@ -236,20 +241,21 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
             <span className="text-[#6B7280]">Planned Start</span>
-            <p className="font-medium">{formatDate(phase.planned_start_date)}</p>
+            <p className="font-medium">{formatDate(phase.planned_start || '')}</p>
           </div>
           <div>
             <span className="text-[#6B7280]">Planned End</span>
-            <p className="font-medium">{formatDate(phase.planned_end_date)}</p>
+            <p className="font-medium">{formatDate(phase.planned_end || '')}</p>
           </div>
           <div>
             <span className="text-[#6B7280]">Actual Start</span>
-            <p className="font-medium">{formatDate(phase.actual_start_date) || '-'}</p>
+            <p className="font-medium">{formatDate(phase.actual_start || '') || '-'}</p>
           </div>
           <div>
             <span className="text-[#6B7280]">Actual End</span>
-            <p className="font-medium">{formatDate(phase.actual_end_date) || '-'}</p>
+            <p className="font-medium">{formatDate(phase.actual_end || '') || '-'}</p>
           </div>
+
         </div>
 
         {/* Milestones & Hours */}

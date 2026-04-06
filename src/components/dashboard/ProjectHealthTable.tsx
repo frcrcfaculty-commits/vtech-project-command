@@ -5,11 +5,24 @@ import { mockProjectHealth } from './mockData';
 import { PROJECT_TYPES, STATUS_COLORS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-type SortField = keyof typeof mockProjectHealth[0];
+interface ProjectHealth {
+  id: string;
+  name: string;
+  client: string;
+  status: string;
+  type: string;
+  health: number;
+  daysLeft: number;
+  phase: string;
+  hours: number;
+}
+
+type SortField = keyof ProjectHealth;
 type SortDir = 'asc' | 'desc';
 
 export function ProjectHealthTable() {
   const [sortField, setSortField] = useState<SortField>('daysLeft');
+
   const [sortDir, setSortDir] = useState<SortDir>('asc');
 
   const handleSort = (field: SortField) => {
@@ -21,7 +34,7 @@ export function ProjectHealthTable() {
     }
   };
 
-  const sortedData = [...mockProjectHealth].sort((a, b) => {
+  const sortedData = [...mockProjectHealth].sort((a: any, b: any) => {
     const aVal = a[sortField];
     const bVal = b[sortField];
     
@@ -33,6 +46,7 @@ export function ProjectHealthTable() {
       ? String(aVal).localeCompare(String(bVal))
       : String(bVal).localeCompare(String(aVal));
   });
+
 
   const getTypeIcon = (type: string) => {
     switch(type) {
@@ -46,14 +60,12 @@ export function ProjectHealthTable() {
     }
   };
 
-  const getHealthColor = (health: string) => {
-    switch(health) {
-      case 'green': return 'bg-[var(--color-success,#2E7D32)]';
-      case 'yellow': return 'bg-[var(--color-warning,#F9A825)]';
-      case 'red': return 'bg-[var(--color-danger,#C62828)]';
-      default: return 'bg-gray-300';
-    }
+  const getHealthColor = (health: number) => {
+    if (health >= 80) return 'bg-[var(--color-success,#2E7D32)]';
+    if (health >= 60) return 'bg-[var(--color-warning,#F9A825)]';
+    return 'bg-[var(--color-danger,#C62828)]';
   };
+
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronDown className="w-4 h-4 ml-1 opacity-20" />;
@@ -92,7 +104,8 @@ export function ProjectHealthTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {sortedData.map((project) => (
+            {sortedData.map((project: any) => (
+
               <tr key={project.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-4 py-3 font-medium text-[var(--color-primary,#0B1F3F)]">
                   <Link to={`/projects/${project.id}`} className="hover:text-[var(--color-secondary,#1E88E5)] hover:underline">
@@ -102,15 +115,17 @@ export function ProjectHealthTable() {
                 <td className="px-4 py-3">{project.client}</td>
                 <td className="px-4 py-3 flex items-center">
                   {getTypeIcon(project.type)}
-                  {PROJECT_TYPES[project.type as keyof typeof PROJECT_TYPES] || project.type}
+                  {project.type}
+
                 </td>
                 <td className="px-4 py-3">
                   <span 
                     className="px-2 py-1 rounded-full text-xs font-semibold"
                     style={{ 
-                      backgroundColor: `${STATUS_COLORS[project.status as keyof typeof STATUS_COLORS]}20`,
-                      color: STATUS_COLORS[project.status as keyof typeof STATUS_COLORS]
+                      backgroundColor: `${(STATUS_COLORS[project.status as keyof typeof STATUS_COLORS] as any)?.bg || '#eee'}20`,
+                      color: (STATUS_COLORS[project.status as keyof typeof STATUS_COLORS] as any)?.text || '#666'
                     }}
+
                   >
                     {project.status.replace('_', ' ').toUpperCase()}
                   </span>
@@ -125,9 +140,10 @@ export function ProjectHealthTable() {
                 <td className="px-4 py-3">{project.hours}h</td>
                 <td className="px-4 py-3">
                   <div className="flex justify-center w-full">
-                    <div className={cn("w-3 h-3 rounded-full", getHealthColor(project.health))} title={project.health} />
+                    <div className={cn("w-3 h-3 rounded-full", getHealthColor(project.health))} title={String(project.health)} />
                   </div>
                 </td>
+
               </tr>
             ))}
           </tbody>

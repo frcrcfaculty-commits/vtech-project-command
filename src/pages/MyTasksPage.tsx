@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Clock, AlertTriangle, ChevronRight } from 'lucide-react';
 import { useTasks } from '@/hooks/useTasks';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
+
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Spinner } from '@/components/ui/Spinner';
@@ -199,14 +200,11 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
       {/* Priority + Due date row */}
       <div className="flex items-center justify-between">
         <Badge
+          status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
+          label={task.priority as string}
           className="text-[10px] px-1.5 py-0"
-          style={{
-            backgroundColor: getPriorityColor(task.priority) + '20',
-            color: getPriorityColor(task.priority),
-          }}
-        >
-          {task.priority}
-        </Badge>
+        />
+
         {task.due_date && (
           <span className={cn('text-xs font-medium', overdue ? 'text-[#C62828]' : 'text-[#6B7280]')}>
             {formatRelativeDate(task.due_date)}

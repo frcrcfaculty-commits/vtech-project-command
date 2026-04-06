@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Clock, CheckCircle2, FolderPlus, Flag } from 'lucide-react';
-import { mockActivity } from './mockData';
+import { mockActivity, ActivityItem } from './mockData';
+
 import { initials } from '@/lib/utils';
 
 const typeConfig: Record<string, { icon: typeof Clock; color: string; bg: string }> = {
@@ -30,7 +31,8 @@ export function ActivityFeed() {
       </div>
 
       <ul className="flex-1 space-y-1 overflow-y-auto max-h-[400px]">
-        {activities.map((item, i) => {
+        {activities.map((item: ActivityItem, i: number) => {
+
           const cfg = typeConfig[item.type] ?? typeConfig.time;
           const Icon = cfg.icon;
 

@@ -27,7 +27,8 @@ export function TeamPage() {
   const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newRole, setNewRole] = useState<'team_lead' | 'field_staff'>('field_staff');
-  const [newTeamId, setNewTeamId] = useState(TEAMS[0]?.id ?? '');
+  const [newTeamId, setNewTeamId] = useState<string>(TEAMS[0]?.id ?? '');
+
 
   useEffect(() => { fetchAllMembers(); }, [fetchAllMembers]);
 
@@ -135,6 +136,7 @@ export function TeamPage() {
           <Select options={[{ value: '', label: 'All Roles' }, ...roleOptions]} value={filterRole} onChange={setFilterRole} className="w-full sm:w-40" />
           <Select options={[{ value: '', label: 'All Teams' }, ...teamOptions]} value={filterTeam} onChange={setFilterTeam} className="w-full sm:w-48" />
           <Select options={[{ value: '', label: 'All Status' }, { value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }]} value={filterActive} onChange={setFilterActive} className="w-full sm:w-36" />
+
         </div>
         {filteredMembers.length === 0 ? (
           <EmptyState icon={Users} title="No members found" subtitle="Try adjusting your search or filters." />
@@ -150,7 +152,9 @@ export function TeamPage() {
           <Input label="Email" type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required placeholder="rahul@vtech.com" />
           <Input label="Phone" type="tel" value={newPhone} onChange={(e) => setNewPhone(e.target.value)} placeholder="+91 98765 43210" />
           <Select label="Role" options={roleOptions} value={newRole} onChange={(v) => setNewRole(v as 'team_lead' | 'field_staff')} required />
-          <Select label="Team" options={teamOptions} value={newTeamId} onChange={setNewTeamId} required />
+
+          <Select label="Team" options={teamOptions} value={newTeamId} onChange={(v) => setNewTeamId(v)} required />
+
           <p className="text-xs text-[var(--color-text-secondary)]">Default password: <code className="bg-gray-100 px-1 rounded">Welcome@123</code></p>
           <div className="flex gap-3 pt-2">
             <Button variant="outline" fullWidth onClick={() => setShowAddModal(false)}>Cancel</Button>

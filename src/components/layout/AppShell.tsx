@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { MobileNav } from './MobileNav';
@@ -14,7 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/settings': 'Settings',
 };
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,8 +58,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         className="md:ml-[280px] pt-14 md:pt-0 pb-20 md:pb-0 min-h-screen transition-all duration-200"
         style={{ marginLeft: sidebarCollapsed ? '64px' : undefined }}
       >
-        <div className="p-4 md:p-6 animate-page-enter">{children}</div>
+        <div className="p-4 md:p-6 animate-page-enter">
+          <Outlet />
+        </div>
       </main>
+
 
       {/* Mobile Bottom Nav */}
       <MobileNav user={user} />

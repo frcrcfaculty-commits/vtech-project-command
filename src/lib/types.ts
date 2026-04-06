@@ -84,11 +84,14 @@ export interface IProjectPhase {
   id: string;
   project_id: string;
   phase_name: PhaseName | string;
-  phase_order: number;
+  phase_order?: number;
+  phase_number?: number; // Alias for phase_order
+
   status: PhaseStatus | ProjectStatus;
   assigned_team_id?: string | null;
   assigned_team?: ITeam;
   team_id?: string;
+  team_name?: string; // Alias for assigned team name
   planned_start?: string | null;
   planned_end?: string | null;
   actual_start?: string | null;
@@ -97,7 +100,15 @@ export interface IProjectPhase {
   end_date?: string;
   notes?: string | null;
   created_at: string;
+  milestones?: IMilestone[];
+  task_count?: number; // Alias
+  tasks_total?: number; // Alias
+  tasks_done?: number; // Alias
+  tasks_completed?: number; // Alias
 }
+
+
+
 
 export interface IMilestone {
   id: string;
@@ -112,35 +123,49 @@ export interface IMilestone {
   created_at: string;
   updated_at?: string;
   tasks?: ITask[];
+  task_count?: number; // Alias
+  tasks_done?: number; // Alias
 }
+
 
 export interface ITask {
   id: string;
-  project_id: string;
-  phase_id?: string;
-  milestone_id?: string;
   title: string;
   description?: string | null;
-  status: TaskStatus;
+  status: TaskStatus | string;
   priority: TaskPriority | string;
+  project_id: string;
+  project_name?: string;
+  phase_id?: string;
+  phase_name?: string;
+  milestone_id?: string;
   assigned_to?: string;
+
   assigned_to_name?: string;
   assigned_by?: string;
+  assigner_name?: string; // Alias for assigned_by_name
+  assignee_name?: string; // Alias for assigned_to_name
   assignee?: IUser;
+
   due_date?: string | null;
   completed_at?: string | null;
   created_at: string;
   updated_at: string;
 }
 
+
 export interface ITimeEntry {
   id: string;
   user_id: string;
   user?: IUser;
+
+  users?: IUser; // Plural alias for some joins
   project_id: string;
   project?: IProject;
+  projects?: IProject; // Plural alias for some joins
   phase_id?: string;
   phase?: IProjectPhase;
+  project_phases?: IProjectPhase; // Alias for phase join
   task_id?: string | null;
   task?: ITask;
   work_hours: number;
@@ -155,6 +180,7 @@ export interface ITimeEntry {
   verified_at?: string | null;
   created_at: string;
   updated_at: string;
+
   project_name?: string;
   phase_name?: string;
   task_title?: string;
@@ -205,4 +231,22 @@ export interface IDailyUserHours {
   entry_date: string;
   work_hours: number;
   travel_hours: number;
+}
+
+export interface ProjectFilters {
+  status?: ProjectStatus;
+  project_type?: string;
+  city?: string;
+  search?: string;
+}
+
+export interface CreateProjectData {
+  name: string;
+  client_name: string;
+  project_type: string;
+  city: string;
+  start_date: string;
+  target_end_date: string;
+  description?: string;
+  notes?: string;
 }

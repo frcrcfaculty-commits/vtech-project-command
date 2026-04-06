@@ -50,19 +50,22 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
         <Select
           options={projects.map((p) => ({ value: p.id, label: p.name }))}
           value={filterProject}
-          onChange={(e) => setFilterProject(e.target.value)}
+          onChange={(val: string) => setFilterProject(val)}
+
           placeholder="All Projects"
         />
         <Select
           options={teamMembers.map((m) => ({ value: m.id, label: m.full_name }))}
           value={filterMember}
-          onChange={(e) => setFilterMember(e.target.value)}
+          onChange={(val: string) => setFilterMember(val)}
+
           placeholder="All Members"
         />
         <Select
           options={[...TASK_PRIORITIES]}
           value={filterPriority}
-          onChange={(e) => setFilterPriority(e.target.value)}
+          onChange={(val: string) => setFilterPriority(val)}
+
           placeholder="All Priorities"
         />
         {(filterProject || filterMember || filterPriority) && (
@@ -108,14 +111,11 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
                             <span className="text-xs text-[#6B7280]">{task.assignee_name}</span>
                           )}
                           <Badge
+                            status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
+                            label={task.priority as string}
                             className="text-[10px] px-1.5 py-0"
-                            style={{
-                              backgroundColor: getPriorityColor(task.priority) + '20',
-                              color: getPriorityColor(task.priority),
-                            }}
-                          >
-                            {task.priority}
-                          </Badge>
+                          />
+
                         </div>
                         {task.due_date && (
                           <span className={cn('text-xs', overdue ? 'text-[#C62828]' : 'text-[#6B7280]')}>
@@ -133,9 +133,10 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
                           }}
                           className="w-full text-xs border border-gray-200 rounded px-2 py-1 bg-white"
                         >
-                          {TASK_STATUSES.map((s) => (
+                          {TASK_STATUSES.map((s: any) => (
                             <option key={s.value} value={s.value}>{s.label}</option>
                           ))}
+
                         </select>
                       </div>
                     </div>
