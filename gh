@@ -1,0 +1,3 @@
+#!/bin/bash
+export GH_CONFIG_DIR="$HOME/Documents/Antigravity/.gh_config"
+exec "$(dirname "$0")/gh-bin" "$@"
