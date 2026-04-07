@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Clock, AlertTriangle, ChevronRight } from 'lucide-react';
 import { useTasks } from '@/hooks/useTasks';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';

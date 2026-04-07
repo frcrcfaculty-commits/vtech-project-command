@@ -3,7 +3,7 @@ import { useLocation, Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { MobileNav } from './MobileNav';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const PAGE_TITLES: Record<string, string> = {
   '/': 'Dashboard',
@@ -50,7 +50,7 @@ export function AppShell() {
       <TopBar
         title={pageTitle}
         onMenuClick={() => setSidebarOpen(true)}
-        userName={user.name}
+        userName={user.full_name}
       />
 
       {/* Main content */}

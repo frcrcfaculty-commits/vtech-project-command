@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { OwnerDashboard } from '@/components/dashboard/OwnerDashboard';
 import { TeamLeadDashboard } from '@/components/dashboard/TeamLeadDashboard';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 
 export function DashboardPage() {

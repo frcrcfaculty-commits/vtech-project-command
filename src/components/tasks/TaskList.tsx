@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Circle, CheckCircle2, AlertCircle, Clock, Plus } from 'lucide-react';
 import { useTasks } from '@/hooks/useTasks';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 import { TaskForm } from './TaskForm';
 import { Badge } from '@/components/ui/Badge';

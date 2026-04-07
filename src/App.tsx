@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { RoleGate } from '@/components/auth/RoleGate';
 import { AppShell } from '@/components/layout/AppShell';
@@ -15,37 +16,39 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Public */}
-        <Route path="/login" element={<LoginPage />} />
+      <AuthProvider>
+        <Routes>
+          {/* Public */}
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected shell */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <AppShell />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/projects/:id" element={<ProjectDetailPage />} />
-          <Route path="/tasks" element={<MyTasksPage />} />
-          <Route path="/time" element={<TimeEntryPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          {/* Protected shell */}
           <Route
-            path="/team"
             element={
-              <RoleGate allowedRoles={['owner']}>
-                <TeamPage />
-              </RoleGate>
+              <ProtectedRoute>
+                <AppShell />
+              </ProtectedRoute>
             }
-          />
-        </Route>
+          >
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:id" element={<ProjectDetailPage />} />
+            <Route path="/tasks" element={<MyTasksPage />} />
+            <Route path="/time" element={<TimeEntryPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route
+              path="/team"
+              element={
+                <RoleGate allowedRoles={['owner']}>
+                  <TeamPage />
+                </RoleGate>
+              }
+            />
+          </Route>
 
-        {/* 404 */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+          {/* 404 */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

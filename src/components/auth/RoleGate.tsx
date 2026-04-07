@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { UserRole } from '@/lib/types';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RoleGateProps {
   allowedRoles: UserRole[];

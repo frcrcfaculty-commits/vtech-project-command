@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronDown, ChevronRight, Plus, Trash2 } from 'lucide-react';
 import { useMilestones } from '@/hooks/useMilestones';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 import { MilestoneForm } from './MilestoneForm';
 import { TaskList } from '@/components/tasks/TaskList';
