@@ -50,7 +50,7 @@ export function AppShell() {
       <TopBar
         title={pageTitle}
         onMenuClick={() => setSidebarOpen(true)}
-        userName={user.name}
+        userName={user.full_name}
       />
 
       {/* Main content */}

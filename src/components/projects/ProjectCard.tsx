@@ -101,7 +101,7 @@ function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; to
   }
 
   // Sort by phase number and create segments
-  const sortedPhases = [...phases].sort((a, b) => (a.phase_number ?? 0) - (b.phase_number ?? 0));
+  const sortedPhases = [...phases].sort((a, b) => (a.phase_order ?? 0) - (b.phase_order ?? 0));
 
 
   return (

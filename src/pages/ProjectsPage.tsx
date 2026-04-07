@@ -135,7 +135,7 @@ export function ProjectsPage() {
               key={filter.value}
               onClick={() => setStatusFilter(filter.value)}
               className={cn(
-                'px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors',
+                'px-4 py-2 min-h-[36px] rounded-full text-sm font-medium whitespace-nowrap transition-colors',
                 statusFilter === filter.value
                   ? 'bg-[#0B1F3F] text-white'
                   : 'bg-white text-[#6B7280] hover:bg-gray-100'
@@ -171,7 +171,7 @@ export function ProjectsPage() {
               placeholder="Search projects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1E88E5]"
+              className="w-full pl-9 pr-3 min-h-[44px] py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1E88E5]"
             />
           </div>
           
@@ -179,7 +179,7 @@ export function ProjectsPage() {
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="p-2 rounded-md hover:bg-gray-100"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md hover:bg-gray-100 active:bg-gray-200 transition-colors"
               title="Clear filters"
             >
               <X className="h-4 w-4 text-gray-500" />
@@ -243,7 +243,7 @@ export function ProjectsPage() {
       {/* FAB - Floating Action Button */}
       <button
         onClick={() => setShowCreateForm(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-[#FF6F00] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#e65100] transition-colors md:hidden"
+        className="fixed bottom-20 right-4 w-14 h-14 bg-[#FF6F00] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#e65100] active:scale-95 transition-all md:hidden z-20"
         style={{ boxShadow: '0 4px 12px rgba(255, 111, 0, 0.4)' }}
       >
         <Plus className="h-6 w-6" />

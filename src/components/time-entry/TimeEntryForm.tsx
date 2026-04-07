@@ -25,7 +25,7 @@ const Select = ({ value, onChange, options, placeholder, error }: {
       value={value}
       onChange={onChange}
       className={cn(
-        "w-full bg-white border rounded-md px-3 py-2.5 text-sm outline-none transition-all appearance-none",
+        "w-full bg-white border rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none transition-all appearance-none",
         error ? "border-red-300 ring-1 ring-red-100" : "border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-100",
         !value && "text-slate-400"
       )}
@@ -73,7 +73,7 @@ const HourStepper = ({ value, onChange, label, max }: {
           type="button"
           onClick={decrement}
           disabled={value <= 0}
-          className="w-12 h-12 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
+          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
         >
           <Minus className="w-5 h-5" />
         </button>
@@ -85,7 +85,7 @@ const HourStepper = ({ value, onChange, label, max }: {
           type="button"
           onClick={increment}
           disabled={value >= max}
-          className="w-12 h-12 flex items-center justify-center rounded-lg bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
+          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
         >
           <Plus className="w-5 h-5" />
         </button>
@@ -204,8 +204,8 @@ export function TimeEntryForm({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="p-6">
+    <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+      <div className="px-4 py-5 sm:p-6">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
             <Clock className="w-6 h-6" />
@@ -289,7 +289,7 @@ export function TimeEntryForm({ userId }: { userId: string }) {
                 value={formData.entryDate}
                 max={new Date().toISOString().split('T')[0]}
                 onChange={(e) => setFormData(prev => ({ ...prev, entryDate: e.target.value }))}
-                className="w-full bg-white border border-slate-200 rounded-md px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
+                className="w-full bg-white border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
               />
             </div>
           </div>
@@ -301,7 +301,7 @@ export function TimeEntryForm({ userId }: { userId: string }) {
               placeholder="What did you work on?"
               value={formData.notes}
               onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-              className="w-full bg-white border border-slate-200 rounded-md px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
+              className="w-full bg-white border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
             />
           </div>
 
@@ -316,7 +316,7 @@ export function TimeEntryForm({ userId }: { userId: string }) {
             type="submit"
             disabled={loading || success}
             className={cn(
-              "w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95",
+              "w-full min-h-[52px] py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]",
               success 
                 ? "bg-green-600 text-white shadow-green-200" 
                 : "bg-slate-900 text-white hover:bg-slate-800 shadow-slate-200"

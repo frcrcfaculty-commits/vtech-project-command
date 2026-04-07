@@ -145,14 +145,14 @@ export function MyTasksPage() {
         </div>
       )}
 
-      {/* Pull to refresh hint */}
-      <div className="text-center mt-6">
+      {/* Pull to refresh */}
+      <div className="text-center mt-8 mb-4">
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="text-xs text-[#6B7280] hover:text-[#1A1A2E] disabled:opacity-50"
+          className="min-h-[44px] px-6 py-2.5 text-sm text-[#6B7280] bg-white border border-gray-200 rounded-lg hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 transition-colors"
         >
-          {refreshing ? 'Refreshing...' : 'Tap to refresh'}
+          {refreshing ? 'Refreshing...' : '↻ Tap to refresh'}
         </button>
       </div>
     </main>
@@ -217,10 +217,10 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
         <button
           onClick={onStatusCycle}
           className={cn(
-            'flex-1 py-2 rounded-[6px] text-xs font-medium transition-colors',
+            'flex-1 min-h-[44px] py-2.5 rounded-lg text-sm font-medium transition-colors',
             task.status === 'done'
               ? 'bg-gray-100 text-[#6B7280]'
-              : 'bg-[#2E7D32] text-white hover:bg-[#256427]'
+              : 'bg-[#2E7D32] text-white hover:bg-[#256427] active:bg-[#1b4e1d]'
           )}
         >
           {task.status === 'done' ? 'Completed' : 'Mark Done'}
@@ -229,16 +229,16 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
           size="sm"
           variant="secondary"
           onClick={onLogTime}
-          className="flex-1 text-xs"
+          className="flex-1 min-h-[44px] text-sm"
         >
           Log Time
         </Button>
         <button
           onClick={onLogTime}
-          className="p-2 text-[#6B7280] hover:text-[#1A1A2E]"
+          className="min-h-[44px] min-w-[44px] flex items-center justify-center text-[#6B7280] hover:text-[#1A1A2E] active:bg-gray-100 rounded-lg transition-colors"
           aria-label="More options"
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={18} />
         </button>
       </div>
     </Card>
