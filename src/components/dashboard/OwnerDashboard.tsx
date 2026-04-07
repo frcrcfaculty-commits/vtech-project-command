@@ -74,7 +74,7 @@ export function OwnerDashboard() {
               key={key}
               onClick={() => setDateRange(key)}
               className={cn(
-                'px-3 py-1.5 text-sm font-medium rounded-sm transition-all',
+                'px-4 py-2 min-h-[36px] text-sm font-medium rounded-sm transition-all whitespace-nowrap',
                 dateRange === key
                   ? 'bg-white text-[var(--color-primary,#0B1F3F)] shadow-sm'
                   : 'text-gray-500 hover:text-gray-700'
@@ -137,13 +137,19 @@ export function OwnerDashboard() {
 
       {/* Charts row 1 */}
       <section className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-        <PhaseBottleneckChart />
-        <TeamPerformanceChart />
+        <div className="overflow-x-auto">
+          <PhaseBottleneckChart />
+        </div>
+        <div className="overflow-x-auto">
+          <TeamPerformanceChart />
+        </div>
       </section>
 
       {/* Charts row 2 */}
       <section className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-        <TravelChart />
+        <div className="overflow-x-auto">
+          <TravelChart />
+        </div>
         <ActivityFeed />
       </section>
 

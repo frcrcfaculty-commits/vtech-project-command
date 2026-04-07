@@ -56,3 +56,33 @@ body {
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
   .safe-top { padding-top: env(safe-area-inset-top); }
 }
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch-friendly scroll */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Page enter animation */
+.animate-page-enter {
+  animation: pageEnter 200ms ease-out;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tap highlight removal for mobile */
+@media (hover: none) {
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
