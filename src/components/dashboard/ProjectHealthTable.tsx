@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronUp, ChevronDown, MonitorPlay, Users, Home, Presentation, Mic, Lightbulb } from 'lucide-react';
-import { mockProjectHealth } from './mockData';
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
+import { Spinner } from '@/components/ui/Spinner';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { PROJECT_TYPES, STATUS_COLORS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -11,7 +13,7 @@ interface ProjectHealth {
   client: string;
   status: string;
   type: string;
-  health: number;
+  health: 'green' | 'yellow' | 'red';
   daysLeft: number;
   phase: string;
   hours: number;
@@ -22,8 +24,11 @@ type SortDir = 'asc' | 'desc';
 
 export function ProjectHealthTable() {
   const [sortField, setSortField] = useState<SortField>('daysLeft');
-
   const [sortDir, setSortDir] = useState<SortDir>('asc');
+  const { projectHealth, loading } = useDashboardCharts();
+
+  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!projectHealth.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No projects" description="No project health data found" /></div>;
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -34,7 +39,7 @@ export function ProjectHealthTable() {
     }
   };
 
-  const sortedData = [...mockProjectHealth].sort((a: any, b: any) => {
+  const sortedData = [...projectHealth].sort((a: any, b: any) => {
     const aVal = a[sortField];
     const bVal = b[sortField];
     
@@ -60,9 +65,9 @@ export function ProjectHealthTable() {
     }
   };
 
-  const getHealthColor = (health: number) => {
-    if (health >= 80) return 'bg-[var(--color-success,#2E7D32)]';
-    if (health >= 60) return 'bg-[var(--color-warning,#F9A825)]';
+  const getHealthColor = (health: 'green' | 'yellow' | 'red') => {
+    if (health === 'green') return 'bg-[var(--color-success,#2E7D32)]';
+    if (health === 'yellow') return 'bg-[var(--color-warning,#F9A825)]';
     return 'bg-[var(--color-danger,#C62828)]';
   };
 

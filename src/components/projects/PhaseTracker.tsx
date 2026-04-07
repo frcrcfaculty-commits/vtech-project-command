@@ -17,7 +17,7 @@ export function PhaseTracker({ phases, isOwner = false, isTeamLead = false, onPh
   const [expandedPhaseId, setExpandedPhaseId] = useState<string | null>(null);
   const [updatingPhaseId, setUpdatingPhaseId] = useState<string | null>(null);
 
-  const sortedPhases = [...phases].sort((a, b) => (a.phase_number || a.phase_order || 0) - (b.phase_number || b.phase_order || 0));
+  const sortedPhases = [...phases].sort((a, b) => (a.phase_order || 0) - (b.phase_order || 0));
 
   const canEdit = isOwner || isTeamLead;
 
@@ -223,7 +223,7 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
           <div>
             <h3 className="text-lg font-semibold text-[#1A1A2E]">{phase.phase_name}</h3>
             <div className="flex items-center gap-2 mt-1">
-              <Badge variant="info">{phase.team_name || 'Unassigned'}</Badge>
+              <Badge variant="info">{phase.assigned_team?.name || 'Unassigned'}</Badge>
             </div>
           </div>
           {canEdit && (

@@ -1,10 +1,17 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from 'recharts';
-import { mockTravelData } from './mockData';
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
+import { Spinner } from '@/components/ui/Spinner';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 export function TravelChart() {
+  const { travelData, loading } = useDashboardCharts();
+  
+  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!travelData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No travel data" description="No travel entries found" /></div>;
+
   // Option A implementation: Stacked Bar Chart
-  const totalWork = mockTravelData.reduce((acc, curr) => acc + curr.workHours, 0);
-  const totalTravel = mockTravelData.reduce((acc, curr) => acc + curr.travelHours, 0);
+  const totalWork = travelData.reduce((acc, curr) => acc + curr.workHours, 0);
+  const totalTravel = travelData.reduce((acc, curr) => acc + curr.travelHours, 0);
   const companyOverhead = Math.round((totalTravel / (totalWork + totalTravel)) * 100) || 0;
 
   return (
@@ -23,7 +30,7 @@ export function TravelChart() {
 
       <div className="flex-1 min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={mockTravelData} margin={{ top: 10, right: 10, left: -20, bottom: 40 }}>
+          <BarChart data={travelData} margin={{ top: 10, right: 10, left: -20, bottom: 40 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
             <XAxis 
               dataKey="name" 
@@ -72,7 +79,7 @@ export function TravelChart() {
             <Legend verticalAlign="top" height={36} iconType="circle" />
             <Bar dataKey="workHours" name="Work Hours" stackId="a" fill="var(--color-secondary,#1E88E5)" radius={[0, 0, 4, 4]} maxBarSize={40} />
             <Bar dataKey="travelHours" name="Travel Hours" stackId="a" maxBarSize={40} radius={[4, 4, 0, 0]}>
-              {mockTravelData.map((entry, index) => {
+              {travelData.map((entry, index) => {
                 const percent = Math.round((entry.travelHours / (entry.workHours + entry.travelHours)) * 100);
                 return (
                   <Cell 

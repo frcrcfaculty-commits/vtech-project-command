@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { mockTeamData, TeamPerformance } from './mockData';
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
+import { Spinner } from '@/components/ui/Spinner';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { cn } from '@/lib/utils';
 
 
@@ -8,9 +10,13 @@ type MetricType = 'hours' | 'tasksCompleted' | 'overdue';
 
 export function TeamPerformanceChart() {
   const [metric, setMetric] = useState<MetricType>('hours');
+  const { teamData, loading } = useDashboardCharts();
+
+  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!teamData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No team data" description="No team performance data found" /></div>;
 
   // Find best team based on current metric
-  const bestTeam = [...mockTeamData].sort((a: TeamPerformance, b: TeamPerformance) => {
+  const bestTeam = [...teamData].sort((a, b) => {
     if (metric === 'overdue') return a.overdue - b.overdue; // lower is better for overdue
     return (b as any)[metric] - (a as any)[metric]; // higher is better
   })[0];
@@ -30,7 +36,7 @@ export function TeamPerformanceChart() {
         <div>
           <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Team Performance</h3>
           <p className="text-sm text-gray-500 mt-1">
-            Best team: <span className="font-medium text-[var(--color-secondary,#1E88E5)]">{bestTeam.name}</span>
+            Best team: <span className="font-medium text-[var(--color-secondary,#1E88E5)]">{bestTeam.team}</span>
           </p>
 
         </div>
@@ -55,10 +61,10 @@ export function TeamPerformanceChart() {
 
       <div className="flex-1 min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={mockTeamData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
+          <BarChart data={teamData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
             <XAxis 
-              dataKey="name" 
+              dataKey="team" 
               tick={{ fill: '#6B7280', fontSize: 12 }} 
               axisLine={false}
               tickLine={false}
@@ -77,13 +83,13 @@ export function TeamPerformanceChart() {
                 if (active && payload && payload.length) {
                   return (
                     <div className="bg-white border border-gray-200 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-gray-800 mb-1">{payload[0].payload.name}</p>
+                      <p className="font-semibold text-gray-800 mb-1">{payload[0].payload.team}</p>
 
                       <p className="text-sm text-gray-600 flex items-center">
                         <span 
                           className="w-3 h-3 rounded-sm inline-block mr-2" 
                           style={{ backgroundColor: payload[0].color }}
-                        />
+                         />
                         {getMetricLabel(metric)}: <span className="font-medium ml-1 text-gray-800">{payload[0].value}</span>
                       </p>
                     </div>
@@ -93,7 +99,7 @@ export function TeamPerformanceChart() {
               }}
             />
             <Bar dataKey={metric} radius={[4, 4, 0, 0]} maxBarSize={50} animationDuration={500}>
-              {mockTeamData.map((entry: TeamPerformance, index: number) => (
+              {teamData.map((entry, index: number) => (
 
                 <Cell 
                   key={`cell-${index}`} 

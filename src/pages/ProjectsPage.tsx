@@ -44,7 +44,7 @@ export function ProjectsPage() {
   useEffect(() => {
     fetchProjects({
       status: statusFilter === 'all' ? undefined : statusFilter,
-      project_type: projectTypeFilter || undefined,
+      project_type: (projectTypeFilter as any) || undefined,
       city: cityFilter || undefined,
       search: debouncedSearch || undefined,
     });

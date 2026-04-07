@@ -93,8 +93,8 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-[#1A1A2E] truncate">{task.title}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                {task.assignee_name && (
-                  <span className="text-xs text-[#6B7280]">{task.assignee_name}</span>
+                {task.assignee && (
+                  <span className="text-xs text-[#6B7280]">{task.assignee.full_name}</span>
                 )}
                 <Badge
                   status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}

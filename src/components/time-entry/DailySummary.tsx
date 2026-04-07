@@ -96,7 +96,7 @@ export function DailySummary({ userId, onEdit }: DailySummaryProps) {
                   </h3>
                   <div className="flex items-center gap-2">
                     <span className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full font-medium">
-                      {entry.project_phases?.phase_name ? getPhaseLabel(entry.project_phases.phase_name as any) : 'General'}
+                      {entry.phase?.phase_name ? getPhaseLabel(entry.phase.phase_name as any) : 'General'}
                     </span>
                     {entry.task?.title && (
                       <span className="text-xs text-slate-400 flex items-center gap-1">

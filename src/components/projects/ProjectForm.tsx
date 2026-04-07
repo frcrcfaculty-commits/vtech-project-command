@@ -21,7 +21,7 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
   const [formData, setFormData] = useState<CreateProjectData>({
     name: '',
     client_name: '',
-    project_type: '',
+    project_type: '' as any,
     city: '',
     start_date: format(new Date(), 'yyyy-MM-dd'),
     target_end_date: '',
@@ -141,7 +141,7 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
         placeholder="Select project type"
         options={projectTypeOptions}
         value={formData.project_type}
-        onChange={(val) => setFormData(prev => ({ ...prev, project_type: val }))}
+        onChange={(val) => setFormData(prev => ({ ...prev, project_type: val as any }))}
         error={validationErrors.project_type}
         required
       />

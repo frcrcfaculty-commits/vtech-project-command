@@ -94,7 +94,7 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
               <span className="flex-1 text-sm font-semibold text-[#1A1A2E]">{m.title}</span>
               <span className="text-xs text-[#6B7280]">{formatDate(m.due_date || '')}</span>
               <Badge
-                status={m.status === 'completed' ? 'completed' : m.status === 'done' ? 'completed' : 'active'}
+                status={m.status === 'completed' ? 'completed' : 'active'}
                 label={m.status}
               />
 

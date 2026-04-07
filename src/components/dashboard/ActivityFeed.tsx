@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Clock, CheckCircle2, FolderPlus, Flag } from 'lucide-react';
-import { mockActivity, ActivityItem } from './mockData';
-
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
+import { Spinner } from '@/components/ui/Spinner';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { initials } from '@/lib/utils';
 
 const typeConfig: Record<string, { icon: typeof Clock; color: string; bg: string }> = {
@@ -12,16 +12,10 @@ const typeConfig: Record<string, { icon: typeof Clock; color: string; bg: string
 };
 
 export function ActivityFeed() {
-  const [activities, setActivities] = useState(mockActivity);
-
-  // Auto-refresh every 60 seconds (will query real data during integration)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // In production: refetch from Supabase
-      setActivities([...mockActivity]);
-    }, 60_000);
-    return () => clearInterval(interval);
-  }, []);
+  const { activity: activities, loading } = useDashboardCharts();
+  
+  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!activities.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No activity" description="No recent activity found" /></div>;
 
   return (
     <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
@@ -31,7 +25,7 @@ export function ActivityFeed() {
       </div>
 
       <ul className="flex-1 space-y-1 overflow-y-auto max-h-[400px]">
-        {activities.map((item: ActivityItem, i: number) => {
+        {activities.map((item, i: number) => {
 
           const cfg = typeConfig[item.type] ?? typeConfig.time;
           const Icon = cfg.icon;

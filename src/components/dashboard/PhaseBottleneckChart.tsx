@@ -1,17 +1,21 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { mockPhaseData, PhaseData } from './mockData';
-
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
+import { Spinner } from '@/components/ui/Spinner';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 export function PhaseBottleneckChart() {
-  const maxDays = Math.max(...mockPhaseData.map((d: PhaseData) => d.avgDays));
+  const { phaseData, loading } = useDashboardCharts();
+  const maxDays = phaseData.length ? Math.max(...phaseData.map(d => d.avgDays)) : 0;
 
+  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!phaseData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No phase data" description="No project phases found" /></div>;
 
   return (
     <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
       <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)] mb-4">Average Days per Phase</h3>
       <div className="flex-1 min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={mockPhaseData} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
+          <BarChart data={phaseData} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
             <XAxis type="number" textAnchor="end" tick={{ fill: '#6B7280', fontSize: 12 }} />
             <YAxis 
@@ -41,7 +45,7 @@ export function PhaseBottleneckChart() {
               }}
             />
             <Bar dataKey="avgDays" radius={[0, 4, 4, 0]}>
-              {mockPhaseData.map((entry: PhaseData, index: number) => (
+              {phaseData.map((entry, index: number) => (
 
                 <Cell 
                   key={`cell-${index}`} 

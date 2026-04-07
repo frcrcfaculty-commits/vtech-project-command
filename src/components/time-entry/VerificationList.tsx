@@ -31,7 +31,7 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
   const groupedEntries = useMemo(() => {
     const groups: Record<string, typeof entries> = {};
     entries.forEach(entry => {
-      const userName = entry.users?.full_name || 'Unknown User';
+      const userName = entry.user?.full_name || 'Unknown User';
       if (!groups[userName]) groups[userName] = [];
       groups[userName].push(entry);
     });
@@ -175,7 +175,7 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
 
                         </div>
                         <h4 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                          {entry.projects?.name}
+                          {entry.project?.name}
                         </h4>
                       </div>
                       <div className="flex flex-col items-end gap-1">
@@ -190,7 +190,7 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
 
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-lg font-medium">
-                        {entry.project_phases?.phase_name ? getPhaseLabel(entry.project_phases.phase_name as any) : 'General'}
+                        {entry.phase?.phase_name ? getPhaseLabel(entry.phase.phase_name as any) : 'General'}
                       </span>
                       {isSuspicious(entry) && (
                         <span className="flex items-center gap-1 text-[10px] bg-amber-50 text-amber-600 px-2 py-1 rounded-lg font-black uppercase tracking-wider animate-pulse">

@@ -11,7 +11,7 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 
 export function SettingsPage() {
   const { user, logout } = useAuth();
-  const [name, setName] = useState(user?.name ?? '');
+  const [name, setName] = useState(user?.full_name ?? '');
   const [phone, setPhone] = useState(user?.phone ?? '');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -24,7 +24,7 @@ export function SettingsPage() {
 
   if (!user) return <Spinner size="lg" />;
 
-  const teamName = TEAMS.find((t) => t.id === user.team_id)?.name ?? user.team_name ?? '—';
+  const teamName = TEAMS.find((t) => t.id === user.team_id)?.name ?? user.team?.name ?? '—';
 
   const handleSaveProfile = async (e: FormEvent) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ export function SettingsPage() {
     try {
       const { error: err } = await supabase
         .from('users')
-        .update({ name, phone, updated_at: new Date().toISOString() })
+        .update({ full_name: name, phone, updated_at: new Date().toISOString() })
         .eq('id', user.id);
       if (err) throw err;
       setMessage({ type: 'success', text: 'Profile updated successfully.' });

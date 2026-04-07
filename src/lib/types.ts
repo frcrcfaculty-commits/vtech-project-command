@@ -96,6 +96,8 @@ export interface IMilestone {
   created_by: string | null;
   created_at: string;
   tasks?: ITask[];
+  task_count?: number;
+  tasks_done?: number;
 }
 
 export interface ITask {
@@ -114,6 +116,12 @@ export interface ITask {
   completed_at: string | null;
   created_at: string;
   updated_at: string;
+  project_name?: string;
+  phase_name?: string;
+  milestone_title?: string;
+  assignee_name?: string;
+  assignee_avatar?: string | null;
+  assigner_name?: string;
 }
 
 export interface ITimeEntry {

@@ -40,7 +40,7 @@ export function TeamPage() {
   const teamOptions = TEAMS.map((t) => ({ value: t.id, label: t.name }));
 
   const filteredMembers = members.filter((m) => {
-    if (search && !m.name.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && !m.full_name.toLowerCase().includes(search.toLowerCase())) return false;
     if (filterRole && m.role !== filterRole) return false;
     if (filterTeam && m.team_id !== filterTeam) return false;
     if (filterActive === 'active' && !m.is_active) return false;
@@ -50,13 +50,13 @@ export function TeamPage() {
 
   const handleAddMember = async () => {
     if (!newName || !newEmail) return;
-    await addMember({ name: newName, email: newEmail, phone: newPhone, role: newRole, team_id: newTeamId, is_active: true });
+    await addMember({ full_name: newName, email: newEmail, phone: newPhone, role: newRole, team_id: newTeamId, is_active: true, avatar_url: null });
     setShowAddModal(false);
     setNewName(''); setNewEmail(''); setNewPhone(''); setNewRole('field_staff');
   };
 
   const teamMemberColumns = [
-    { key: 'name', label: 'Name', render: (r: IUser) => <span className="font-medium">{r.name}</span> },
+    { key: 'name', label: 'Name', render: (r: IUser) => <span className="font-medium">{r.full_name}</span> },
     { key: 'email', label: 'Email' },
     { key: 'phone', label: 'Phone' },
     { key: 'role', label: 'Role', render: (r: IUser) => <Badge status={r.role === 'team_lead' ? 'in_progress' : 'pending'} label={r.role.replace('_', ' ')} /> },
@@ -68,7 +68,7 @@ export function TeamPage() {
   ];
 
   const allMembersColumns = [
-    { key: 'name', label: 'Name', render: (r: IUser) => <span className="font-medium">{r.name}</span> },
+    { key: 'name', label: 'Name', render: (r: IUser) => <span className="font-medium">{r.full_name}</span> },
     { key: 'team', label: 'Team', render: (r: IUser) => TEAMS.find((t) => t.id === r.team_id)?.name ?? '—' },
     { key: 'role', label: 'Role', render: (r: IUser) => <Badge status={r.role === 'team_lead' ? 'in_progress' : 'pending'} label={r.role.replace('_', ' ')} /> },
     { key: 'email', label: 'Email' },

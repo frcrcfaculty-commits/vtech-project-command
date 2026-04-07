@@ -1,0 +1,62 @@
+﻿src/components/dashboard/OwnerDashboard.tsx(37,24): error TS2551: Property 'travelOverhead' does not exist on type 'DashboardStats'. Did you mean 'travelOverheadPct'?
+src/components/layout/Sidebar.tsx(80,79): error TS2339: Property 'name' does not exist on type 'IUser'.
+src/components/layout/Sidebar.tsx(84,76): error TS2339: Property 'name' does not exist on type 'IUser'.
+src/components/milestones/MilestoneList.tsx(45,21): error TS2339: Property 'task_count' does not exist on type 'IMilestone'.
+src/components/milestones/MilestoneList.tsx(47,27): error TS2339: Property 'tasks_done' does not exist on type 'IMilestone'.
+src/components/milestones/MilestoneList.tsx(97,66): error TS2367: This comparison appears to be unintentional because the types '"in_progress" | "pending" | "overdue"' and '"done"' have no overlap.
+src/components/milestones/MilestoneList.tsx(114,22): error TS2339: Property 'tasks_done' does not exist on type 'IMilestone'.
+src/components/milestones/MilestoneList.tsx(114,42): error TS2339: Property 'task_count' does not exist on type 'IMilestone'.
+src/components/projects/PhaseTracker.tsx(20,54): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/components/projects/PhaseTracker.tsx(20,95): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/components/projects/PhaseTracker.tsx(226,44): error TS2339: Property 'team_name' does not exist on type 'IProjectPhase'.
+src/components/projects/ProjectCard.tsx(104,54): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/components/projects/ProjectCard.tsx(104,78): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/components/projects/ProjectForm.tsx(24,5): error TS2322: Type '""' is not assignable to type 'ProjectType'.
+src/components/projects/ProjectForm.tsx(144,40): error TS2345: Argument of type '(prev: CreateProjectData) => { project_type: string; name: string; client_name: string; city: string; start_date: string; target_end_date: string; notes?: string | undefined; }' is not assignable to parameter of type 'SetStateAction<CreateProjectData>'.
+  Type '(prev: CreateProjectData) => { project_type: string; name: string; client_name: string; city: string; start_date: string; target_end_date: string; notes?: string | undefined; }' is not assignable to type '(prevState: CreateProjectData) => CreateProjectData'.
+    Call signature return types '{ project_type: string; name: string; client_name: string; city: string; start_date: string; target_end_date: string; notes?: string | undefined; }' and 'CreateProjectData' are incompatible.
+      The types of 'project_type' are incompatible between these types.
+        Type 'string' is not assignable to type 'ProjectType'.
+src/components/tasks/TaskBoard.tsx(105,29): error TS2339: Property 'project_name' does not exist on type 'ITask'.
+src/components/tasks/TaskBoard.tsx(106,76): error TS2339: Property 'project_name' does not exist on type 'ITask'.
+src/components/tasks/TaskBoard.tsx(110,33): error TS2339: Property 'assignee_name' does not exist on type 'ITask'.
+src/components/tasks/TaskBoard.tsx(111,76): error TS2339: Property 'assignee_name' does not exist on type 'ITask'.
+src/components/tasks/TaskList.tsx(96,23): error TS2339: Property 'assignee_name' does not exist on type 'ITask'.
+src/components/time-entry/DailySummary.tsx(99,30): error TS2339: Property 'project_phases' does not exist on type 'ITimeEntry'.
+src/components/time-entry/DailySummary.tsx(99,79): error TS2339: Property 'project_phases' does not exist on type 'ITimeEntry'.
+src/components/time-entry/VerificationList.tsx(34,30): error TS2551: Property 'users' does not exist on type 'ITimeEntry'. Did you mean 'user'?
+src/components/time-entry/VerificationList.tsx(178,34): error TS2551: Property 'projects' does not exist on type 'ITimeEntry'. Did you mean 'project'?
+src/components/time-entry/VerificationList.tsx(193,32): error TS2339: Property 'project_phases' does not exist on type 'ITimeEntry'.
+src/components/time-entry/VerificationList.tsx(193,81): error TS2339: Property 'project_phases' does not exist on type 'ITimeEntry'.
+src/hooks/useProjects.ts(186,5): error TS2741: Property 'actual_end_date' is missing in type '{ id: string; name: string; client_name: string; project_type: "boardroom"; city: string; status: "active"; start_date: string; target_end_date: string; notes: string; created_by: string; created_at: string; updated_at: string; project_phases: IProjectPhase[]; }' but required in type 'IProject'.
+src/hooks/useProjects.ts(201,5): error TS2741: Property 'actual_end_date' is missing in type '{ id: string; name: string; client_name: string; project_type: "conference_room"; city: string; status: "planning"; start_date: string; target_end_date: string; notes: string; created_by: string; created_at: string; updated_at: string; project_phases: IProjectPhase[]; }' but required in type 'IProject'.
+src/hooks/useProjects.ts(220,7): error TS2820: Type '"residential_hni"' is not assignable to type 'ProjectType'. Did you mean '"residential"'?
+src/hooks/useProjects.ts(241,70): error TS2820: Type '"Site Survey"' is not assignable to type 'PhaseName'. Did you mean '"site_survey"'?
+src/hooks/useProjects.ts(242,70): error TS2322: Type '"Design/Engineering"' is not assignable to type 'PhaseName'.
+src/hooks/useProjects.ts(243,70): error TS2820: Type '"BOQ & Quotation"' is not assignable to type 'PhaseName'. Did you mean '"boq_quotation"'?
+src/hooks/useProjects.ts(244,70): error TS2820: Type '"Client Approval"' is not assignable to type 'PhaseName'. Did you mean '"client_approval"'?
+src/hooks/useProjects.ts(245,70): error TS2820: Type '"Procurement"' is not assignable to type 'PhaseName'. Did you mean '"procurement"'?
+src/hooks/useProjects.ts(246,70): error TS2322: Type '"Installation/Wiring"' is not assignable to type 'PhaseName'.
+src/hooks/useProjects.ts(247,70): error TS2322: Type '"Programming/Commissioning"' is not assignable to type 'PhaseName'.
+src/hooks/useProjects.ts(248,70): error TS2820: Type '"Testing/QA"' is not assignable to type 'PhaseName'. Did you mean '"testing"'?
+src/hooks/useProjects.ts(249,70): error TS2820: Type '"Handover"' is not assignable to type 'PhaseName'. Did you mean '"handover"'?
+src/hooks/useProjects.ts(250,72): error TS2820: Type '"AMC/Support"' is not assignable to type 'PhaseName'. Did you mean '"amc_support"'?
+src/hooks/useTeams.ts(61,22): error TS2339: Property 'name' does not exist on type 'Omit<IUser, "id" | "created_at" | "updated_at">'.
+src/pages/MyTasksPage.tsx(182,15): error TS2339: Property 'project_name' does not exist on type 'ITask'.
+src/pages/MyTasksPage.tsx(183,58): error TS2339: Property 'project_name' does not exist on type 'ITask'.
+src/pages/MyTasksPage.tsx(185,15): error TS2339: Property 'phase_name' does not exist on type 'ITask'.
+src/pages/MyTasksPage.tsx(187,19): error TS2339: Property 'phase_name' does not exist on type 'ITask'.
+src/pages/ProjectDetailPage.tsx(425,41): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/pages/ProjectDetailPage.tsx(425,65): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/pages/ProjectDetailPage.tsx(428,58): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/pages/ProjectDetailPage.tsx(434,38): error TS2339: Property 'team_name' does not exist on type 'IProjectPhase'.
+src/pages/ProjectDetailPage.tsx(439,55): error TS2339: Property 'team_name' does not exist on type 'IProjectPhase'.
+src/pages/ProjectDetailPage.tsx(443,71): error TS2551: Property 'phase_number' does not exist on type 'IProjectPhase'. Did you mean 'phase_name'?
+src/pages/ProjectsPage.tsx(47,7): error TS2322: Type 'string | undefined' is not assignable to type 'ProjectType | undefined'.
+  Type 'string' is not assignable to type 'ProjectType | undefined'.
+src/pages/SettingsPage.tsx(14,42): error TS2339: Property 'name' does not exist on type 'IUser'.
+src/pages/SettingsPage.tsx(27,75): error TS2339: Property 'team_name' does not exist on type 'IUser'.
+src/pages/TeamPage.tsx(43,22): error TS2339: Property 'name' does not exist on type 'IUser'.
+src/pages/TeamPage.tsx(53,23): error TS2353: Object literal may only specify known properties, and 'name' does not exist in type 'Omit<IUser, "id" | "created_at" | "updated_at">'.
+src/pages/TeamPage.tsx(59,90): error TS2339: Property 'name' does not exist on type 'IUser'.
+src/pages/TeamPage.tsx(71,90): error TS2339: Property 'name' does not exist on type 'IUser'.

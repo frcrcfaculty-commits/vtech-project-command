@@ -77,11 +77,11 @@ export function Sidebar({ user, onLogout, collapsed = false, onToggleCollapse }:
       <div className={cn('border-t border-white/10 p-4', collapsed && 'px-2')}>
         <div className={cn('flex items-center gap-3', collapsed && 'justify-center')}>
           <div className="w-9 h-9 rounded-full bg-[var(--color-secondary)] flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-xs font-semibold">{initials(user.name)}</span>
+            <span className="text-white text-xs font-semibold">{initials(user.full_name)}</span>
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">{user.name}</p>
+              <p className="text-white text-sm font-medium truncate">{user.full_name}</p>
               <Badge status={user.role === 'owner' ? 'completed' : 'in_progress'} label={user.role.replace('_', ' ')} className="mt-0.5" />
             </div>
           )}

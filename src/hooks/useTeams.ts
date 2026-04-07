@@ -58,7 +58,7 @@ export function useTeams() {
       // Insert profile
       const { error: insertErr } = await supabase.from('users').insert({
         id: userId,
-        name: member.name,
+        full_name: member.full_name,
         email: member.email,
         phone: member.phone,
         role: member.role,

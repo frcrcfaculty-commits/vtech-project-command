@@ -422,25 +422,25 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
               </tr>
             </thead>
             <tbody>
-              {phases.sort((a, b) => (a.phase_number || 0) - (b.phase_number || 0)).map(phase => (
+              {phases.sort((a, b) => (a.phase_order || 0) - (b.phase_order || 0)).map(phase => (
                 <tr key={phase.id} className="border-b last:border-0">
                   <td className="py-3">
-                    <span className="font-medium">{phase.phase_number || phase.phase_order}. {phase.phase_name}</span>
+                    <span className="font-medium">{phase.phase_order}. {phase.phase_name}</span>
                   </td>
                   <td className="py-3">
                     {isOwner ? (
                       <Select
                         options={TEAM_NAMES.map(t => ({ value: t, label: t }))}
-                        value={phase.team_name || ''}
+                        value={phase.assigned_team?.name || ''}
                         onChange={() => {}}
                         className="w-40 text-sm"
                       />
                     ) : (
-                      <Badge variant="pending">{phase.team_name || 'Unassigned'}</Badge>
+                      <Badge variant="pending">{phase.assigned_team?.name || 'Unassigned'}</Badge>
                     )}
                   </td>
                   <td className="py-3 text-[#6B7280]">
-                    {teamHoursData.find(t => t.phaseNumber === (phase.phase_number || 0))?.hours || 0}h
+                    {teamHoursData.find(t => t.phaseNumber === (phase.phase_order || 0))?.hours || 0}h
                   </td>
                 </tr>
               ))}

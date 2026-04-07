@@ -17,13 +17,13 @@ export function useProjects() {
           *,
           project_phases(
             id,
-            phase_number,
+            phase_order,
             phase_name,
             status,
-            planned_start_date,
-            planned_end_date,
-            actual_start_date,
-            actual_end_date,
+            planned_start,
+            planned_end,
+            actual_start,
+            actual_end,
             team_id,
             team_name
           )
@@ -196,6 +196,7 @@ function getMockProjects(): IProject[] {
       created_by: '1',
       created_at: '2024-01-10T10:00:00Z',
       updated_at: '2024-01-15T10:00:00Z',
+      actual_end_date: null,
       project_phases: getMockPhases('1', 'active'),
     },
     {
@@ -211,15 +212,17 @@ function getMockProjects(): IProject[] {
       created_by: '1',
       created_at: '2024-02-20T10:00:00Z',
       updated_at: '2024-02-20T10:00:00Z',
+      actual_end_date: null,
       project_phases: getMockPhases('2', 'planning'),
     },
     {
       id: '3',
       name: 'Adani Residence',
       client_name: 'Adani Group',
-      project_type: 'residential_hni',
+      project_type: 'residential',
       city: 'Ahmedabad',
       status: 'on_hold',
+      actual_end_date: null,
       start_date: '2024-02-01',
       target_end_date: '2024-07-30',
       notes: 'Luxury home automation project',
@@ -238,16 +241,16 @@ function getMockPhases(projectId: string, status: string): IProjectPhase[] {
   }
 
   return [
-    { id: `${projectId}-p1`, project_id: projectId, phase_number: 1, phase_name: 'Site Survey', status: phaseStatuses[0] as any, planned_start: '2024-01-15', planned_end: '2024-01-22', team_id: '1', team_name: 'Sales/BD', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p2`, project_id: projectId, phase_number: 2, phase_name: 'Design/Engineering', status: phaseStatuses[1] as any, planned_start: '2024-01-23', planned_end: '2024-02-10', team_id: '2', team_name: 'Design/Engineering', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p3`, project_id: projectId, phase_number: 3, phase_name: 'BOQ & Quotation', status: phaseStatuses[2] as any, planned_start: '2024-02-11', planned_end: '2024-02-25', team_id: '2', team_name: 'Design/Engineering', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p4`, project_id: projectId, phase_number: 4, phase_name: 'Client Approval', status: phaseStatuses[3] as any, planned_start: '2024-02-26', planned_end: '2024-03-10', team_id: '1', team_name: 'Sales/BD', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p5`, project_id: projectId, phase_number: 5, phase_name: 'Procurement', status: phaseStatuses[4] as any, planned_start: '2024-03-11', planned_end: '2024-04-15', team_id: '3', team_name: 'Procurement', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p6`, project_id: projectId, phase_number: 6, phase_name: 'Installation/Wiring', status: phaseStatuses[5] as any, planned_start: '2024-04-16', planned_end: '2024-05-15', team_id: '4', team_name: 'Installation', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p7`, project_id: projectId, phase_number: 7, phase_name: 'Programming/Commissioning', status: phaseStatuses[6] as any, planned_start: '2024-05-16', planned_end: '2024-05-31', team_id: '5', team_name: 'Programming', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p8`, project_id: projectId, phase_number: 8, phase_name: 'Testing/QA', status: phaseStatuses[7] as any, planned_start: '2024-06-01', planned_end: '2024-06-15', team_id: '5', team_name: 'Programming', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p9`, project_id: projectId, phase_number: 9, phase_name: 'Handover', status: phaseStatuses[8] as any, planned_start: '2024-06-16', planned_end: '2024-06-25', team_id: '1', team_name: 'Sales/BD', created_at: '2024-01-10T10:00:00Z', milestones: [] },
-    { id: `${projectId}-p10`, project_id: projectId, phase_number: 10, phase_name: 'AMC/Support', status: phaseStatuses[9] as any, planned_start: '2024-06-26', planned_end: '2024-06-30', team_id: '6', team_name: 'Service/AMC', created_at: '2024-01-10T10:00:00Z', milestones: [] },
+    { id: `${projectId}-p1`, project_id: projectId, phase_order: 1, phase_name: 'site_survey', status: phaseStatuses[0] as any, planned_start: '2024-01-15', planned_end: '2024-01-22', assigned_team_id: '1', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p2`, project_id: projectId, phase_order: 2, phase_name: 'design', status: phaseStatuses[1] as any, planned_start: '2024-01-23', planned_end: '2024-02-10', assigned_team_id: '2', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p3`, project_id: projectId, phase_order: 3, phase_name: 'boq_quotation', status: phaseStatuses[2] as any, planned_start: '2024-02-11', planned_end: '2024-02-25', assigned_team_id: '2', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p4`, project_id: projectId, phase_order: 4, phase_name: 'client_approval', status: phaseStatuses[3] as any, planned_start: '2024-02-26', planned_end: '2024-03-10', assigned_team_id: '1', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p5`, project_id: projectId, phase_order: 5, phase_name: 'procurement', status: phaseStatuses[4] as any, planned_start: '2024-03-11', planned_end: '2024-04-15', assigned_team_id: '3', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p6`, project_id: projectId, phase_order: 6, phase_name: 'installation', status: phaseStatuses[5] as any, planned_start: '2024-04-16', planned_end: '2024-05-15', assigned_team_id: '4', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p7`, project_id: projectId, phase_order: 7, phase_name: 'programming', status: phaseStatuses[6] as any, planned_start: '2024-05-16', planned_end: '2024-05-31', assigned_team_id: '5', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p8`, project_id: projectId, phase_order: 8, phase_name: 'testing', status: phaseStatuses[7] as any, planned_start: '2024-06-01', planned_end: '2024-06-15', assigned_team_id: '5', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p9`, project_id: projectId, phase_order: 9, phase_name: 'handover', status: phaseStatuses[8] as any, planned_start: '2024-06-16', planned_end: '2024-06-25', assigned_team_id: '1', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
+    { id: `${projectId}-p10`, project_id: projectId, phase_order: 10, phase_name: 'amc_support', status: phaseStatuses[9] as any, planned_start: '2024-06-26', planned_end: '2024-06-30', assigned_team_id: '6', created_at: '2024-01-10T10:00:00Z', milestones: [], actual_start: null, actual_end: null, notes: null },
 
   ];
 }

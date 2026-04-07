@@ -193,8 +193,8 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
       <p className="text-sm font-semibold text-[#1A1A2E] mb-1">{task.title}</p>
 
       {/* Assigned by */}
-      {task.assigner_name && (
-        <p className="text-xs text-[#6B7280] mb-2">Assigned by {task.assigner_name}</p>
+      {task.assigned_by && (
+        <p className="text-xs text-[#6B7280] mb-2">Assigned by {task.assigned_by}</p>
       )}
 
       {/* Priority + Due date row */}

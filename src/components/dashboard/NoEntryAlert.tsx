@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import { AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { useDashboardCharts } from '@/hooks/useDashboardCharts';
 import { NO_ENTRY_ALERT_HOUR } from '@/lib/constants';
-
-// Mock list of non-compliant members
-const missingMembers = [
-  { name: 'Rohan Sharma', team: 'Installation', consecutiveDays: 1 },
-  { name: 'Karan Patel', team: 'Programming', consecutiveDays: 3 },
-  { name: 'Megha Singh', team: 'Design', consecutiveDays: 2 },
-];
 
 export function NoEntryAlert() {
   const [expanded, setExpanded] = useState(false);
+  const { missingMembers, loading } = useDashboardCharts();
   const currentHour = new Date().getHours();
 
-  if (currentHour < NO_ENTRY_ALERT_HOUR || missingMembers.length === 0) {
+  if (loading || currentHour < NO_ENTRY_ALERT_HOUR || !missingMembers || missingMembers.length === 0) {
     return null;
   }
 
