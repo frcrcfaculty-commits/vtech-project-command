@@ -130,6 +130,28 @@ show_menu() {
 
 log_section "Supabase SQL Migration Deployment"
 
+# Handle --help before environment check
+case "${1:-}" in
+    --help|-h)
+        echo "Deploy database migrations to Supabase"
+        echo ""
+        echo "Usage: bash scripts/deploy.sh [OPTION]"
+        echo ""
+        echo "Options:"
+        echo "  --schema       Deploy schema.sql only"
+        echo "  --db-polish    Deploy db_polish.sql only"
+        echo "  --seed         Deploy seed_realistic.sql only"
+        echo "  --all          Deploy all migrations"
+        echo "  --help         Show this help"
+        echo ""
+        echo "Environment:"
+        echo "  SUPABASE_URL              Your Supabase project URL"
+        echo "  SUPABASE_SERVICE_ROLE_KEY Your service role key"
+        echo ""
+        exit 0
+        ;;
+esac
+
 # Check environment
 check_env
 

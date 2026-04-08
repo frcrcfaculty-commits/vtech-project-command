@@ -12,10 +12,14 @@
  *   node scripts/deploy-to-supabase.js                   # Interactive menu
  */
 
-const fs = require('fs');
-const path = require('path');
-const { createClient } = require('@supabase/supabase-js');
-const readline = require('readline');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
+import readline from 'readline';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Color outputs
 const colors = {
@@ -39,6 +43,37 @@ const log = {
 // Load environment variables
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+// Parse command line arguments early to handle --help without credentials
+const args = process.argv.slice(2);
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(`
+${colors.bright}Deploy Database Migrations to Supabase${colors.reset}
+
+Usage: node scripts/deploy-to-supabase.js [options]
+
+Options:
+  --schema              Deploy schema.sql only
+  --db-polish           Deploy db_polish.sql only
+  --seed                Deploy seed_realistic.sql only
+  --all                 Deploy all migrations in order
+  --dry-run             Preview without executing
+  --help, -h            Show this help message
+
+Examples:
+  node scripts/deploy-to-supabase.js --all
+  node scripts/deploy-to-supabase.js --schema --db-polish
+  node scripts/deploy-to-supabase.js --dry-run
+  node scripts/deploy-to-supabase.js              (interactive mode)
+
+Environment Variables Required:
+  VITE_SUPABASE_URL             Your Supabase project URL
+  SUPABASE_SERVICE_ROLE_KEY     Your Supabase service role key
+
+Get these from: Supabase Dashboard → Settings → API
+`);
+  process.exit(0);
+}
 
 if (!supabaseUrl || !supabaseServiceRoleKey) {
   log.error('Missing environment variables!');
@@ -263,6 +298,7 @@ async function main() {
     interactive = false;
     await deploy(migrations, dryRun);
   } else if (args.includes('--help') || args.includes('-h')) {
+    // Show help and exit
     console.log(`
 ${colors.bright}Deploy Database Migrations to Supabase${colors.reset}
 
