@@ -288,6 +288,11 @@ export function TimeEntryForm({ userId }: { userId: string }) {
                 type="date"
                 value={formData.entryDate}
                 max={new Date().toISOString().split('T')[0]}
+                min={(() => {
+                  const d = new Date();
+                  d.setDate(d.getDate() - 7);
+                  return d.toISOString().split('T')[0];
+                })()}
                 onChange={(e) => setFormData(prev => ({ ...prev, entryDate: e.target.value }))}
                 className="w-full bg-white border border-slate-200 rounded-md px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
               />

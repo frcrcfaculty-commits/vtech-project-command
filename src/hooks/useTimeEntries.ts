@@ -95,6 +95,25 @@ export function useTimeEntries() {
     setLoading(true);
     setError(null);
 
+    // Date validations
+    const entryDate = new Date(data.entry_date!);
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    if (entryDate > todayDate) {
+      setError('Cannot log time for future dates.');
+      setLoading(false);
+      return { error: 'Future date' };
+    }
+    if (entryDate < sevenDaysAgo) {
+      setError('Cannot log time for dates more than 7 days ago.');
+      setLoading(false);
+      return { error: 'Too old' };
+    }
+
     // Validation: Max daily hours
     const currentTotal = await getDailyTotal(data.user_id!, data.entry_date!);
     const newTotal = currentTotal + Number(data.work_hours || 0) + Number(data.travel_hours || 0);
