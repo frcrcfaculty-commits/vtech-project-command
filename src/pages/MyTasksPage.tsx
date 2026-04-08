@@ -65,8 +65,8 @@ export function MyTasksPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-6">
       <header className="mb-6">
-        <h1 className="text-xl font-bold text-[#0B1F3F]">My Tasks</h1>
-        <p className="text-sm text-[#6B7280] mt-0.5">Your assigned work at a glance</p>
+        <h1 className="text-xl font-bold text-primary">My Tasks</h1>
+        <p className="text-sm text-gray-500 mt-0.5">Your assigned work at a glance</p>
       </header>
 
       {loading && tasks.length === 0 ? (
@@ -76,8 +76,8 @@ export function MyTasksPage() {
       ) : tasks.length === 0 ? (
         <div className="text-center py-16">
           <CheckCircle2 size={48} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-sm font-medium text-[#1A1A2E]">No tasks assigned to you</p>
-          <p className="text-xs text-[#6B7280] mt-1">Check with your team lead.</p>
+          <p className="text-sm font-medium text-gray-900">No tasks assigned to you</p>
+          <p className="text-xs text-gray-500 mt-1">Check with your team lead.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
@@ -85,7 +85,7 @@ export function MyTasksPage() {
           {/* Overdue */}
           {overdue.length > 0 && (
             <section>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#C62828] mb-3">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-danger mb-3">
                 <AlertTriangle size={14} /> Overdue ({overdue.length})
               </h2>
               <div className="flex flex-col gap-2">
@@ -105,7 +105,7 @@ export function MyTasksPage() {
           {/* Today */}
           {today.length > 0 && (
             <section>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#1E88E5] mb-3">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-secondary mb-3">
                 <Clock size={14} /> Today ({today.length})
               </h2>
               <div className="flex flex-col gap-2">
@@ -125,7 +125,7 @@ export function MyTasksPage() {
           {/* Upcoming */}
           {upcoming.length > 0 && (
             <section>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-[#6B7280] mb-3">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-500 mb-3">
                 Upcoming ({upcoming.length})
               </h2>
               <div className="flex flex-col gap-2">
@@ -150,7 +150,7 @@ export function MyTasksPage() {
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="min-h-[44px] px-6 py-2.5 text-sm text-[#6B7280] bg-white border border-gray-200 rounded-lg hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 transition-colors"
+          className="min-h-[44px] px-6 py-2.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 transition-colors"
         >
           {refreshing ? 'Refreshing...' : '↻ Tap to refresh'}
         </button>
@@ -170,9 +170,9 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
   const overdue = task.due_date && isOverdue(task.due_date) && task.status !== 'done';
   const statusColors: Record<string, string> = {
     todo: 'bg-gray-100 text-gray-500',
-    in_progress: 'bg-blue-50 text-[#1E88E5]',
-    done: 'bg-green-50 text-[#2E7D32]',
-    blocked: 'bg-red-50 text-[#C62828]',
+    in_progress: 'bg-blue-50 text-secondary',
+    done: 'bg-green-50 text-success',
+    blocked: 'bg-red-50 text-danger',
   };
 
   return (
@@ -180,21 +180,21 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
       {/* Project + Phase */}
       <div className="flex items-center gap-2 mb-1">
         {task.project_name && (
-          <span className="text-xs text-[#6B7280]">{task.project_name}</span>
+          <span className="text-xs text-gray-500">{task.project_name}</span>
         )}
         {task.phase_name && (
-          <Badge className="text-[10px] px-1.5 py-0 bg-gray-100 text-[#6B7280]">
+          <Badge className="text-[10px] px-1.5 py-0 bg-gray-100 text-gray-500">
             {task.phase_name}
           </Badge>
         )}
       </div>
 
       {/* Title */}
-      <p className="text-sm font-semibold text-[#1A1A2E] mb-1">{task.title}</p>
+      <p className="text-sm font-semibold text-gray-900 mb-1">{task.title}</p>
 
       {/* Assigned by */}
       {task.assigned_by && (
-        <p className="text-xs text-[#6B7280] mb-2">Assigned by {task.assigned_by}</p>
+        <p className="text-xs text-gray-500 mb-2">Assigned by {task.assigned_by}</p>
       )}
 
       {/* Priority + Due date row */}
@@ -206,7 +206,7 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
         />
 
         {task.due_date && (
-          <span className={cn('text-xs font-medium', overdue ? 'text-[#C62828]' : 'text-[#6B7280]')}>
+          <span className={cn('text-xs font-medium', overdue ? 'text-danger' : 'text-gray-500')}>
             {formatRelativeDate(task.due_date)}
           </span>
         )}
@@ -219,8 +219,8 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
           className={cn(
             'flex-1 min-h-[44px] py-2.5 rounded-lg text-sm font-medium transition-colors',
             task.status === 'done'
-              ? 'bg-gray-100 text-[#6B7280]'
-              : 'bg-[#2E7D32] text-white hover:bg-[#256427] active:bg-[#1b4e1d]'
+              ? 'bg-gray-100 text-gray-500'
+              : 'bg-success text-white hover:bg-[#256427] active:bg-[#1b4e1d]'
           )}
         >
           {task.status === 'done' ? 'Completed' : 'Mark Done'}
@@ -235,7 +235,7 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
         </Button>
         <button
           onClick={onLogTime}
-          className="min-h-[44px] min-w-[44px] flex items-center justify-center text-[#6B7280] hover:text-[#1A1A2E] active:bg-gray-100 rounded-lg transition-colors"
+          className="min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-500 hover:text-gray-900 active:bg-gray-100 rounded-lg transition-colors"
           aria-label="More options"
         >
           <ChevronRight size={18} />

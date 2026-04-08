@@ -58,17 +58,17 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
   }
 
   if (error) {
-    return <p className="text-sm text-[#C62828]">Failed to load milestones</p>;
+    return <p className="text-sm text-danger">Failed to load milestones</p>;
   }
 
   if (milestones.length === 0) {
     return (
       <div className="py-4 text-center">
-        <p className="text-sm text-[#6B7280]">No milestones in this phase yet. Add one to get started.</p>
+        <p className="text-sm text-gray-500">No milestones in this phase yet. Add one to get started.</p>
         {canAdd && (
           <button
             onClick={() => setShowForm(true)}
-            className="mt-2 text-sm text-[#1E88E5] hover:underline"
+            className="mt-2 text-sm text-secondary hover:underline"
           >
             + Add Milestone
           </button>
@@ -88,11 +88,11 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
               className="flex items-center gap-2 px-3 py-2.5 cursor-pointer hover:bg-gray-50"
               onClick={() => toggleExpand(m.id)}
             >
-              <button className="text-[#6B7280] touch-target">
+              <button className="text-gray-500 touch-target">
                 {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               </button>
-              <span className="flex-1 text-sm font-semibold text-[#1A1A2E]">{m.title}</span>
-              <span className="text-xs text-[#6B7280]">{formatDate(m.due_date || '')}</span>
+              <span className="flex-1 text-sm font-semibold text-gray-900">{m.title}</span>
+              <span className="text-xs text-gray-500">{formatDate(m.due_date || '')}</span>
               <Badge
                 status={m.status === 'completed' ? 'completed' : 'active'}
                 label={m.status}
@@ -106,11 +106,11 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
               <div className="flex items-center gap-2">
                 <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#2E7D32] rounded-full transition-all"
+                    className="h-full bg-success rounded-full transition-all"
                     style={{ width: `${progress(m)}%` }}
                   />
                 </div>
-                <span className="text-xs text-[#6B7280]">
+                <span className="text-xs text-gray-500">
                   {m.tasks_done ?? 0}/{m.task_count ?? 0}
                 </span>
               </div>
@@ -122,13 +122,13 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
                 <div className="flex justify-end gap-1 mb-2">
                   <button
                     onClick={(e) => { e.stopPropagation(); setEditingMilestone(m); setShowForm(true); }}
-                    className="px-2 py-1 text-xs text-[#1E88E5] hover:bg-blue-50 rounded"
+                    className="px-2 py-1 text-xs text-secondary hover:bg-blue-50 rounded"
                   >
                     Edit
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(m.id); }}
-                    className="px-2 py-1 text-xs text-[#C62828] hover:bg-red-50 rounded"
+                    className="px-2 py-1 text-xs text-danger hover:bg-red-50 rounded"
                   >
                     <Trash2 size={12} />
                   </button>
@@ -147,7 +147,7 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
       {canAdd && (
         <button
           onClick={() => { setEditingMilestone(undefined); setShowForm(true); }}
-          className="flex items-center justify-center gap-1 py-2 text-sm text-[#1E88E5] border border-dashed border-[#1E88E5] rounded-[8px] hover:bg-blue-50 touch-target"
+          className="flex items-center justify-center gap-1 py-2 text-sm text-secondary border border-dashed border-secondary rounded-[8px] hover:bg-blue-50 touch-target"
         >
           <Plus size={14} /> Add Milestone
         </button>

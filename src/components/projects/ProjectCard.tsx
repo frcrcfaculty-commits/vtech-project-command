@@ -33,7 +33,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Top row: Project name + Status badge */}
       <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="font-semibold text-[#1A1A2E] truncate flex-1">
+        <h3 className="font-semibold text-gray-900 truncate flex-1">
           {project.name.length > 40 ? project.name.slice(0, 40) + '...' : project.name}
         </h3>
         <Badge status={project.status as any} label={project.status} />
@@ -41,10 +41,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Second row: Client name */}
-      <p className="text-sm text-[#6B7280] mb-3">{project.client_name}</p>
+      <p className="text-sm text-gray-500 mb-3">{project.client_name}</p>
 
       {/* Third row: Project type icon + label | City */}
-      <div className="flex items-center gap-4 text-sm text-[#6B7280] mb-3">
+      <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
         <div className="flex items-center gap-1">
           {typeIcon}
           <span>{projectType?.label || project.project_type}</span>
@@ -57,7 +57,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Fourth row: Phase progress bar */}
       <div className="mb-3">
-        <div className="flex items-center justify-between text-xs text-[#6B7280] mb-1">
+        <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
           <span>Phase Progress</span>
           <span>{completedCount}/{totalPhases} phases</span>
         </div>
@@ -65,12 +65,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Bottom row: Start date | Days remaining/overdue */}
-      <div className="flex items-center justify-between text-xs text-[#6B7280]">
+      <div className="flex items-center justify-between text-xs text-gray-500">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
           <span>Started {formatDate(project.start_date || '')}</span>
         </div>
-        <span className={cn(isOverdue ? 'text-[#C62828] font-medium' : '')}>
+        <span className={cn(isOverdue ? 'text-danger font-medium' : '')}>
           {isOverdue ? `${days} days overdue` : `${days} days remaining`}
         </span>
 
@@ -82,9 +82,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
 function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; totalPhases: number }) {
   const getSegmentColor = (status: PhaseStatus): string => {
     switch (status) {
-      case 'completed': return 'bg-[#2E7D32]';
-      case 'in_progress': return 'bg-[#1E88E5]';
-      case 'blocked': return 'bg-[#C62828]';
+      case 'completed': return 'bg-success';
+      case 'in_progress': return 'bg-secondary';
+      case 'blocked': return 'bg-danger';
       default: return 'bg-gray-200';
     }
   };

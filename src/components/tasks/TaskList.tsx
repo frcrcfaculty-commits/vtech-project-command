@@ -17,9 +17,9 @@ interface TaskListProps {
 
 const STATUS_ICONS: Record<string, React.ReactNode> = {
   todo: <Circle size={16} className="text-gray-400" />,
-  in_progress: <Clock size={16} className="text-[#1E88E5]" />,
-  done: <CheckCircle2 size={16} className="text-[#2E7D32]" />,
-  blocked: <AlertCircle size={16} className="text-[#C62828]" />,
+  in_progress: <Clock size={16} className="text-secondary" />,
+  done: <CheckCircle2 size={16} className="text-success" />,
+  blocked: <AlertCircle size={16} className="text-danger" />,
 };
 
 export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
@@ -49,17 +49,17 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
   const canAdd = user?.role === 'owner' || user?.role === 'team_lead';
 
   if (loading) {
-    return <div className="py-2 text-sm text-[#6B7280]">Loading tasks...</div>;
+    return <div className="py-2 text-sm text-gray-500">Loading tasks...</div>;
   }
 
   if (tasks.length === 0) {
     return (
       <div className="text-center py-3">
-        <p className="text-xs text-[#6B7280]">No tasks yet. Break this milestone into actionable tasks.</p>
+        <p className="text-xs text-gray-500">No tasks yet. Break this milestone into actionable tasks.</p>
         {canAdd && (
           <button
             onClick={() => { setEditingTask(undefined); setShowForm(true); }}
-            className="mt-1 text-xs text-[#1E88E5] hover:underline"
+            className="mt-1 text-xs text-secondary hover:underline"
           >
             + Add Task
           </button>
@@ -91,10 +91,10 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
 
             {/* Middle: title + assignee + priority */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-[#1A1A2E] truncate">{task.title}</p>
+              <p className="text-sm font-medium text-gray-900 truncate">{task.title}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 {task.assignee && (
-                  <span className="text-xs text-[#6B7280]">{task.assignee.full_name}</span>
+                  <span className="text-xs text-gray-500">{task.assignee.full_name}</span>
                 )}
                 <Badge
                   status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
@@ -108,7 +108,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
             {/* Right: due date + status toggle */}
             <div className="flex items-center gap-1 flex-shrink-0">
               {task.due_date && (
-                <span className={cn('text-xs', overdue ? 'text-[#C62828] font-medium' : 'text-[#6B7280]')}>
+                <span className={cn('text-xs', overdue ? 'text-danger font-medium' : 'text-gray-500')}>
                   {new Date(task.due_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                 </span>
               )}
@@ -140,7 +140,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
               </div>
               <button
                 onClick={() => { setEditingTask(task); setShowForm(true); }}
-                className="px-1.5 py-0.5 text-xs text-[#1E88E5] border border-gray-200 rounded hover:bg-blue-50"
+                className="px-1.5 py-0.5 text-xs text-secondary border border-gray-200 rounded hover:bg-blue-50"
               >
                 Edit
               </button>
@@ -152,7 +152,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
       {canAdd && (
         <button
           onClick={() => { setEditingTask(undefined); setShowForm(true); }}
-          className="flex items-center justify-center gap-1 py-1.5 text-xs text-[#1E88E5] border border-dashed border-[#1E88E5] rounded-[6px] hover:bg-blue-50"
+          className="flex items-center justify-center gap-1 py-1.5 text-xs text-secondary border border-dashed border-secondary rounded-[6px] hover:bg-blue-50"
         >
           <Plus size={12} /> Add Task
         </button>

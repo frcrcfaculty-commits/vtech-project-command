@@ -109,8 +109,8 @@ export function ProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#1A1A2E]">Projects</h1>
-          <p className="text-sm text-[#6B7280] mt-1">
+          <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
+          <p className="text-sm text-gray-500 mt-1">
             {projects.length} project{projects.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -137,8 +137,8 @@ export function ProjectsPage() {
               className={cn(
                 'px-4 py-2 min-h-[36px] rounded-full text-sm font-medium whitespace-nowrap transition-colors',
                 statusFilter === filter.value
-                  ? 'bg-[#0B1F3F] text-white'
-                  : 'bg-white text-[#6B7280] hover:bg-gray-100'
+                  ? 'bg-primary text-white'
+                  : 'bg-white text-gray-500 hover:bg-gray-100'
               )}
             >
               {filter.label}
@@ -243,7 +243,7 @@ export function ProjectsPage() {
       {/* FAB - Floating Action Button */}
       <button
         onClick={() => setShowCreateForm(true)}
-        className="fixed bottom-20 right-4 w-14 h-14 bg-[#FF6F00] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#e65100] active:scale-95 transition-all md:hidden z-20"
+        className="fixed bottom-20 right-4 w-14 h-14 bg-accent text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#e65100] active:scale-95 transition-all md:hidden z-20"
         style={{ boxShadow: '0 4px 12px rgba(255, 111, 0, 0.4)' }}
       >
         <Plus className="h-6 w-6" />

@@ -220,7 +220,7 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-[#1A1A2E] mb-6">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">
         {isEditing ? 'Edit Project' : 'Create New Project'}
       </h1>
       {formContent}

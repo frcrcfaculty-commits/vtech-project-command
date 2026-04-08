@@ -121,7 +121,7 @@ function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatu
             </button>
             <span className={cn(
               'mt-2 text-xs font-medium text-center max-w-[80px]',
-              expandedPhaseId === phase.id ? 'text-[#1A1A2E]' : 'text-[#6B7280]'
+              expandedPhaseId === phase.id ? 'text-gray-900' : 'text-gray-500'
             )}>
               {phase.phase_name}
             </span>
@@ -132,7 +132,7 @@ function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatu
             <div className={cn(
               'w-8 h-0.5 mx-1 mt-[-20px]',
               phases[index + 1]?.status === 'completed' || phase.status === 'completed'
-                ? 'bg-[#2E7D32]'
+                ? 'bg-success'
                 : 'bg-gray-200'
             )} />
           )}
@@ -221,7 +221,7 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-[#1A1A2E]">{phase.phase_name}</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{phase.phase_name}</h3>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="info">{phase.assigned_team?.name || 'Unassigned'}</Badge>
             </div>
@@ -240,19 +240,19 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Dates Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <span className="text-[#6B7280]">Planned Start</span>
+            <span className="text-gray-500">Planned Start</span>
             <p className="font-medium">{formatDate(phase.planned_start || '')}</p>
           </div>
           <div>
-            <span className="text-[#6B7280]">Planned End</span>
+            <span className="text-gray-500">Planned End</span>
             <p className="font-medium">{formatDate(phase.planned_end || '')}</p>
           </div>
           <div>
-            <span className="text-[#6B7280]">Actual Start</span>
+            <span className="text-gray-500">Actual Start</span>
             <p className="font-medium">{formatDate(phase.actual_start || '') || '-'}</p>
           </div>
           <div>
-            <span className="text-[#6B7280]">Actual End</span>
+            <span className="text-gray-500">Actual End</span>
             <p className="font-medium">{formatDate(phase.actual_end || '') || '-'}</p>
           </div>
 
@@ -261,13 +261,13 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Milestones & Hours */}
         <div className="flex items-center gap-6 text-sm">
           <div>
-            <span className="text-[#6B7280]">Milestones: </span>
+            <span className="text-gray-500">Milestones: </span>
             <span className="font-medium">
               {milestonesCount > 0 ? `${completedMilestones}/${milestonesCount} complete` : 'No milestones'}
             </span>
           </div>
           <div>
-            <span className="text-[#6B7280]">Hours: </span>
+            <span className="text-gray-500">Hours: </span>
             <span className="font-medium">0 work hours + 0 travel hours</span>
           </div>
         </div>
@@ -275,7 +275,7 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Notes */}
         {phase.notes && (
           <div className="pt-2 border-t">
-            <span className="text-sm text-[#6B7280]">Notes</span>
+            <span className="text-sm text-gray-500">Notes</span>
             <p className="text-sm mt-1">{phase.notes}</p>
           </div>
         )}

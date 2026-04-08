@@ -40,7 +40,7 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
     filtered.filter((t) => t.status === status);
 
   if (loading) {
-    return <div className="text-sm text-[#6B7280]">Loading board...</div>;
+    return <div className="text-sm text-gray-500">Loading board...</div>;
   }
 
   return (
@@ -71,7 +71,7 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
         {(filterProject || filterMember || filterPriority) && (
           <button
             onClick={() => { setFilterProject(''); setFilterMember(''); setFilterPriority(''); }}
-            className="px-3 py-2 text-xs text-[#6B7280] hover:text-[#1A1A2E]"
+            className="px-3 py-2 text-xs text-gray-500 hover:text-gray-900"
           >
             Clear filters
           </button>
@@ -86,8 +86,8 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
             <div key={col.key} className="flex-shrink-0 w-64">
               {/* Column header */}
               <div className="flex items-center justify-between mb-2 px-1">
-                <span className="text-sm font-semibold text-[#1A1A2E]">{col.label}</span>
-                <span className="flex items-center justify-center w-5 h-5 text-xs font-medium bg-gray-100 text-[#6B7280] rounded-full">
+                <span className="text-sm font-semibold text-gray-900">{col.label}</span>
+                <span className="flex items-center justify-center w-5 h-5 text-xs font-medium bg-gray-100 text-gray-500 rounded-full">
                   {colTasks.length}
                 </span>
               </div>
@@ -101,14 +101,14 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
                       key={task.id}
                       className="bg-white border border-gray-100 rounded-[8px] p-3 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
                     >
-                      <p className="text-sm font-medium text-[#1A1A2E] mb-1">{task.title}</p>
+                      <p className="text-sm font-medium text-gray-900 mb-1">{task.title}</p>
                       {task.project_name && (
-                        <p className="text-xs text-[#6B7280] mb-1.5">{task.project_name}</p>
+                        <p className="text-xs text-gray-500 mb-1.5">{task.project_name}</p>
                       )}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1">
                           {task.assignee_name && (
-                            <span className="text-xs text-[#6B7280]">{task.assignee_name}</span>
+                            <span className="text-xs text-gray-500">{task.assignee_name}</span>
                           )}
                           <Badge
                             status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
@@ -118,7 +118,7 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
 
                         </div>
                         {task.due_date && (
-                          <span className={cn('text-xs', overdue ? 'text-[#C62828]' : 'text-[#6B7280]')}>
+                          <span className={cn('text-xs', overdue ? 'text-danger' : 'text-gray-500')}>
                             {formatDate(task.due_date)}
                           </span>
                         )}
@@ -143,7 +143,7 @@ export function TaskBoard({ teamId, projects = [], teamMembers = [] }: TaskBoard
                   );
                 })}
                 {colTasks.length === 0 && (
-                  <div className="text-center py-4 text-xs text-[#6B7280] border border-dashed border-gray-200 rounded-[8px]">
+                  <div className="text-center py-4 text-xs text-gray-500 border border-dashed border-gray-200 rounded-[8px]">
                     No tasks
                   </div>
                 )}
