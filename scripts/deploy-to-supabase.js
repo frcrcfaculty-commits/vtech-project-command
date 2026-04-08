@@ -40,6 +40,19 @@ const log = {
   section: (msg) => console.log(`\n${colors.bright}${colors.cyan}${msg}${colors.reset}\n`),
 };
 
+// Load .env file
+const envPath = path.join(__dirname, '../.env');
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf-8');
+  envContent.split('\n').forEach(line => {
+    const [key, ...rest] = line.split('=');
+    if (key && !key.startsWith('#')) {
+      const value = rest.join('=').trim();
+      if (value) process.env[key.trim()] = value;
+    }
+  });
+}
+
 // Load environment variables
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
