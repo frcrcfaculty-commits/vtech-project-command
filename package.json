@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:supabase": "node scripts/deploy-to-supabase.js",
+    "deploy:supabase:schema": "node scripts/deploy-to-supabase.js --schema",
+    "deploy:supabase:polish": "node scripts/deploy-to-supabase.js --db-polish",
+    "deploy:supabase:seed": "node scripts/deploy-to-supabase.js --seed",
+    "deploy:supabase:all": "node scripts/deploy-to-supabase.js --all",
+    "deploy:supabase:dry-run": "node scripts/deploy-to-supabase.js --dry-run"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.0",
