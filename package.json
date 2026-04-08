@@ -15,7 +15,8 @@
     "deploy:supabase:all": "node scripts/deploy-to-supabase.js --all",
     "deploy:supabase:dry-run": "node scripts/deploy-to-supabase.js --dry-run",
     "export:db-polish": "node scripts/export-db-polish.js",
-    "export:db-polish:file": "node scripts/export-db-polish.js --output db-polish-export.sql"
+    "export:db-polish:file": "node scripts/export-db-polish.js --output db-polish-export.sql",
+    "test:supabase": "node scripts/supabase-upload-test.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.0",
