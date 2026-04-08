@@ -7,9 +7,10 @@ import { ITimeEntry } from '@/lib/types';
 interface DailySummaryProps {
   userId: string;
   onEdit?: (entry: ITimeEntry) => void;
+  onTotalChange?: (totals: { work: number, travel: number }) => void;
 }
 
-export function DailySummary({ userId, onEdit }: DailySummaryProps) {
+export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProps) {
   const { entries, loading, fetchToday, deleteEntry } = useTimeEntries();
 
   useEffect(() => {
@@ -19,6 +20,13 @@ export function DailySummary({ userId, onEdit }: DailySummaryProps) {
   const totalWork = entries.reduce((sum, e) => sum + Number(e.work_hours), 0);
   const totalTravel = entries.reduce((sum, e) => sum + Number(e.travel_hours), 0);
   const totalHours = totalWork + totalTravel;
+
+  // Notify parent of totals whenever entries change
+  useEffect(() => {
+    if (onTotalChange) {
+      onTotalChange({ work: totalWork, travel: totalTravel });
+    }
+  }, [totalWork, totalTravel, onTotalChange]);
 
   const getSummaryColor = () => {
     if (totalHours >= 8) return 'text-green-600 bg-green-50 border-green-100';

@@ -96,7 +96,7 @@ const HourStepper = ({ value, onChange, label, max }: {
 
 // --- Main Form Component ---
 
-export function TimeEntryForm({ userId }: { userId: string }) {
+export function TimeEntryForm({ userId, onTotalChange }: { userId: string, onTotalChange?: (totals: { work: number, travel: number }) => void }) {
   const [searchParams] = useSearchParams();
   const { createEntry, fetchProjects, fetchPhases, fetchTasks } = useTimeEntries();
 
@@ -189,6 +189,10 @@ export function TimeEntryForm({ userId }: { userId: string }) {
     } else {
       localStorage.setItem('vtech_last_city', formData.city);
       setSuccess(true);
+      // Notify parent of updated totals
+      if (onTotalChange) {
+        onTotalChange({ work: formData.workHours, travel: formData.travelHours });
+      }
       setTimeout(() => {
         setSuccess(false);
         setFormData(prev => ({
