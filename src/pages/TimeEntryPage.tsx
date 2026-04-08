@@ -100,10 +100,10 @@ export function TimeEntryPage() {
           </div>
         )}
 
-        {activeTab === 'verify' && isTeamLead && (
+        {activeTab === 'verify' && isTeamLead && user.team_id && (
           <div>
             <h2 className="text-lg font-semibold mb-4">Verify Team Entries</h2>
-            <VerificationList teamId={user.team_id} />
+            <VerificationList teamId={user.team_id} verifierId={user.id} />
           </div>
         )}
       </div>
