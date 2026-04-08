@@ -1,0 +1,98 @@
+name: Deploy to Supabase
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release/v1
+    paths:
+      - 'sql/db_polish.sql'
+      - '.github/workflows/deploy-supabase.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy Database Migration
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: release/v1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Execute Database Migration
+        run: |
+          cat > /tmp/deploy.js << 'EOF'
+          import fs from 'fs';
+          import path from 'path';
+          import { createClient } from '@supabase/supabase-js';
+          
+          const supabaseUrl = process.env.SUPABASE_URL;
+          const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+          
+          if (!supabaseUrl || !supabaseKey) {
+            console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+            process.exit(1);
+          }
+          
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          const sql = fs.readFileSync('./sql/db_polish.sql', 'utf-8');
+          
+          console.log('Deploying database migration...');
+          console.log('Project:', supabaseUrl);
+          
+          // Execute via query
+          supabase.rpc('exec_sql', { sql })
+            .then(({ data, error }) => {
+              if (error) throw error;
+              console.log('✅ Deployment successful');
+              process.exit(0);
+            })
+            .catch(err => {
+              console.error('❌ Deployment failed:', err.message);
+              process.exit(1);
+            });
+          EOF
+          
+          node /tmp/deploy.js
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Verify Deployment
+        run: npm run test:supabase
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+      - name: Create Success Notification
+        if: success()
+        run: |
+          cat > /tmp/notification.json << 'EOF'
+          {
+            "status": "success",
+            "message": "Database migration deployed successfully to Supabase",
+            "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+            "commit": "${{ github.sha }}",
+            "branch": "${{ github.ref }}"
+          }
+          EOF
+          cat /tmp/notification.json
+
+      - name: Report Failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed"
+          echo "Check the logs above for details"
+          exit 1
