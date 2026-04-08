@@ -17,7 +17,8 @@
     "export:db-polish": "node scripts/export-db-polish.js",
     "export:db-polish:file": "node scripts/export-db-polish.js --output db-polish-export.sql",
     "test:supabase": "node scripts/supabase-upload-test.js",
-    "deploy:mock": "node scripts/supabase-mock-deploy.js"
+    "deploy:mock": "node scripts/supabase-mock-deploy.js",
+    "upload:interactive": "node scripts/interactive-upload.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.0",
