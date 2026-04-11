@@ -13,18 +13,28 @@ interface AuthContextValue {
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-const URL = import.meta.env.VITE_SUPABASE_URL as string;
-const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const BASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 async function fetchProfile(userId: string, token: string): Promise<IUser | null> {
   try {
-    const r = await fetch(`${URL}/rest/v1/users?id=eq.${userId}&select=*`, {
-      headers: { apikey: KEY, Authorization: `Bearer ${token}` },
+    const r = await fetch(`${BASE_URL}/rest/v1/users?id=eq.${userId}&select=*`, {
+      headers: { apikey: ANON_KEY, Authorization: `Bearer ${token}` },
     });
     if (!r.ok) return null;
     const rows = await r.json();
     return rows?.[0] ?? null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
+}
+
+/** Race a promise against a timeout – always resolves */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  return Promise.race([
+    promise,
+    new Promise<null>((resolve) => setTimeout(() => resolve(null), ms)),
+  ]);
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -33,22 +43,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user && mounted) {
-        const p = await fetchProfile(session.user.id, session.access_token);
-        if (mounted) setUser(p);
+
+    // Hard timeout: if getSession hangs, we still show the login page after 3s
+    const fallbackTimer = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn('Auth init timed out — showing login');
+        setLoading(false);
+      }
+    }, 3000);
+
+    (async () => {
+      try {
+        const result = await withTimeout(supabase.auth.getSession(), 2500);
+        const session = result?.data?.session ?? null;
+        if (session?.user && mounted) {
+          const p = await fetchProfile(session.user.id, session.access_token);
+          if (mounted) setUser(p);
+        }
+      } catch (err) {
+        console.warn('Auth init error:', err);
       }
       if (mounted) setLoading(false);
-    });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_e, session) => {
-      if (!mounted) return;
-      if (session?.user) {
-        const p = await fetchProfile(session.user.id, session.access_token);
-        if (mounted) setUser(p);
-      } else setUser(null);
-    });
-    return () => { mounted = false; subscription.unsubscribe(); };
-  }, []);
+    })();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (_e, session) => {
+        if (!mounted) return;
+        if (session?.user) {
+          const p = await fetchProfile(session.user.id, session.access_token);
+          if (mounted) setUser(p);
+        } else {
+          setUser(null);
+        }
+      },
+    );
+
+    return () => {
+      mounted = false;
+      clearTimeout(fallbackTimer);
+      subscription.unsubscribe();
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const login = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -59,15 +94,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = async () => { await supabase.auth.signOut(); setUser(null); };
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   return (
-    <AuthContext.Provider value={{
-      user, loading, login, logout,
-      isOwner: user?.role === 'owner',
-      isTeamLead: user?.role === 'team_lead',
-      isFieldStaff: user?.role === 'field_staff',
-    }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        isOwner: user?.role === 'owner',
+        isTeamLead: user?.role === 'team_lead',
+        isFieldStaff: user?.role === 'field_staff',
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
 }
 
