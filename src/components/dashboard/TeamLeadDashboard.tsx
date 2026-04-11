@@ -24,9 +24,9 @@ const mockTasksDueThisWeek = [
 ];
 
 const statusBadge: Record<string, { label: string; bg: string; text: string }> = {
-  todo: { label: 'To Do', bg: 'bg-gray-100', text: 'text-gray-600' },
-  in_progress: { label: 'In Progress', bg: 'bg-blue-50', text: 'text-blue-700' },
-  done: { label: 'Done', bg: 'bg-green-50', text: 'text-green-700' },
+  todo: { label: 'To Do', bg: 'bg-white/8', text: 'text-white/60' },
+  in_progress: { label: 'In Progress', bg: 'bg-blue-500/10', text: 'text-blue-700' },
+  done: { label: 'Done', bg: 'bg-green-500/10', text: 'text-green-700' },
 };
 
 export function TeamLeadDashboard() {
@@ -38,7 +38,7 @@ export function TeamLeadDashboard() {
       value: stats?.activeProjects ? Math.round(stats.activeProjects * 2.5) : 18, 
       trend: stats?.trends.projects || 0, 
       icon: ClipboardList, 
-      accent: 'var(--color-secondary,#1E88E5)' 
+      accent: 'var(--color-secondary,#DA2E8F)' 
     },
     { 
       label: 'Unverified Entries', 
@@ -80,7 +80,7 @@ export function TeamLeadDashboard() {
           return (
             <div
               key={kpi.label}
-              className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 relative overflow-hidden"
+              className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 relative overflow-hidden"
               style={{ borderLeftWidth: 4, borderLeftColor: kpi.accent }}
             >
               <Icon className="absolute -right-2 -top-2 w-16 h-16 opacity-[0.06]" strokeWidth={1.2} />
@@ -94,7 +94,7 @@ export function TeamLeadDashboard() {
                 <span className={isGood ? 'text-[var(--color-success,#2E7D32)]' : 'text-[var(--color-danger,#C62828)]'}>
                   {Math.abs(kpi.trend)}%
                 </span>
-                <span className="text-gray-400 ml-1">vs last month</span>
+                <span className="text-white/40 ml-1">vs last month</span>
               </div>
             </div>
           );
@@ -102,22 +102,22 @@ export function TeamLeadDashboard() {
       </section>
 
       {/* My Team Members */}
-      <section className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 mb-6">
-        <div className="p-4 border-b border-gray-100">
+      <section className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 mb-6">
+        <div className="p-4 border-b border-white/8">
           <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">My Team Members</h3>
         </div>
-        <ul className="divide-y divide-gray-100">
+        <ul className="divide-y divide-white/8">
           {mockTeamMembers.map((member, i) => (
             <li
               key={i}
               className={cn(
                 'flex items-center gap-4 p-4 transition-colors',
-                member.noEntryDays >= 2 && 'bg-red-50',
-                member.noEntryDays === 1 && 'bg-yellow-50',
+                member.noEntryDays >= 2 && 'bg-red-500/10',
+                member.noEntryDays === 1 && 'bg-yellow-500/10',
               )}
             >
               {/* Avatar */}
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--color-primary,#0B1F3F)] flex items-center justify-center text-white text-sm font-bold">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--color-primary,#723B8F)] flex items-center justify-center text-white text-sm font-bold">
                 {initials(member.name)}
               </div>
 
@@ -126,7 +126,7 @@ export function TeamLeadDashboard() {
                 <p className="font-medium text-[var(--color-text,#1A1A2E)] text-sm truncate">
                   {member.name}
                 </p>
-                <p className="text-xs text-gray-500 truncate">
+                <p className="text-xs text-white/50 truncate">
                   {member.currentTask ?? 'No active task'}
                 </p>
               </div>
@@ -134,7 +134,7 @@ export function TeamLeadDashboard() {
               {/* Hours / Warning */}
               <div className="flex-shrink-0 text-right">
                 {member.hoursToday > 0 ? (
-                  <span className="text-sm font-medium text-gray-800">{member.hoursToday}h today</span>
+                  <span className="text-sm font-medium text-white/80">{member.hoursToday}h today</span>
                 ) : member.noEntryDays >= 2 ? (
                   <span className="text-xs font-medium text-red-600">🔴 No entries for {member.noEntryDays} days</span>
                 ) : (
@@ -147,15 +147,15 @@ export function TeamLeadDashboard() {
       </section>
 
       {/* Tasks Due This Week */}
-      <section className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100">
-        <div className="p-4 border-b border-gray-100">
+      <section className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8">
+        <div className="p-4 border-b border-white/8">
           <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Tasks Due This Week</h3>
         </div>
 
         {/* Desktop table / Mobile card list */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 uppercase font-medium">
+          <table className="w-full text-left text-sm text-white/60">
+            <thead className="bg-white/5 text-white/70 uppercase font-medium">
               <tr>
                 <th className="px-4 py-3">Task</th>
                 <th className="px-4 py-3">Project</th>
@@ -164,12 +164,12 @@ export function TeamLeadDashboard() {
                 <th className="px-4 py-3">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-white/8">
               {mockTasksDueThisWeek.map((task) => {
                 const badge = statusBadge[task.status] ?? statusBadge.todo;
                 return (
-                  <tr key={task.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-4 py-3 font-medium text-gray-800">{task.title}</td>
+                  <tr key={task.id} className="hover:bg-white/5 transition-colors">
+                    <td className="px-4 py-3 font-medium text-white/80">{task.title}</td>
                     <td className="px-4 py-3">{task.project}</td>
                     <td className="px-4 py-3">{task.assignee}</td>
                     <td className="px-4 py-3">{new Date(task.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</td>
@@ -186,15 +186,15 @@ export function TeamLeadDashboard() {
         </div>
 
         {/* Mobile card list */}
-        <div className="md:hidden divide-y divide-gray-100">
+        <div className="md:hidden divide-y divide-white/8">
           {mockTasksDueThisWeek.map((task) => {
             const badge = statusBadge[task.status] ?? statusBadge.todo;
             return (
               <div key={task.id} className="p-4">
-                <p className="font-medium text-gray-800 text-sm">{task.title}</p>
-                <p className="text-xs text-gray-500 mt-1">{task.project} · {task.assignee}</p>
+                <p className="font-medium text-white/80 text-sm">{task.title}</p>
+                <p className="text-xs text-white/50 mt-1">{task.project} · {task.assignee}</p>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-white/50">
                     Due: {new Date(task.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                   </span>
                   <span className={cn('px-2 py-1 rounded-full text-xs font-semibold', badge.bg, badge.text)}>
@@ -207,10 +207,10 @@ export function TeamLeadDashboard() {
         </div>
 
         {/* Footer CTA */}
-        <div className="p-4 border-t border-gray-100">
+        <div className="p-4 border-t border-white/8">
           <Link
             to="/team"
-            className="inline-flex items-center text-sm font-medium text-[var(--color-secondary,#1E88E5)] hover:underline"
+            className="inline-flex items-center text-sm font-medium text-[var(--color-secondary,#DA2E8F)] hover:underline"
           >
             Verify Time Entries <ArrowRight className="w-4 h-4 ml-1" />
           </Link>

@@ -13,36 +13,37 @@ import {
   Lightbulb,
 } from 'lucide-react';
 
-// ─── Colors ────────────────────────────────────────────────────────────────
+// ─── Colors (dark glass theme) ──────────────────────────────────────────────
 export const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
-  active:     { bg: '#E3F2FD', text: '#1565C0', dot: '#1E88E5' },
-  on_hold:    { bg: '#FFF3E0', text: '#E65100', dot: '#FF6F00' },
-  completed:  { bg: '#E8F5E9', text: '#2E7D32', dot: '#2E7D32' },
-  cancelled:  { bg: '#FFEBEE', text: '#C62828', dot: '#C62828' },
-  pending:    { bg: '#F5F5F5', text: '#616161', dot: '#9E9E9E' },
-  in_progress:{ bg: '#E3F2FD', text: '#1565C0', dot: '#1E88E5' },
-  review:     { bg: '#FFF8E1', text: '#F9A825', dot: '#F9A825' },
-  blocked:    { bg: '#FFEBEE', text: '#C62828', dot: '#C62828' },
-  draft:      { bg: '#F5F5F5', text: '#616161', dot: '#9E9E9E' },
-  submitted:  { bg: '#E8F5E9', text: '#2E7D32', dot: '#2E7D32' },
-  approved:   { bg: '#E8F5E9', text: '#2E7D32', dot: '#2E7D32' },
-  rejected:   { bg: '#FFEBEE', text: '#C62828', dot: '#C62828' },
+  active:     { bg: 'rgba(114, 59, 143, 0.20)', text: '#C084FC', dot: '#A855F7' },
+  on_hold:    { bg: 'rgba(251, 191, 36, 0.15)', text: '#FCD34D', dot: '#FBBF24' },
+  completed:  { bg: 'rgba(52, 211, 153, 0.15)', text: '#6EE7B7', dot: '#34D399' },
+  cancelled:  { bg: 'rgba(248, 113, 113, 0.15)', text: '#FCA5A5', dot: '#F87171' },
+  pending:    { bg: 'rgba(255, 255, 255, 0.06)', text: 'rgba(255,255,255,0.5)', dot: 'rgba(255,255,255,0.3)' },
+  in_progress:{ bg: 'rgba(218, 46, 143, 0.18)', text: '#F9A8D4', dot: '#DA2E8F' },
+  review:     { bg: 'rgba(251, 191, 36, 0.15)', text: '#FCD34D', dot: '#FBBF24' },
+  blocked:    { bg: 'rgba(248, 113, 113, 0.15)', text: '#FCA5A5', dot: '#F87171' },
+  draft:      { bg: 'rgba(255, 255, 255, 0.06)', text: 'rgba(255,255,255,0.5)', dot: 'rgba(255,255,255,0.3)' },
+  submitted:  { bg: 'rgba(52, 211, 153, 0.15)', text: '#6EE7B7', dot: '#34D399' },
+  approved:   { bg: 'rgba(52, 211, 153, 0.15)', text: '#6EE7B7', dot: '#34D399' },
+  rejected:   { bg: 'rgba(248, 113, 113, 0.15)', text: '#FCA5A5', dot: '#F87171' },
   // Compatibility
-  not_started: { bg: '#F5F5F5', text: '#616161', dot: '#9E9E9E' },
-  todo:        { bg: '#F5F5F5', text: '#616161', dot: '#9E9E9E' },
-  done:        { bg: '#E8F5E9', text: '#2E7D32', dot: '#2E7D32' },
-  overdue:     { bg: '#FFEBEE', text: '#C62828', dot: '#C62828' },
+  not_started: { bg: 'rgba(255, 255, 255, 0.06)', text: 'rgba(255,255,255,0.5)', dot: 'rgba(255,255,255,0.3)' },
+  todo:        { bg: 'rgba(255, 255, 255, 0.06)', text: 'rgba(255,255,255,0.5)', dot: 'rgba(255,255,255,0.3)' },
+  done:        { bg: 'rgba(52, 211, 153, 0.15)', text: '#6EE7B7', dot: '#34D399' },
+  overdue:     { bg: 'rgba(248, 113, 113, 0.15)', text: '#FCA5A5', dot: '#F87171' },
+  planning:    { bg: 'rgba(114, 59, 143, 0.18)', text: '#C084FC', dot: '#A855F7' },
 };
 
 export const PHASE_STATUS_COLORS = STATUS_COLORS;
 
 
 export const PRIORITY_COLORS: Record<string, { bg: string; text: string }> = {
-  low:      { bg: '#E8F5E9', text: '#2E7D32' },
-  medium:   { bg: '#FFF8E1', text: '#F57F17' },
-  high:     { bg: '#FFF3E0', text: '#E65100' },
-  critical: { bg: '#FFEBEE', text: '#C62828' },
-  urgent:   { bg: '#FFEBEE', text: '#C62828' },
+  low:      { bg: 'rgba(52, 211, 153, 0.15)', text: '#6EE7B7' },
+  medium:   { bg: 'rgba(251, 191, 36, 0.15)', text: '#FCD34D' },
+  high:     { bg: 'rgba(249, 115, 22, 0.18)', text: '#FDBA74' },
+  critical: { bg: 'rgba(248, 113, 113, 0.18)', text: '#FCA5A5' },
+  urgent:   { bg: 'rgba(248, 113, 113, 0.18)', text: '#FCA5A5' },
 };
 
 // ─── Teams ─────────────────────────────────────────────────────────────────

@@ -1,4 +1,3 @@
-import { type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +19,7 @@ export function Select({
   label, options, value, onChange, placeholder, error, required, disabled, className,
 }: SelectProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       {label && (
         <label className="text-sm font-medium text-[var(--color-text)]">
           {label}{required && <span className="text-[var(--color-danger)] ml-1">*</span>}
@@ -33,11 +32,12 @@ export function Select({
           disabled={disabled}
           required={required}
           className={cn(
-            'h-10 w-full appearance-none rounded-[var(--radius-input)] border bg-white px-3 pr-10 text-sm text-[var(--color-text)]',
-            'focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)] focus:border-transparent',
-            'transition-colors duration-150 cursor-pointer',
-            error ? 'border-[var(--color-danger)]' : 'border-gray-200 hover:border-gray-300',
-            disabled && 'opacity-50 cursor-not-allowed',
+            'h-11 w-full appearance-none rounded-[var(--radius-input)] px-4 pr-10 text-sm text-[var(--color-text)]',
+            'glass-input cursor-pointer',
+            'focus:outline-none focus:ring-2 focus:ring-[var(--color-secondary)]/50 focus:border-white/25',
+            'transition-all duration-200',
+            error ? 'border-[var(--color-danger)]' : 'hover:border-white/20 hover:bg-white/8',
+            disabled && 'opacity-40 cursor-not-allowed',
             !value && 'text-[var(--color-text-secondary)]',
             className
           )}

@@ -121,7 +121,7 @@ function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatu
             </button>
             <span className={cn(
               'mt-2 text-xs font-medium text-center max-w-[80px]',
-              expandedPhaseId === phase.id ? 'text-gray-900' : 'text-gray-500'
+              expandedPhaseId === phase.id ? 'text-white/90' : 'text-white/50'
             )}>
               {phase.phase_name}
             </span>
@@ -133,7 +133,7 @@ function HorizontalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatu
               'w-8 h-0.5 mx-1 mt-[-20px]',
               phases[index + 1]?.status === 'completed' || phase.status === 'completed'
                 ? 'bg-success'
-                : 'bg-gray-200'
+                : 'bg-white/10'
             )} />
           )}
         </div>
@@ -151,7 +151,7 @@ function VerticalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatusC
             onClick={() => onExpand(phase.id)}
             className={cn(
               'w-full flex items-center gap-3 p-3 rounded-lg transition-colors',
-              expandedPhaseId === phase.id ? 'bg-blue-50' : 'bg-gray-50 hover:bg-gray-100',
+              expandedPhaseId === phase.id ? 'bg-blue-500/10' : 'bg-white/5 hover:bg-white/8',
               canEdit && 'cursor-pointer'
             )}
           >
@@ -161,9 +161,9 @@ function VerticalStepper({ phases, expandedPhaseId, canEdit, onExpand, onStatusC
             <Badge status={phase.status as any} label={phase.status.replace('_', ' ')} />
 
             {expandedPhaseId === phase.id ? (
-              <ChevronUp className="h-4 w-4 text-gray-400" />
+              <ChevronUp className="h-4 w-4 text-white/40" />
             ) : (
-              <ChevronDown className="h-4 w-4 text-gray-400" />
+              <ChevronDown className="h-4 w-4 text-white/40" />
             )}
           </button>
         </div>
@@ -216,12 +216,12 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
   ];
 
   return (
-    <Card className="mt-4 border-l-4 border-l-[#1E88E5]">
+    <Card className="mt-4 border-l-4 border-l-[#DA2E8F]">
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{phase.phase_name}</h3>
+            <h3 className="text-lg font-semibold text-white/90">{phase.phase_name}</h3>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="info">{phase.assigned_team?.name || 'Unassigned'}</Badge>
             </div>
@@ -240,19 +240,19 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Dates Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <span className="text-gray-500">Planned Start</span>
+            <span className="text-white/50">Planned Start</span>
             <p className="font-medium">{formatDate(phase.planned_start || '')}</p>
           </div>
           <div>
-            <span className="text-gray-500">Planned End</span>
+            <span className="text-white/50">Planned End</span>
             <p className="font-medium">{formatDate(phase.planned_end || '')}</p>
           </div>
           <div>
-            <span className="text-gray-500">Actual Start</span>
+            <span className="text-white/50">Actual Start</span>
             <p className="font-medium">{formatDate(phase.actual_start || '') || '-'}</p>
           </div>
           <div>
-            <span className="text-gray-500">Actual End</span>
+            <span className="text-white/50">Actual End</span>
             <p className="font-medium">{formatDate(phase.actual_end || '') || '-'}</p>
           </div>
 
@@ -261,13 +261,13 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Milestones & Hours */}
         <div className="flex items-center gap-6 text-sm">
           <div>
-            <span className="text-gray-500">Milestones: </span>
+            <span className="text-white/50">Milestones: </span>
             <span className="font-medium">
               {milestonesCount > 0 ? `${completedMilestones}/${milestonesCount} complete` : 'No milestones'}
             </span>
           </div>
           <div>
-            <span className="text-gray-500">Hours: </span>
+            <span className="text-white/50">Hours: </span>
             <span className="font-medium">0 work hours + 0 travel hours</span>
           </div>
         </div>
@@ -275,7 +275,7 @@ function PhaseDetail({ phase, canEdit, onStatusChange, isUpdating }: PhaseDetail
         {/* Notes */}
         {phase.notes && (
           <div className="pt-2 border-t">
-            <span className="text-sm text-gray-500">Notes</span>
+            <span className="text-sm text-white/50">Notes</span>
             <p className="text-sm mt-1">{phase.notes}</p>
           </div>
         )}

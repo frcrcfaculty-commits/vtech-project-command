@@ -66,7 +66,7 @@ export function MyTasksPage() {
     <main className="max-w-2xl mx-auto px-4 py-6">
       <header className="mb-6">
         <h1 className="text-xl font-bold text-primary">My Tasks</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Your assigned work at a glance</p>
+        <p className="text-sm text-white/50 mt-0.5">Your assigned work at a glance</p>
       </header>
 
       {loading && tasks.length === 0 ? (
@@ -75,9 +75,9 @@ export function MyTasksPage() {
         </div>
       ) : tasks.length === 0 ? (
         <div className="text-center py-16">
-          <CheckCircle2 size={48} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-sm font-medium text-gray-900">No tasks assigned to you</p>
-          <p className="text-xs text-gray-500 mt-1">Check with your team lead.</p>
+          <CheckCircle2 size={48} className="mx-auto text-white/30 mb-3" />
+          <p className="text-sm font-medium text-white/90">No tasks assigned to you</p>
+          <p className="text-xs text-white/50 mt-1">Check with your team lead.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
@@ -113,7 +113,7 @@ export function MyTasksPage() {
                   <TaskCard
                     key={task.id}
                     task={task}
-                    borderColor="border-l-[#1E88E5]"
+                    borderColor="border-l-[#DA2E8F]"
                     onStatusCycle={() => cycleStatus(task)}
                     onLogTime={() => navigate(`/time?project=${task.project_id}&phase=${task.phase_id}&task=${task.id}`)}
                   />
@@ -125,7 +125,7 @@ export function MyTasksPage() {
           {/* Upcoming */}
           {upcoming.length > 0 && (
             <section>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-500 mb-3">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-white/50 mb-3">
                 Upcoming ({upcoming.length})
               </h2>
               <div className="flex flex-col gap-2">
@@ -150,7 +150,7 @@ export function MyTasksPage() {
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="min-h-[44px] px-6 py-2.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 transition-colors"
+          className="min-h-[44px] px-6 py-2.5 text-sm text-white/50 bg-white/5 border border-white/10 rounded-lg hover:bg-white/5 active:bg-white/8 disabled:opacity-50 transition-colors"
         >
           {refreshing ? 'Refreshing...' : '↻ Tap to refresh'}
         </button>
@@ -169,10 +169,10 @@ interface TaskCardProps {
 function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps) {
   const overdue = task.due_date && isOverdue(task.due_date) && task.status !== 'done';
   const statusColors: Record<string, string> = {
-    todo: 'bg-gray-100 text-gray-500',
-    in_progress: 'bg-blue-50 text-secondary',
-    done: 'bg-green-50 text-success',
-    blocked: 'bg-red-50 text-danger',
+    todo: 'bg-white/8 text-white/50',
+    in_progress: 'bg-blue-500/10 text-secondary',
+    done: 'bg-green-500/10 text-success',
+    blocked: 'bg-red-500/10 text-danger',
   };
 
   return (
@@ -180,21 +180,21 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
       {/* Project + Phase */}
       <div className="flex items-center gap-2 mb-1">
         {task.project_name && (
-          <span className="text-xs text-gray-500">{task.project_name}</span>
+          <span className="text-xs text-white/50">{task.project_name}</span>
         )}
         {task.phase_name && (
-          <Badge className="text-[10px] px-1.5 py-0 bg-gray-100 text-gray-500">
+          <Badge className="text-[10px] px-1.5 py-0 bg-white/8 text-white/50">
             {task.phase_name}
           </Badge>
         )}
       </div>
 
       {/* Title */}
-      <p className="text-sm font-semibold text-gray-900 mb-1">{task.title}</p>
+      <p className="text-sm font-semibold text-white/90 mb-1">{task.title}</p>
 
       {/* Assigned by */}
       {task.assigned_by && (
-        <p className="text-xs text-gray-500 mb-2">Assigned by {task.assigned_by}</p>
+        <p className="text-xs text-white/50 mb-2">Assigned by {task.assigned_by}</p>
       )}
 
       {/* Priority + Due date row */}
@@ -206,7 +206,7 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
         />
 
         {task.due_date && (
-          <span className={cn('text-xs font-medium', overdue ? 'text-danger' : 'text-gray-500')}>
+          <span className={cn('text-xs font-medium', overdue ? 'text-danger' : 'text-white/50')}>
             {formatRelativeDate(task.due_date)}
           </span>
         )}
@@ -219,7 +219,7 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
           className={cn(
             'flex-1 min-h-[44px] py-2.5 rounded-lg text-sm font-medium transition-colors',
             task.status === 'done'
-              ? 'bg-gray-100 text-gray-500'
+              ? 'bg-white/8 text-white/50'
               : 'bg-success text-white hover:bg-[#256427] active:bg-[#1b4e1d]'
           )}
         >
@@ -235,7 +235,7 @@ function TaskCard({ task, borderColor, onStatusCycle, onLogTime }: TaskCardProps
         </Button>
         <button
           onClick={onLogTime}
-          className="min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-500 hover:text-gray-900 active:bg-gray-100 rounded-lg transition-colors"
+          className="min-h-[44px] min-w-[44px] flex items-center justify-center text-white/50 hover:text-white/90 active:bg-white/8 rounded-lg transition-colors"
           aria-label="More options"
         >
           <ChevronRight size={18} />

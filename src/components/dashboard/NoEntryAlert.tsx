@@ -13,7 +13,7 @@ export function NoEntryAlert() {
   }
 
   return (
-    <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6 shadow-sm transition-all duration-300">
+    <div className="bg-orange-500/10 border border-orange-200 rounded-lg p-4 mb-6 shadow-sm transition-all duration-300">
       <div 
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setExpanded(!expanded)}
@@ -32,11 +32,11 @@ export function NoEntryAlert() {
               <li 
                 key={i} 
                 className={`flex justify-between items-center text-sm p-2 rounded-md ${
-                  member.consecutiveDays >= 2 ? 'bg-red-50 text-red-700 font-medium' : 'bg-white text-gray-700'
+                  member.consecutiveDays >= 2 ? 'bg-red-500/10 text-red-700 font-medium' : 'bg-white/5 text-white/70'
                 }`}
               >
                 <span>
-                  <span className="font-semibold">{member.name}</span> <span className="text-gray-500 text-xs">({member.team})</span>
+                  <span className="font-semibold">{member.name}</span> <span className="text-white/50 text-xs">({member.team})</span>
                 </span>
                 {member.consecutiveDays >= 2 && (
                   <span className="text-xs text-red-600 flex items-center">

@@ -112,13 +112,13 @@ export function ProjectDetailPage() {
     <div className="p-4 md:p-6 max-w-6xl mx-auto">
       <button
         onClick={() => navigate('/projects')}
-        className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-4"
+        className="flex items-center gap-2 text-white/50 hover:text-white/90 mb-4"
       >
         <ArrowLeft className="h-4 w-4" />
         <span className="text-sm">Back to Projects</span>
       </button>
 
-      <div className="flex gap-1 border-b border-gray-200 mb-6">
+      <div className="flex gap-1 border-b border-white/10 mb-6">
         {(['overview', 'phases', 'team'] as TabType[]).map(tab => (
           <button
             key={tab}
@@ -127,7 +127,7 @@ export function ProjectDetailPage() {
               'px-4 py-2 text-sm font-medium border-b-2 -mb-px capitalize',
               activeTab === tab
                 ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-gray-900'
+                : 'border-transparent text-white/50 hover:text-white/90'
             )}
           >
             {tab}
@@ -238,8 +238,8 @@ function OverviewTab({
       <Card>
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">{project.name}</h1>
-            <p className="text-gray-500">{project.client_name}</p>
+            <h1 className="text-2xl font-bold text-white/90 mb-1">{project.name}</h1>
+            <p className="text-white/50">{project.client_name}</p>
           </div>
           <Badge
             variant={
@@ -254,7 +254,7 @@ function OverviewTab({
 
         </div>
 
-        <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
+        <div className="flex flex-wrap gap-4 text-sm text-white/50 mb-4">
           <div className="flex items-center gap-1">
             <span className="text-base">{getProjectTypeIcon(project.project_type)}</span>
             <span>{projectType?.label || project.project_type}</span>
@@ -320,28 +320,28 @@ function OverviewTab({
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="text-center">
           <Clock className="h-6 w-6 mx-auto text-secondary mb-2" />
-          <p className="text-2xl font-bold text-gray-900">{formatHours(totalWorkHours)}</p>
-          <p className="text-xs text-gray-500">Work Hours</p>
+          <p className="text-2xl font-bold text-white/90">{formatHours(totalWorkHours)}</p>
+          <p className="text-xs text-white/50">Work Hours</p>
         </Card>
         <Card className="text-center">
           <Clock className="h-6 w-6 mx-auto text-accent mb-2" />
-          <p className="text-2xl font-bold text-gray-900">{formatHours(totalTravelHours)}</p>
-          <p className="text-xs text-gray-500">Travel Hours</p>
+          <p className="text-2xl font-bold text-white/90">{formatHours(totalTravelHours)}</p>
+          <p className="text-xs text-white/50">Travel Hours</p>
         </Card>
         <Card className="text-center">
           <Calendar className="h-6 w-6 mx-auto text-success mb-2" />
-          <p className="text-2xl font-bold text-gray-900">{daysElapsed}</p>
-          <p className="text-xs text-gray-500">Days Elapsed</p>
+          <p className="text-2xl font-bold text-white/90">{daysElapsed}</p>
+          <p className="text-xs text-white/50">Days Elapsed</p>
         </Card>
         <Card className="text-center">
           <CheckCircle className="h-6 w-6 mx-auto text-primary mb-2" />
-          <p className="text-2xl font-bold text-gray-900">{completionPercentage}%</p>
-          <p className="text-xs text-gray-500">Completion</p>
+          <p className="text-2xl font-bold text-white/90">{completionPercentage}%</p>
+          <p className="text-xs text-white/50">Completion</p>
         </Card>
       </div>
 
       <Card>
-        <h3 className="font-semibold text-gray-900 mb-3">Notes</h3>
+        <h3 className="font-semibold text-white/90 mb-3">Notes</h3>
         <Textarea
           value={projectNotes}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setProjectNotes(e.target.value)}
@@ -411,14 +411,14 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
   return (
     <div className="space-y-6">
       <Card>
-        <h3 className="font-semibold text-gray-900 mb-4">Phase Assignments</h3>
+        <h3 className="font-semibold text-white/90 mb-4">Phase Assignments</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left">
-                <th className="pb-2 font-medium text-gray-500">Phase</th>
-                <th className="pb-2 font-medium text-gray-500">Team</th>
-                <th className="pb-2 font-medium text-gray-500">Hours</th>
+                <th className="pb-2 font-medium text-white/50">Phase</th>
+                <th className="pb-2 font-medium text-white/50">Team</th>
+                <th className="pb-2 font-medium text-white/50">Hours</th>
               </tr>
             </thead>
             <tbody>
@@ -439,7 +439,7 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
                       <Badge variant="pending">{phase.assigned_team?.name || 'Unassigned'}</Badge>
                     )}
                   </td>
-                  <td className="py-3 text-gray-500">
+                  <td className="py-3 text-white/50">
                     {teamHoursData.find(t => t.phaseNumber === (phase.phase_order || 0))?.hours || 0}h
                   </td>
                 </tr>
@@ -451,22 +451,22 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
       </Card>
 
       <Card>
-        <h3 className="font-semibold text-gray-900 mb-4">Team Members</h3>
+        <h3 className="font-semibold text-white/90 mb-4">Team Members</h3>
         <div className="space-y-3">
           {usersData.map((user, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-medium">
                   {user.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <div>
                   <p className="font-medium text-sm">{user.name}</p>
-                  <p className="text-xs text-gray-500">{user.team}</p>
+                  <p className="text-xs text-white/50">{user.team}</p>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium">{user.workHours}h work</p>
-                <p className="text-xs text-gray-500">{user.travelHours}h travel</p>
+                <p className="text-xs text-white/50">{user.travelHours}h travel</p>
               </div>
             </div>
           ))}

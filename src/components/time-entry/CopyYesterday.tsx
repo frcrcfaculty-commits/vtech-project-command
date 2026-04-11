@@ -40,7 +40,7 @@ export function CopyYesterday({ userId, onSuccess }: CopyYesterdayProps) {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+          <div className="bg-white/5 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-slate-900">Copy Yesterday?</h3>
@@ -54,7 +54,7 @@ export function CopyYesterday({ userId, onSuccess }: CopyYesterdayProps) {
               </p>
 
               {error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-xl flex items-center gap-2 text-xs">
+                <div className="mb-4 p-3 bg-red-500/10 border border-red-100 text-red-600 rounded-xl flex items-center gap-2 text-xs">
                   <AlertCircle className="w-4 h-4" />
                   <span>{error}</span>
                 </div>
@@ -72,7 +72,7 @@ export function CopyYesterday({ userId, onSuccess }: CopyYesterdayProps) {
                 <button
                   onClick={() => setShowModal(false)}
                   disabled={loading}
-                  className="w-full py-3 bg-white text-slate-600 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-all font-semibold"
+                  className="w-full py-3 bg-white/5 text-slate-600 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-all font-semibold"
                 >
                   Cancel
                 </button>

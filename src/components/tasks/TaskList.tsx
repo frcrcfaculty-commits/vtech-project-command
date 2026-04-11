@@ -16,7 +16,7 @@ interface TaskListProps {
 }
 
 const STATUS_ICONS: Record<string, React.ReactNode> = {
-  todo: <Circle size={16} className="text-gray-400" />,
+  todo: <Circle size={16} className="text-white/40" />,
   in_progress: <Clock size={16} className="text-secondary" />,
   done: <CheckCircle2 size={16} className="text-success" />,
   blocked: <AlertCircle size={16} className="text-danger" />,
@@ -49,13 +49,13 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
   const canAdd = user?.role === 'owner' || user?.role === 'team_lead';
 
   if (loading) {
-    return <div className="py-2 text-sm text-gray-500">Loading tasks...</div>;
+    return <div className="py-2 text-sm text-white/50">Loading tasks...</div>;
   }
 
   if (tasks.length === 0) {
     return (
       <div className="text-center py-3">
-        <p className="text-xs text-gray-500">No tasks yet. Break this milestone into actionable tasks.</p>
+        <p className="text-xs text-white/50">No tasks yet. Break this milestone into actionable tasks.</p>
         {canAdd && (
           <button
             onClick={() => { setEditingTask(undefined); setShowForm(true); }}
@@ -76,8 +76,8 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
           <div
             key={task.id}
             className={cn(
-              'flex items-center gap-2 px-2 py-2 rounded-[6px] bg-gray-50 border border-gray-100 transition-colors',
-              flashTask === task.id && 'bg-green-50 border-green-200'
+              'flex items-center gap-2 px-2 py-2 rounded-[6px] bg-white/5 border border-white/8 transition-colors',
+              flashTask === task.id && 'bg-green-500/10 border-green-200'
             )}
           >
             {/* Status icon */}
@@ -91,10 +91,10 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
 
             {/* Middle: title + assignee + priority */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{task.title}</p>
+              <p className="text-sm font-medium text-white/90 truncate">{task.title}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 {task.assignee && (
-                  <span className="text-xs text-gray-500">{task.assignee.full_name}</span>
+                  <span className="text-xs text-white/50">{task.assignee.full_name}</span>
                 )}
                 <Badge
                   status={task.priority === 'high' ? 'cancelled' : task.priority === 'medium' ? 'on_hold' : 'completed'}
@@ -108,19 +108,19 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
             {/* Right: due date + status toggle */}
             <div className="flex items-center gap-1 flex-shrink-0">
               {task.due_date && (
-                <span className={cn('text-xs', overdue ? 'text-danger font-medium' : 'text-gray-500')}>
+                <span className={cn('text-xs', overdue ? 'text-danger font-medium' : 'text-white/50')}>
                   {new Date(task.due_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                 </span>
               )}
               <div className="relative">
                 <button
                   onClick={() => setStatusOpen(statusOpen === task.id ? null : task.id)}
-                  className="px-1.5 py-0.5 text-xs border border-gray-200 rounded hover:bg-gray-100"
+                  className="px-1.5 py-0.5 text-xs border border-white/10 rounded hover:bg-white/8"
                 >
                   {task.status.replace('_', ' ')}
                 </button>
                 {statusOpen === task.id && (
-                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-[6px] shadow-md z-10 min-w-[100px]">
+                  <div className="absolute right-0 top-full mt-1 bg-white/5 border border-white/10 rounded-[6px] shadow-md z-10 min-w-[100px]">
                     {TASK_STATUSES.map((s: any) => (
                       <button
                         key={s.value}
@@ -129,7 +129,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
                           setStatusOpen(null);
                           fetchByMilestone(milestoneId);
                         }}
-                        className="block w-full text-left px-3 py-1.5 text-xs hover:bg-gray-50"
+                        className="block w-full text-left px-3 py-1.5 text-xs hover:bg-white/5"
                       >
                         {s.label}
                       </button>
@@ -140,7 +140,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
               </div>
               <button
                 onClick={() => { setEditingTask(task); setShowForm(true); }}
-                className="px-1.5 py-0.5 text-xs text-secondary border border-gray-200 rounded hover:bg-blue-50"
+                className="px-1.5 py-0.5 text-xs text-secondary border border-white/10 rounded hover:bg-blue-500/10"
               >
                 Edit
               </button>
@@ -152,7 +152,7 @@ export function TaskList({ milestoneId, phaseId, projectId }: TaskListProps) {
       {canAdd && (
         <button
           onClick={() => { setEditingTask(undefined); setShowForm(true); }}
-          className="flex items-center justify-center gap-1 py-1.5 text-xs text-secondary border border-dashed border-secondary rounded-[6px] hover:bg-blue-50"
+          className="flex items-center justify-center gap-1 py-1.5 text-xs text-secondary border border-dashed border-secondary rounded-[6px] hover:bg-blue-500/10"
         >
           <Plus size={12} /> Add Task
         </button>

@@ -1,5 +1,4 @@
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
-import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Spinner } from './Spinner';
 
@@ -16,16 +15,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary:   'bg-[var(--color-primary)] text-white hover:bg-[#0a1729] border border-transparent',
-  secondary: 'bg-[var(--color-secondary)] text-white hover:bg-[#1976D2] border border-transparent',
-  outline:   'bg-transparent text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-primary/5',
-  danger:    'bg-[var(--color-danger)] text-white hover:bg-[#B71C1C] border border-transparent',
-  ghost:     'bg-transparent text-[var(--color-text)] hover:bg-gray-100 border border-transparent',
+  primary:   'btn-gradient font-semibold',
+  secondary: 'bg-white/10 text-white border border-white/15 hover:bg-white/15 hover:border-white/25 backdrop-blur-sm',
+  outline:   'bg-transparent text-[var(--color-text)] border border-white/20 hover:bg-white/8 hover:border-white/30',
+  danger:    'bg-[var(--color-danger)] text-white hover:brightness-110 border border-transparent shadow-[0_2px_12px_rgba(248,113,113,0.3)]',
+  ghost:     'bg-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-white/8 border border-transparent',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-9 px-3 text-sm rounded-[var(--radius-btn)]',
-  md: 'h-11 px-4 text-sm rounded-[var(--radius-btn)]',
+  sm: 'h-9 px-3.5 text-sm rounded-[var(--radius-btn)]',
+  md: 'h-11 px-5 text-sm rounded-[var(--radius-btn)]',
   lg: 'h-12 px-6 text-base rounded-[var(--radius-btn)]',
 };
 
@@ -44,8 +43,8 @@ export function Button({
     <button
       disabled={disabled || loading}
       className={cn(
-        'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200',
+        'disabled:opacity-40 disabled:cursor-not-allowed',
         variants[variant],
         sizes[size],
         fullWidth && 'w-full',

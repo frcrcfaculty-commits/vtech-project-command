@@ -16,12 +16,17 @@ export function Spinner({ size = 'md', className }: SpinnerProps) {
       viewBox="0 0 24 24"
       fill="none"
       className={cn('animate-spin', className)}
-      style={{ color: 'var(--color-secondary)' }}
     >
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
+      <defs>
+        <linearGradient id="spinnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#723B8F" />
+          <stop offset="100%" stopColor="#DA2E8F" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
       <path
         d="M12 2a10 10 0 0 1 10 10"
-        stroke="currentColor"
+        stroke="url(#spinnerGrad)"
         strokeWidth="3"
         strokeLinecap="round"
       />

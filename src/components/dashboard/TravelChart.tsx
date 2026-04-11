@@ -6,8 +6,8 @@ import { EmptyState } from '@/components/ui/EmptyState';
 export function TravelChart() {
   const { travelData, loading } = useDashboardCharts();
   
-  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
-  if (!travelData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No travel data" description="No travel entries found" /></div>;
+  if (loading) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!travelData.length) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full"><EmptyState title="No travel data" description="No travel entries found" /></div>;
 
   // Option A implementation: Stacked Bar Chart
   const totalWork = travelData.reduce((acc, curr) => acc + curr.workHours, 0);
@@ -15,11 +15,11 @@ export function TravelChart() {
   const companyOverhead = Math.round((totalTravel / (totalWork + totalTravel)) * 100) || 0;
 
   return (
-    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
+    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 h-full flex flex-col">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Travel vs Productive Hours</h3>
-        <p className="text-sm mt-1 text-gray-500">
-          Company-wide travel overhead: <span className="font-bold text-gray-800">{companyOverhead}%</span>
+        <p className="text-sm mt-1 text-white/50">
+          Company-wide travel overhead: <span className="font-bold text-white/80">{companyOverhead}%</span>
         </p>
         {companyOverhead > 25 && (
           <p className="text-sm text-[var(--color-warning,#F9A825)] font-medium mt-1">
@@ -56,18 +56,18 @@ export function TravelChart() {
                   const percent = Math.round((travel / total) * 100);
                   
                   return (
-                    <div className="bg-white border border-gray-200 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-gray-800 mb-2">{label}</p>
+                    <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
+                      <p className="font-semibold text-white/80 mb-2">{label}</p>
                       {payload.map((entry, i) => (
-                        <p key={i} className="text-sm text-gray-600 flex items-center mb-1">
+                        <p key={i} className="text-sm text-white/60 flex items-center mb-1">
                           <span 
                             className="w-3 h-3 rounded-sm inline-block mr-2" 
                             style={{ backgroundColor: entry.color }}
                           />
-                          {entry.name}: <span className="font-medium ml-1 text-gray-800">{entry.value}h</span>
+                          {entry.name}: <span className="font-medium ml-1 text-white/80">{entry.value}h</span>
                         </p>
                       ))}
-                      <div className="mt-2 pt-2 border-t border-gray-100 text-sm font-medium text-gray-700">
+                      <div className="mt-2 pt-2 border-t border-white/8 text-sm font-medium text-white/70">
                         Travel Overhead: <span className={percent > 30 ? 'text-[var(--color-warning,#F9A825)]' : ''}>{percent}%</span>
                       </div>
                     </div>
@@ -77,7 +77,7 @@ export function TravelChart() {
               }}
             />
             <Legend verticalAlign="top" height={36} iconType="circle" />
-            <Bar dataKey="workHours" name="Work Hours" stackId="a" fill="var(--color-secondary,#1E88E5)" radius={[0, 0, 4, 4]} maxBarSize={40} />
+            <Bar dataKey="workHours" name="Work Hours" stackId="a" fill="var(--color-secondary,#DA2E8F)" radius={[0, 0, 4, 4]} maxBarSize={40} />
             <Bar dataKey="travelHours" name="Travel Hours" stackId="a" maxBarSize={40} radius={[4, 4, 0, 0]}>
               {travelData.map((entry, index) => {
                 const percent = Math.round((entry.travelHours / (entry.workHours + entry.travelHours)) * 100);

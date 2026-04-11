@@ -22,7 +22,7 @@ export function TimeEntryPage() {
   return (
     <div className="pb-24">
       {/* Tab Navigation */}
-      <div className="sticky top-0 bg-white border-b border-gray-200 z-10">
+      <div className="sticky top-0 bg-white/5 border-b border-white/10 z-10">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex gap-8">
             <button
@@ -30,7 +30,7 @@ export function TimeEntryPage() {
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'today'
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  : 'border-transparent text-white/50 hover:text-white/70'
               }`}
             >
               Today
@@ -40,7 +40,7 @@ export function TimeEntryPage() {
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'week'
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  : 'border-transparent text-white/50 hover:text-white/70'
               }`}
             >
               This Week
@@ -51,7 +51,7 @@ export function TimeEntryPage() {
                 className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                   activeTab === 'verify'
                     ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    : 'border-transparent text-white/50 hover:text-white/70'
                 }`}
               >
                 Verify Entries
@@ -62,14 +62,14 @@ export function TimeEntryPage() {
       </div>
 
       {/* Persistent Bottom Bar */}
-      <div className="fixed bottom-16 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 shadow-lg">
+      <div className="fixed bottom-16 left-0 right-0 bg-white/5 border-t border-white/10 px-4 py-3 shadow-lg">
         <div className="max-w-2xl mx-auto">
           <button
             onClick={() => {
               setActiveTab('today');
               document.querySelector('[data-scroll-target="summary"]')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+            className="text-sm font-medium text-white/70 hover:text-blue-600 transition-colors"
           >
             Today: <span className="font-bold">{dailyTotal.work}h</span> work · 
             <span className="font-bold ml-1">{dailyTotal.travel}h</span> travel

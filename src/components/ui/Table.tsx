@@ -22,7 +22,7 @@ export function Table<T extends { id?: string }>({ columns, data, onRowClick, cl
       <div className="hidden md:block overflow-x-auto">
         <table className={cn('w-full text-sm', className)}>
           <thead>
-            <tr className="border-b border-gray-200">
+            <tr className="border-b border-white/10">
               {columns.map((col) => (
                 <th key={col.key} className={cn('px-4 py-3 text-left text-xs font-semibold text-[var(--color-text-secondary)] uppercase tracking-wide', col.className)}>
                   {col.label}
@@ -36,8 +36,8 @@ export function Table<T extends { id?: string }>({ columns, data, onRowClick, cl
                 key={row.id ?? JSON.stringify(row)}
                 onClick={() => onRowClick?.(row)}
                 className={cn(
-                  'border-b border-gray-100 last:border-0',
-                  onRowClick && 'cursor-pointer hover:bg-gray-50 transition-colors'
+                  'border-b border-white/5 last:border-0',
+                  onRowClick && 'cursor-pointer hover:bg-white/5 transition-colors'
                 )}
               >
                 {columns.map((col) => (
@@ -58,12 +58,12 @@ export function Table<T extends { id?: string }>({ columns, data, onRowClick, cl
             key={row.id ?? JSON.stringify(row)}
             onClick={() => onRowClick?.(row)}
             className={cn(
-              'bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-gray-100 p-4 shadow-[var(--shadow-card)]',
-              onRowClick && 'cursor-pointer hover:shadow-md transition-shadow'
+              'rounded-[var(--radius-card)] glass p-4',
+              onRowClick && 'cursor-pointer hover:bg-[var(--color-surface-hover)] transition-all'
             )}
           >
             {columns.map((col) => (
-              <div key={col.key} className="flex justify-between items-center py-1.5 border-b border-gray-50 last:border-0">
+              <div key={col.key} className="flex justify-between items-center py-1.5 border-b border-white/5 last:border-0">
                 <span className="text-xs font-medium text-[var(--color-text-secondary)]">{col.label}</span>
                 <span className="text-sm text-[var(--color-text)]">
                   {col.render ? col.render(row) : (row as Record<string, unknown>)[col.key] as ReactNode}

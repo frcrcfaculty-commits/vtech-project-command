@@ -16,7 +16,7 @@ export function EmptyState({ icon: Icon, title, subtitle, description, action, c
   return (
     <div className={cn('flex flex-col items-center justify-center py-12 px-4 text-center', className)}>
       {Icon && (
-        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-4">
           <Icon size={24} className="text-[var(--color-text-secondary)]" />
         </div>
       )}
@@ -28,7 +28,6 @@ export function EmptyState({ icon: Icon, title, subtitle, description, action, c
           {action.label}
         </Button>
       )}
-
     </div>
   );
 }

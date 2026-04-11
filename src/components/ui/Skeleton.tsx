@@ -6,6 +6,6 @@ interface SkeletonProps {
 
 export function Skeleton({ className }: SkeletonProps) {
   return (
-    <div className={cn('animate-pulse bg-gray-200 rounded', className)} />
+    <div className={cn('animate-shimmer rounded-[var(--radius-sm)]', className)} />
   );
 }

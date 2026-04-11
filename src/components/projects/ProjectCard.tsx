@@ -33,7 +33,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Top row: Project name + Status badge */}
       <div className="flex items-start justify-between gap-2 mb-2">
-        <h3 className="font-semibold text-gray-900 truncate flex-1">
+        <h3 className="font-semibold text-white/90 truncate flex-1">
           {project.name.length > 40 ? project.name.slice(0, 40) + '...' : project.name}
         </h3>
         <Badge status={project.status as any} label={project.status} />
@@ -41,10 +41,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Second row: Client name */}
-      <p className="text-sm text-gray-500 mb-3">{project.client_name}</p>
+      <p className="text-sm text-white/50 mb-3">{project.client_name}</p>
 
       {/* Third row: Project type icon + label | City */}
-      <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+      <div className="flex items-center gap-4 text-sm text-white/50 mb-3">
         <div className="flex items-center gap-1">
           {typeIcon}
           <span>{projectType?.label || project.project_type}</span>
@@ -57,7 +57,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Fourth row: Phase progress bar */}
       <div className="mb-3">
-        <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+        <div className="flex items-center justify-between text-xs text-white/50 mb-1">
           <span>Phase Progress</span>
           <span>{completedCount}/{totalPhases} phases</span>
         </div>
@@ -65,7 +65,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Bottom row: Start date | Days remaining/overdue */}
-      <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-white/50">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
           <span>Started {formatDate(project.start_date || '')}</span>
@@ -85,7 +85,7 @@ function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; to
       case 'completed': return 'bg-success';
       case 'in_progress': return 'bg-secondary';
       case 'blocked': return 'bg-danger';
-      default: return 'bg-gray-200';
+      default: return 'bg-white/10';
     }
   };
 
@@ -94,7 +94,7 @@ function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; to
     return (
       <div className="flex gap-0.5 h-2 rounded-full overflow-hidden">
         {Array.from({ length: 10 }).map((_, i) => (
-          <div key={i} className="flex-1 bg-gray-200 rounded-full" />
+          <div key={i} className="flex-1 bg-white/10 rounded-full" />
         ))}
       </div>
     );
@@ -105,7 +105,7 @@ function PhaseProgressBar({ phases, totalPhases }: { phases: IProjectPhase[]; to
 
 
   return (
-    <div className="flex gap-0.5 h-2 rounded-full overflow-hidden bg-gray-100">
+    <div className="flex gap-0.5 h-2 rounded-full overflow-hidden bg-white/8">
       {sortedPhases.map((phase) => (
         <div
           key={phase.id}

@@ -13,7 +13,10 @@ export function MobileNav({ user }: MobileNavProps) {
   const navItems = NAV_ITEMS[user.role] ?? [];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 safe-bottom" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+    <nav
+      className="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-strong border-t border-white/10 safe-bottom"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
       <div className="flex items-center h-16">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -22,8 +25,8 @@ export function MobileNav({ user }: MobileNavProps) {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                'flex-1 flex flex-col items-center justify-center gap-0.5 min-h-[48px] py-1.5 text-xs font-medium transition-colors active:scale-95',
-                isActive ? 'text-[var(--color-secondary)]' : 'text-[var(--color-text-secondary)]'
+                'flex-1 flex flex-col items-center justify-center gap-0.5 min-h-[48px] py-1.5 text-xs font-medium transition-all active:scale-95',
+                isActive ? 'text-[var(--color-secondary)]' : 'text-[var(--color-text-tertiary)]'
               )}
             >
               <item.icon size={22} />

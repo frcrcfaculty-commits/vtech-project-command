@@ -25,7 +25,7 @@ export function AppShell() {
   const pageTitle = PAGE_TITLES[location.pathname] ?? 'V-Tech';
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)]">
+    <div className="min-h-screen">
       {/* Desktop Sidebar */}
       <Sidebar
         user={user}
@@ -37,10 +37,10 @@ export function AppShell() {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         >
-          <div className="absolute left-0 top-0 bottom-0 w-[280px]">
+          <div className="absolute left-0 top-0 bottom-0 w-[280px]" onClick={(e) => e.stopPropagation()}>
             <Sidebar user={user} onLogout={logout} />
           </div>
         </div>
@@ -55,14 +55,13 @@ export function AppShell() {
 
       {/* Main content */}
       <main
-        className="md:ml-[280px] pt-14 md:pt-0 pb-20 md:pb-0 min-h-screen transition-all duration-200"
+        className="md:ml-[280px] pt-14 md:pt-0 pb-20 md:pb-0 min-h-screen transition-all duration-300"
         style={{ marginLeft: sidebarCollapsed ? '64px' : undefined }}
       >
         <div className="p-4 md:p-6 animate-page-enter">
           <Outlet />
         </div>
       </main>
-
 
       {/* Mobile Bottom Nav */}
       <MobileNav user={user} />

@@ -7,11 +7,11 @@ export function PhaseBottleneckChart() {
   const { phaseData, loading } = useDashboardCharts();
   const maxDays = phaseData.length ? Math.max(...phaseData.map(d => d.avgDays)) : 0;
 
-  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
-  if (!phaseData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No phase data" description="No project phases found" /></div>;
+  if (loading) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!phaseData.length) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full"><EmptyState title="No phase data" description="No project phases found" /></div>;
 
   return (
-    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
+    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 h-full flex flex-col">
       <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)] mb-4">Average Days per Phase</h3>
       <div className="flex-1 min-h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -30,12 +30,12 @@ export function PhaseBottleneckChart() {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
-                    <div className="bg-white border border-gray-200 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-gray-800 mb-1">{data.phase}</p>
-                      <p className="text-sm text-gray-600">
-                        Avg: <span className="font-medium text-gray-800">{data.avgDays} days</span>
+                    <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
+                      <p className="font-semibold text-white/80 mb-1">{data.phase}</p>
+                      <p className="text-sm text-white/60">
+                        Avg: <span className="font-medium text-white/80">{data.avgDays} days</span>
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-white/50">
                         Planned: {data.plannedDays} days
                       </p>
                     </div>
@@ -49,7 +49,7 @@ export function PhaseBottleneckChart() {
 
                 <Cell 
                   key={`cell-${index}`} 
-                  fill={entry.avgDays === maxDays ? 'var(--color-accent,#FF6F00)' : 'var(--color-secondary,#1E88E5)'} 
+                  fill={entry.avgDays === maxDays ? 'var(--color-accent,#FF6F00)' : 'var(--color-secondary,#DA2E8F)'} 
                 />
               ))}
             </Bar>

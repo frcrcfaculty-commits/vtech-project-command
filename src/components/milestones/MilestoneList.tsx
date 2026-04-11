@@ -64,7 +64,7 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
   if (milestones.length === 0) {
     return (
       <div className="py-4 text-center">
-        <p className="text-sm text-gray-500">No milestones in this phase yet. Add one to get started.</p>
+        <p className="text-sm text-white/50">No milestones in this phase yet. Add one to get started.</p>
         {canAdd && (
           <button
             onClick={() => setShowForm(true)}
@@ -82,17 +82,17 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
       {milestones.map((m) => {
         const isOpen = expanded[m.id];
         return (
-          <div key={m.id} className="border border-gray-100 rounded-[8px] overflow-hidden bg-white">
+          <div key={m.id} className="border border-white/8 rounded-[8px] overflow-hidden bg-white/5">
             {/* Header */}
             <div
-              className="flex items-center gap-2 px-3 py-2.5 cursor-pointer hover:bg-gray-50"
+              className="flex items-center gap-2 px-3 py-2.5 cursor-pointer hover:bg-white/5"
               onClick={() => toggleExpand(m.id)}
             >
-              <button className="text-gray-500 touch-target">
+              <button className="text-white/50 touch-target">
                 {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               </button>
-              <span className="flex-1 text-sm font-semibold text-gray-900">{m.title}</span>
-              <span className="text-xs text-gray-500">{formatDate(m.due_date || '')}</span>
+              <span className="flex-1 text-sm font-semibold text-white/90">{m.title}</span>
+              <span className="text-xs text-white/50">{formatDate(m.due_date || '')}</span>
               <Badge
                 status={m.status === 'completed' ? 'completed' : 'active'}
                 label={m.status}
@@ -104,13 +104,13 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
             {/* Progress bar */}
             <div className="px-3 pb-2">
               <div className="flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-white/8 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-success rounded-full transition-all"
                     style={{ width: `${progress(m)}%` }}
                   />
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-white/50">
                   {m.tasks_done ?? 0}/{m.task_count ?? 0}
                 </span>
               </div>
@@ -118,17 +118,17 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
 
             {/* Expanded content */}
             {isOpen && (
-              <div className="border-t border-gray-100 px-3 py-3">
+              <div className="border-t border-white/8 px-3 py-3">
                 <div className="flex justify-end gap-1 mb-2">
                   <button
                     onClick={(e) => { e.stopPropagation(); setEditingMilestone(m); setShowForm(true); }}
-                    className="px-2 py-1 text-xs text-secondary hover:bg-blue-50 rounded"
+                    className="px-2 py-1 text-xs text-secondary hover:bg-blue-500/10 rounded"
                   >
                     Edit
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDelete(m.id); }}
-                    className="px-2 py-1 text-xs text-danger hover:bg-red-50 rounded"
+                    className="px-2 py-1 text-xs text-danger hover:bg-red-500/10 rounded"
                   >
                     <Trash2 size={12} />
                   </button>
@@ -147,7 +147,7 @@ export function MilestoneList({ phaseId, projectId }: MilestoneListProps) {
       {canAdd && (
         <button
           onClick={() => { setEditingMilestone(undefined); setShowForm(true); }}
-          className="flex items-center justify-center gap-1 py-2 text-sm text-secondary border border-dashed border-secondary rounded-[8px] hover:bg-blue-50 touch-target"
+          className="flex items-center justify-center gap-1 py-2 text-sm text-secondary border border-dashed border-secondary rounded-[8px] hover:bg-blue-500/10 touch-target"
         >
           <Plus size={14} /> Add Milestone
         </button>

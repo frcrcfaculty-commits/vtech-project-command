@@ -12,8 +12,8 @@ export function TeamPerformanceChart() {
   const [metric, setMetric] = useState<MetricType>('hours');
   const { teamData, loading } = useDashboardCharts();
 
-  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
-  if (!teamData.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No team data" description="No team performance data found" /></div>;
+  if (loading) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!teamData.length) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full"><EmptyState title="No team data" description="No team performance data found" /></div>;
 
   // Find best team based on current metric
   const bestTeam = [...teamData].sort((a, b) => {
@@ -31,17 +31,17 @@ export function TeamPerformanceChart() {
   };
 
   return (
-    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 h-full flex flex-col">
+    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 h-full flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
           <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Team Performance</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Best team: <span className="font-medium text-[var(--color-secondary,#1E88E5)]">{bestTeam.team}</span>
+          <p className="text-sm text-white/50 mt-1">
+            Best team: <span className="font-medium text-[var(--color-secondary,#DA2E8F)]">{bestTeam.team}</span>
           </p>
 
         </div>
         
-        <div className="flex bg-gray-100 rounded-md p-1">
+        <div className="flex bg-white/8 rounded-md p-1">
           {(['hours', 'tasksCompleted', 'overdue'] as MetricType[]).map((m) => (
             <button
               key={m}
@@ -49,8 +49,8 @@ export function TeamPerformanceChart() {
               className={cn(
                 "px-3 py-1.5 text-xs font-medium rounded-sm transition-colors",
                 metric === m 
-                  ? "bg-white text-[var(--color-primary,#0B1F3F)] shadow-sm" 
-                  : "text-gray-600 hover:text-gray-900"
+                  ? "bg-white/5 text-[var(--color-primary,#723B8F)] shadow-sm" 
+                  : "text-white/60 hover:text-white/90"
               )}
             >
               {getMetricLabel(m)}
@@ -82,15 +82,15 @@ export function TeamPerformanceChart() {
               content={({ active, payload }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="bg-white border border-gray-200 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-gray-800 mb-1">{payload[0].payload.team}</p>
+                    <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
+                      <p className="font-semibold text-white/80 mb-1">{payload[0].payload.team}</p>
 
-                      <p className="text-sm text-gray-600 flex items-center">
+                      <p className="text-sm text-white/60 flex items-center">
                         <span 
                           className="w-3 h-3 rounded-sm inline-block mr-2" 
                           style={{ backgroundColor: payload[0].color }}
                          />
-                        {getMetricLabel(metric)}: <span className="font-medium ml-1 text-gray-800">{payload[0].value}</span>
+                        {getMetricLabel(metric)}: <span className="font-medium ml-1 text-white/80">{payload[0].value}</span>
                       </p>
                     </div>
                   );
@@ -103,7 +103,7 @@ export function TeamPerformanceChart() {
 
                 <Cell 
                   key={`cell-${index}`} 
-                  fill={metric === 'overdue' ? 'var(--color-danger,#C62828)' : 'var(--color-secondary,#1E88E5)'} 
+                  fill={metric === 'overdue' ? 'var(--color-danger,#C62828)' : 'var(--color-secondary,#DA2E8F)'} 
                 />
               ))}
             </Bar>

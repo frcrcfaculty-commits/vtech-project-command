@@ -27,8 +27,8 @@ export function ProjectHealthTable() {
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const { projectHealth, loading } = useDashboardCharts();
 
-  if (loading) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full flex items-center justify-center"><Spinner /></div>;
-  if (!projectHealth.length) return <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 h-full"><EmptyState title="No projects" description="No project health data found" /></div>;
+  if (loading) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full flex items-center justify-center"><Spinner /></div>;
+  if (!projectHealth.length) return <div className="bg-white/5 rounded-lg shadow-sm border border-white/8 p-4 h-full"><EmptyState title="No projects" description="No project health data found" /></div>;
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -55,12 +55,12 @@ export function ProjectHealthTable() {
 
   const getTypeIcon = (type: string) => {
     switch(type) {
-      case 'boardroom': return <Presentation className="w-4 h-4 mr-2 text-gray-500" />;
-      case 'conference_room': return <Users className="w-4 h-4 mr-2 text-gray-500" />;
-      case 'residential': return <Home className="w-4 h-4 mr-2 text-gray-500" />;
-      case 'experience_centre': return <MonitorPlay className="w-4 h-4 mr-2 text-gray-500" />;
-      case 'auditorium': return <Mic className="w-4 h-4 mr-2 text-gray-500" />;
-      case 'lighting': return <Lightbulb className="w-4 h-4 mr-2 text-gray-500" />;
+      case 'boardroom': return <Presentation className="w-4 h-4 mr-2 text-white/50" />;
+      case 'conference_room': return <Users className="w-4 h-4 mr-2 text-white/50" />;
+      case 'residential': return <Home className="w-4 h-4 mr-2 text-white/50" />;
+      case 'experience_centre': return <MonitorPlay className="w-4 h-4 mr-2 text-white/50" />;
+      case 'auditorium': return <Mic className="w-4 h-4 mr-2 text-white/50" />;
+      case 'lighting': return <Lightbulb className="w-4 h-4 mr-2 text-white/50" />;
       default: return null;
     }
   };
@@ -75,19 +75,19 @@ export function ProjectHealthTable() {
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <ChevronDown className="w-4 h-4 ml-1 opacity-20" />;
     return sortDir === 'asc' 
-      ? <ChevronUp className="w-4 h-4 ml-1 text-[var(--color-secondary,#1E88E5)]" /> 
-      : <ChevronDown className="w-4 h-4 ml-1 text-[var(--color-secondary,#1E88E5)]" />;
+      ? <ChevronUp className="w-4 h-4 ml-1 text-[var(--color-secondary,#DA2E8F)]" /> 
+      : <ChevronDown className="w-4 h-4 ml-1 text-[var(--color-secondary,#DA2E8F)]" />;
   };
 
   return (
-    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full">
-      <div className="p-4 border-b border-gray-100">
+    <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 overflow-hidden flex flex-col h-full">
+      <div className="p-4 border-b border-white/8">
         <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Project Health Summary</h3>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
-          <thead className="bg-gray-50 text-gray-700 uppercase font-medium">
+        <table className="w-full min-w-[800px] text-left text-sm text-white/60">
+          <thead className="bg-white/5 text-white/70 uppercase font-medium">
             <tr>
               {[
                 { key: 'name', label: 'Project' },
@@ -99,7 +99,7 @@ export function ProjectHealthTable() {
                 { key: 'hours', label: 'Hours' },
                 { key: 'health', label: 'Health' },
               ].map(({ key, label }) => (
-                <th key={key} className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors select-none" onClick={() => handleSort(key as SortField)}>
+                <th key={key} className="px-4 py-3 cursor-pointer hover:bg-white/8 transition-colors select-none" onClick={() => handleSort(key as SortField)}>
                   <div className="flex items-center">
                     {label}
                     <SortIcon field={key as SortField} />
@@ -108,12 +108,12 @@ export function ProjectHealthTable() {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-white/8">
             {sortedData.map((project: any) => (
 
-              <tr key={project.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 font-medium text-[var(--color-primary,#0B1F3F)]">
-                  <Link to={`/projects/${project.id}`} className="hover:text-[var(--color-secondary,#1E88E5)] hover:underline">
+              <tr key={project.id} className="hover:bg-white/5 transition-colors">
+                <td className="px-4 py-3 font-medium text-[var(--color-primary,#723B8F)]">
+                  <Link to={`/projects/${project.id}`} className="hover:text-[var(--color-secondary,#DA2E8F)] hover:underline">
                     {project.name}
                   </Link>
                 </td>
@@ -135,10 +135,10 @@ export function ProjectHealthTable() {
                     {project.status.replace('_', ' ').toUpperCase()}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-gray-800">{project.phase}</td>
+                <td className="px-4 py-3 text-white/80">{project.phase}</td>
                 <td className={cn(
                   "px-4 py-3 font-bold", 
-                  project.daysLeft < 0 ? "text-[var(--color-danger,#C62828)]" : "text-gray-800"
+                  project.daysLeft < 0 ? "text-[var(--color-danger,#C62828)]" : "text-white/80"
                 )}>
                   {project.daysLeft}
                 </td>

@@ -155,7 +155,7 @@ export function TeamPage() {
 
           <Select label="Team" options={teamOptions} value={newTeamId} onChange={(v) => setNewTeamId(v)} required />
 
-          <p className="text-xs text-[var(--color-text-secondary)]">Default password: <code className="bg-gray-100 px-1 rounded">Welcome@123</code></p>
+          <p className="text-xs text-[var(--color-text-secondary)]">Default password: <code className="bg-white/8 px-1 rounded">Welcome@123</code></p>
           <div className="flex gap-3 pt-2">
             <Button variant="outline" fullWidth onClick={() => setShowAddModal(false)}>Cancel</Button>
             <Button variant="primary" fullWidth onClick={handleAddMember} loading={loading}>Add Member</Button>

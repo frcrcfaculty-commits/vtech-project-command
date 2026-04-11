@@ -10,7 +10,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 const paddings: Record<Padding, string> = {
   sm: 'p-3',
-  md: 'p-4',
+  md: 'p-5',
   lg: 'p-6',
 };
 
@@ -19,15 +19,15 @@ export function Card({ header, padding = 'md', onClick, className, children, ...
     <div
       onClick={onClick}
       className={cn(
-        'bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-gray-100 shadow-[var(--shadow-card)]',
-        'transition-shadow duration-150',
-        onClick && 'cursor-pointer hover:shadow-md',
+        'relative rounded-[var(--radius-card)] glass overflow-hidden',
+        'transition-all duration-200',
+        onClick && 'cursor-pointer hover:bg-[var(--color-surface-hover)] hover:shadow-glow',
         className
       )}
       {...rest}
     >
       {header && (
-        <div className="border-b border-gray-100 px-4 py-3">
+        <div className="border-b border-white/10 px-5 py-3.5">
           {typeof header === 'string' ? (
             <h3 className="text-sm font-semibold text-[var(--color-text)]">{header}</h3>
           ) : header}

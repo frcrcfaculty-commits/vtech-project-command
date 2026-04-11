@@ -67,10 +67,10 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
 
 
   const getCellColor = (hours: number, isWeekend: boolean) => {
-    if (hours === 0) return isWeekend ? 'bg-slate-50' : 'bg-white';
-    if (hours >= 8) return 'bg-green-100 text-green-800';
+    if (hours === 0) return isWeekend ? 'bg-slate-50' : 'bg-white/5';
+    if (hours >= 8) return 'bg-green-500/15 text-green-800';
     if (hours >= 4) return 'bg-amber-100 text-amber-800';
-    return 'bg-red-50 text-red-600';
+    return 'bg-red-500/10 text-red-600';
   };
 
   const navigateWeek = (direction: 'prev' | 'next') => {
@@ -78,7 +78,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div className="bg-white/5 rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
       {/* Header / Week Picker */}
       <div className="p-4 border-b border-slate-50 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
         <div className="flex items-center bg-slate-100 rounded-lg p-1">
           <button 
             onClick={() => navigateWeek('prev')}
-            className="p-1.5 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            className="p-1.5 hover:bg-white/5 hover:shadow-sm rounded-md transition-all"
           >
             <ChevronLeft className="w-4 h-4 text-slate-600" />
           </button>
@@ -102,7 +102,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
           </button>
           <button 
             onClick={() => navigateWeek('next')}
-            className="p-1.5 hover:bg-white hover:shadow-sm rounded-md transition-all"
+            className="p-1.5 hover:bg-white/5 hover:shadow-sm rounded-md transition-all"
           >
             <ChevronRight className="w-4 h-4 text-slate-600" />
           </button>
@@ -151,7 +151,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
                 const projectTotal = Object.values(project.days).reduce((s, h) => s + h, 0);
                 return (
                   <tr key={id} className="group hover:bg-slate-50/30 transition-colors">
-                    <td className="sticky left-0 bg-white group-hover:bg-slate-50/30 px-4 py-3 border-b border-r border-slate-100 text-sm font-bold text-slate-900 line-clamp-1 backdrop-blur-sm z-10">
+                    <td className="sticky left-0 bg-white/5 group-hover:bg-slate-50/30 px-4 py-3 border-b border-r border-slate-100 text-sm font-bold text-slate-900 line-clamp-1 backdrop-blur-sm z-10">
                       {project.name}
                     </td>
                     {weekDays.map((day, i) => {
@@ -205,7 +205,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
       {/* Legend */}
       <div className="p-4 bg-slate-50/50 border-t border-slate-50 flex flex-wrap gap-4 items-center justify-center text-[10px] uppercase font-bold tracking-widest text-slate-400">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-red-100 rounded" />
+          <div className="w-3 h-3 bg-red-500/15 rounded" />
           <span>At Risk (&lt; 4h)</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -213,7 +213,7 @@ export function WeeklySummary({ userId }: WeeklySummaryProps) {
           <span>Partial (4-8h)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 bg-green-100 rounded" />
+          <div className="w-3 h-3 bg-green-500/15 rounded" />
           <span>Target (&ge; 8h)</span>
         </div>
       </div>

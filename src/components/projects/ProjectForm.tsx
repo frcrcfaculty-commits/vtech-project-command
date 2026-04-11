@@ -109,7 +109,7 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
   const formContent = (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-md text-sm text-red-700">
+        <div className="p-3 bg-red-500/10 border border-red-400/20 rounded-md text-sm text-red-700">
           {error}
         </div>
       )}
@@ -220,7 +220,7 @@ export function ProjectForm({ project, isModal = false, onClose }: ProjectFormPr
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+      <h1 className="text-2xl font-bold text-white/90 mb-6">
         {isEditing ? 'Edit Project' : 'Create New Project'}
       </h1>
       {formContent}

@@ -50,24 +50,25 @@ export function Modal({ isOpen, onClose, title, size = 'md', children }: ModalPr
     <div
       ref={overlayRef}
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
     >
       <div
         ref={contentRef}
         role="dialog"
         aria-modal="true"
         className={cn(
-          'relative w-full bg-[var(--color-surface)] rounded-[var(--radius-card)] shadow-[var(--shadow-modal)]',
+          'relative w-full rounded-[var(--radius-card)] glass-strong',
           'flex flex-col max-h-[90vh]',
+          'shadow-[var(--shadow-modal)]',
           sizes[size]
         )}
       >
         {title && (
-          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
             <h2 className="text-base font-semibold text-[var(--color-text)]">{title}</h2>
             <button
               onClick={onClose}
-              className="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] p-1 rounded-md transition-colors"
+              className="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] p-1.5 rounded-[var(--radius-xs)] hover:bg-white/10 transition-all"
             >
               <X size={18} />
             </button>

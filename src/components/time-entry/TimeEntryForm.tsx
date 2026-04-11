@@ -25,7 +25,7 @@ const Select = ({ value, onChange, options, placeholder, error }: {
       value={value}
       onChange={onChange}
       className={cn(
-        "w-full bg-white border rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none transition-all appearance-none",
+        "w-full bg-white/5 border rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none transition-all appearance-none",
         error ? "border-red-300 ring-1 ring-red-100" : "border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-100",
         !value && "text-slate-400"
       )}
@@ -73,7 +73,7 @@ const HourStepper = ({ value, onChange, label, max }: {
           type="button"
           onClick={decrement}
           disabled={value <= 0}
-          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
+          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white/5 shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
         >
           <Minus className="w-5 h-5" />
         </button>
@@ -85,7 +85,7 @@ const HourStepper = ({ value, onChange, label, max }: {
           type="button"
           onClick={increment}
           disabled={value >= max}
-          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
+          className="w-14 h-14 flex items-center justify-center rounded-xl bg-white/5 shadow-sm border border-slate-200 text-slate-600 active:scale-95 disabled:opacity-50 transition-all font-bold text-xl"
         >
           <Plus className="w-5 h-5" />
         </button>
@@ -208,10 +208,10 @@ export function TimeEntryForm({ userId, onTotalChange }: { userId: string, onTot
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+    <div className="bg-white/5 rounded-2xl shadow-xl overflow-hidden border border-slate-100">
       <div className="px-4 py-5 sm:p-6">
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+          <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600">
             <Clock className="w-6 h-6" />
           </div>
           <div>
@@ -298,7 +298,7 @@ export function TimeEntryForm({ userId, onTotalChange }: { userId: string, onTot
                   return d.toISOString().split('T')[0];
                 })()}
                 onChange={(e) => setFormData(prev => ({ ...prev, entryDate: e.target.value }))}
-                className="w-full bg-white border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
+                className="w-full bg-white/5 border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
               />
             </div>
           </div>
@@ -310,12 +310,12 @@ export function TimeEntryForm({ userId, onTotalChange }: { userId: string, onTot
               placeholder="What did you work on?"
               value={formData.notes}
               onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-              className="w-full bg-white border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
+              className="w-full bg-white/5 border border-slate-200 rounded-md px-3 min-h-[44px] py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
             />
           </div>
 
           {errorMsg && (
-            <div className="flex items-start gap-2 text-red-600 bg-red-50 p-4 rounded-xl border border-red-100 text-sm animate-shake">
+            <div className="flex items-start gap-2 text-red-600 bg-red-500/10 p-4 rounded-xl border border-red-100 text-sm animate-shake">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{errorMsg}</span>
             </div>

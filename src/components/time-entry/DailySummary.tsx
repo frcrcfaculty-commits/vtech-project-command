@@ -29,7 +29,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
   }, [totalWork, totalTravel, onTotalChange]);
 
   const getSummaryColor = () => {
-    if (totalHours >= 8) return 'text-green-600 bg-green-50 border-green-100';
+    if (totalHours >= 8) return 'text-green-600 bg-green-500/10 border-green-100';
     if (totalHours >= 4) return 'text-amber-600 bg-amber-50 border-amber-100';
     return 'text-slate-600 bg-slate-50 border-slate-100';
   };
@@ -72,7 +72,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
       </div>
 
       {totalHours > 12 && (
-        <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 border border-red-100 rounded-xl text-sm">
+        <div className="flex items-center gap-2 p-3 bg-red-500/10 text-red-700 border border-red-100 rounded-xl text-sm">
           <AlertTriangle className="w-4 h-4" />
           <span>You've logged over 12 hours today. Please verify.</span>
         </div>
@@ -82,7 +82,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
       <div className="space-y-4">
         {entries.length === 0 ? (
           <div className="text-center py-12 px-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100 shadow-sm">
+            <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100 shadow-sm">
               <Clock className="w-6 h-6 text-slate-300" />
             </div>
             <p className="text-slate-500 font-medium">No time logged today yet.</p>
@@ -92,7 +92,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
           entries.map((entry) => (
             <div 
               key={entry.id}
-              className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-all group"
+              className="bg-white/5 rounded-2xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-all group"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="space-y-1">
@@ -103,7 +103,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
                     )}
                   </h3>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full font-medium">
+                    <span className="text-xs px-2 py-0.5 bg-blue-500/10 text-blue-600 rounded-full font-medium">
                       {entry.phase?.phase_name ? getPhaseLabel(entry.phase.phase_name as any) : 'General'}
                     </span>
                     {entry.task?.title && (
@@ -119,13 +119,13 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
                       onClick={() => onEdit?.(entry)}
-                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-500/10 rounded-lg transition-colors"
                     >
                       <Edit3 className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={() => handleDelete(entry.id)}
-                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-500/10 rounded-lg transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -135,7 +135,7 @@ export function DailySummary({ userId, onEdit, onTotalChange }: DailySummaryProp
 
               <div className="flex items-center gap-4 text-sm text-slate-600">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full bg-blue-500" />
+                  <div className="w-2 h-2 rounded-full bg-blue-500/100" />
                   <span>{entry.work_hours}h work</span>
                 </div>
                 <div className="flex items-center gap-1.5">

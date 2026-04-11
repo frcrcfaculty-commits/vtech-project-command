@@ -109,8 +109,8 @@ export function ProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-white/90">Projects</h1>
+          <p className="text-sm text-white/50 mt-1">
             {projects.length} project{projects.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -138,7 +138,7 @@ export function ProjectsPage() {
                 'px-4 py-2 min-h-[36px] rounded-full text-sm font-medium whitespace-nowrap transition-colors',
                 statusFilter === filter.value
                   ? 'bg-primary text-white'
-                  : 'bg-white text-gray-500 hover:bg-gray-100'
+                  : 'bg-white/5 text-white/50 hover:bg-white/8'
               )}
             >
               {filter.label}
@@ -165,13 +165,13 @@ export function ProjectsPage() {
             />
           </div>
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
             <input
               type="text"
               placeholder="Search projects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 min-h-[44px] py-2.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1E88E5]"
+              className="w-full pl-9 pr-3 min-h-[44px] py-2.5 border border-white/12 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#DA2E8F]"
             />
           </div>
           
@@ -179,10 +179,10 @@ export function ProjectsPage() {
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md hover:bg-gray-100 active:bg-gray-200 transition-colors"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md hover:bg-white/8 active:bg-white/10 transition-colors"
               title="Clear filters"
             >
-              <X className="h-4 w-4 text-gray-500" />
+              <X className="h-4 w-4 text-white/50" />
             </button>
           )}
         </div>
@@ -202,11 +202,11 @@ export function ProjectsPage() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-100 p-4 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-3" />
-              <div className="h-3 bg-gray-200 rounded w-1/2 mb-4" />
-              <div className="h-3 bg-gray-200 rounded w-full mb-4" />
-              <div className="h-2 bg-gray-200 rounded w-full" />
+            <div key={i} className="bg-white/5 rounded-lg border border-white/8 p-4 animate-pulse">
+              <div className="h-4 bg-white/10 rounded w-3/4 mb-3" />
+              <div className="h-3 bg-white/10 rounded w-1/2 mb-4" />
+              <div className="h-3 bg-white/10 rounded w-full mb-4" />
+              <div className="h-2 bg-white/10 rounded w-full" />
             </div>
           ))}
         </div>

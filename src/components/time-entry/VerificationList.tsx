@@ -85,8 +85,8 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
 
   if (entries.length === 0) {
     return (
-      <div className="p-16 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
-        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <div className="p-16 text-center bg-white/5 rounded-3xl border border-slate-100 shadow-sm">
+        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-10 h-10 text-green-500" />
         </div>
         <h3 className="text-2xl font-bold text-slate-900 mb-2">All Logs Verified!</h3>
@@ -151,7 +151,7 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
                 key={entry.id}
                 onClick={() => toggleSelect(entry.id)}
                 className={cn(
-                  "group relative bg-white rounded-2xl p-4 border transition-all cursor-pointer",
+                  "group relative bg-white/5 rounded-2xl p-4 border transition-all cursor-pointer",
                   selectedIds.includes(entry.id) 
                     ? "border-blue-600 ring-4 ring-blue-50" 
                     : "border-slate-100 hover:border-slate-200 shadow-sm"
@@ -217,7 +217,7 @@ export function VerificationList({ teamId, verifierId }: VerificationListProps) 
                       e.stopPropagation();
                       handleSingleVerify(entry.id);
                     }}
-                    className="self-center p-3 bg-slate-50 text-slate-400 hover:bg-green-50 hover:text-green-600 rounded-xl transition-all"
+                    className="self-center p-3 bg-slate-50 text-slate-400 hover:bg-green-500/10 hover:text-green-600 rounded-xl transition-all"
                   >
                     <CheckCircle2 className="w-6 h-6" />
                   </button>

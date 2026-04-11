@@ -23,7 +23,7 @@ export function OwnerDashboard() {
       value: stats?.activeProjects || 0,
       trend: stats?.trends.projects || 0,
       icon: Briefcase,
-      accent: 'var(--color-secondary,#1E88E5)',
+      accent: 'var(--color-secondary,#DA2E8F)',
     },
     {
       label: 'Hours This Month',
@@ -64,7 +64,7 @@ export function OwnerDashboard() {
         </div>
 
         {/* Date range picker */}
-        <div className="flex bg-gray-100 rounded-md p-1 shadow-inner">
+        <div className="flex bg-white/8 rounded-md p-1 shadow-inner">
           {([
             { key: 'week', label: 'This Week' },
             { key: 'month', label: 'This Month' },
@@ -76,8 +76,8 @@ export function OwnerDashboard() {
               className={cn(
                 'px-4 py-2 min-h-[36px] text-sm font-medium rounded-sm transition-all whitespace-nowrap',
                 dateRange === key
-                  ? 'bg-white text-[var(--color-primary,#0B1F3F)] shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white/5 text-[var(--color-primary,#723B8F)] shadow-sm'
+                  : 'text-white/50 hover:text-white/70'
               )}
             >
               {label}
@@ -103,7 +103,7 @@ export function OwnerDashboard() {
           return (
             <div
               key={kpi.label}
-              className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-gray-100 p-4 relative overflow-hidden"
+              className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 relative overflow-hidden"
               style={{ borderLeftWidth: 4, borderLeftColor: kpi.accent }}
             >
               {/* Icon watermark */}
@@ -128,7 +128,7 @@ export function OwnerDashboard() {
                 <span className={isGood ? 'text-[var(--color-success,#2E7D32)]' : 'text-[var(--color-danger,#C62828)]'}>
                   {Math.abs(typeof kpi.trend === 'number' ? kpi.trend : 0)}%
                 </span>
-                <span className="text-gray-400 ml-1">vs last month</span>
+                <span className="text-white/40 ml-1">vs last month</span>
               </div>
             </div>
           );
