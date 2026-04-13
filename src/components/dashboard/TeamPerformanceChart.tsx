@@ -35,7 +35,7 @@ export function TeamPerformanceChart() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
           <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Team Performance</h3>
-          <p className="text-sm text-white/50 mt-1">
+          <p className="text-sm text-white/55 mt-1">
             Best team: <span className="font-medium text-[var(--color-secondary,#DA2E8F)]">{bestTeam.team}</span>
           </p>
 
@@ -50,7 +50,7 @@ export function TeamPerformanceChart() {
                 "px-3 py-1.5 text-xs font-medium rounded-sm transition-colors",
                 metric === m 
                   ? "bg-white/5 text-[var(--color-primary,#723B8F)] shadow-sm" 
-                  : "text-white/60 hover:text-white/90"
+                  : "text-white/65 hover:text-white/90"
               )}
             >
               {getMetricLabel(m)}
@@ -83,14 +83,14 @@ export function TeamPerformanceChart() {
                 if (active && payload && payload.length) {
                   return (
                     <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-white/80 mb-1">{payload[0].payload.team}</p>
+                      <p className="font-semibold text-white/85 mb-1">{payload[0].payload.team}</p>
 
-                      <p className="text-sm text-white/60 flex items-center">
+                      <p className="text-sm text-white/65 flex items-center">
                         <span 
                           className="w-3 h-3 rounded-sm inline-block mr-2" 
                           style={{ backgroundColor: payload[0].color }}
                          />
-                        {getMetricLabel(metric)}: <span className="font-medium ml-1 text-white/80">{payload[0].value}</span>
+                        {getMetricLabel(metric)}: <span className="font-medium ml-1 text-white/85">{payload[0].value}</span>
                       </p>
                     </div>
                   );

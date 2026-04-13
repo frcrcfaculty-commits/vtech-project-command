@@ -7,9 +7,15 @@ interface AuthContextValue {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  refreshUser: () => Promise<void>;
   isOwner: boolean;
   isTeamLead: boolean;
   isFieldStaff: boolean;
+  isHR: boolean;
+  isProjectManager: boolean;
+  isProcurementManager: boolean;
+  isAccounts: boolean;
+  isSales: boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -99,6 +105,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+  const refreshUser = async () => {
+    if (!user?.id) return;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        const p = await fetchProfile(user.id, session.access_token);
+        setUser(p);
+      }
+    } catch (err) {
+      console.warn('Refresh user error:', err);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -106,9 +125,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         login,
         logout,
+        refreshUser,
         isOwner: user?.role === 'owner',
         isTeamLead: user?.role === 'team_lead',
         isFieldStaff: user?.role === 'field_staff',
+        isHR: user?.role === 'hr',
+        isProjectManager: user?.role === 'project_manager',
+        isProcurementManager: user?.role === 'procurement_manager',
+        isAccounts: user?.role === 'accounts',
+        isSales: user?.role === 'sales',
       }}
     >
       {children}

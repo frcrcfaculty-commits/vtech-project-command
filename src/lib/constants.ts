@@ -11,6 +11,9 @@ import {
   Sparkles,
   Theater,
   Lightbulb,
+  FileText,
+  ClipboardList,
+  TrendingUp,
 } from 'lucide-react';
 
 // ─── Colors (dark glass theme) ──────────────────────────────────────────────
@@ -116,6 +119,7 @@ type NavItem = {
 export const NAV_ITEMS: Record<string, NavItem[]> = {
   owner: [
     { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
     { icon: FolderKanban,    label: 'Projects',     path: '/projects' },
     { icon: CheckSquare,     label: 'My Tasks',    path: '/tasks' },
     { icon: Clock,           label: 'Time Entry',  path: '/time' },
@@ -124,15 +128,54 @@ export const NAV_ITEMS: Record<string, NavItem[]> = {
   ],
   team_lead: [
     { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
     { icon: FolderKanban,    label: 'Projects',     path: '/projects' },
     { icon: CheckSquare,     label: 'My Tasks',    path: '/tasks' },
     { icon: Clock,           label: 'Time Entry',  path: '/time' },
     { icon: Settings,        label: 'Settings',   path: '/settings' },
   ],
   field_staff: [
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
     { icon: CheckSquare,    label: 'My Tasks',   path: '/tasks' },
     { icon: Clock,         label: 'Time Entry', path: '/time' },
     { icon: Settings,       label: 'Settings',  path: '/settings' },
+  ],
+  hr: [
+    { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
+    { icon: Users,           label: 'Team',        path: '/team' },
+    { icon: Settings,        label: 'Settings',   path: '/settings' },
+  ],
+  project_manager: [
+    { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
+    { icon: FolderKanban,    label: 'Projects',     path: '/projects' },
+    { icon: CheckSquare,     label: 'My Tasks',    path: '/tasks' },
+    { icon: Clock,           label: 'Time Entry',  path: '/time' },
+    { icon: Settings,        label: 'Settings',   path: '/settings' },
+  ],
+  procurement_manager: [
+    { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
+    { icon: TrendingUp,      label: 'Procurement', path: '/procurement' },
+    { icon: CheckSquare,     label: 'My Tasks',    path: '/tasks' },
+    { icon: Clock,           label: 'Time Entry',  path: '/time' },
+    { icon: Settings,        label: 'Settings',   path: '/settings' },
+  ],
+  accounts: [
+    { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
+    { icon: TrendingUp,      label: 'Accounts',    path: '/accounts' },
+    { icon: Clock,           label: 'Time Entry',  path: '/time' },
+    { icon: Settings,        label: 'Settings',   path: '/settings' },
+  ],
+  sales: [
+    { icon: LayoutDashboard, label: 'Dashboard',   path: '/' },
+    { icon: ClipboardList,   label: "Today's Summary", path: '/summary' },
+    { icon: FolderKanban,    label: 'Projects',     path: '/projects' },
+    { icon: CheckSquare,     label: 'My Tasks',    path: '/tasks' },
+    { icon: Clock,           label: 'Time Entry',  path: '/time' },
+    { icon: Settings,        label: 'Settings',   path: '/settings' },
   ],
 };
 
@@ -159,6 +202,11 @@ export const ROLE_LABELS: Record<string, string> = {
   owner: 'Owner',
   team_lead: 'Team Lead',
   field_staff: 'Field Staff',
+  hr: 'HR',
+  project_manager: 'Project Manager',
+  procurement_manager: 'Procurement Manager',
+  accounts: 'Accounts',
+  sales: 'Sales',
 };
 
 export const TASK_PRIORITIES = [

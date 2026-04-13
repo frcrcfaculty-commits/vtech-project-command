@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/Spinner';
 
 const LoginPage         = lazy(() => import('@/pages/LoginPage').then(m => ({ default: m.LoginPage })));
 const DashboardPage     = lazy(() => import('@/pages/DashboardPage').then(m => ({ default: m.DashboardPage })));
+const SummaryPage       = lazy(() => import('@/pages/SummaryPage').then(m => ({ default: m.SummaryPage })));
 const ProjectsPage      = lazy(() => import('@/pages/ProjectsPage').then(m => ({ default: m.ProjectsPage })));
 const ProjectDetailPage = lazy(() => import('@/pages/ProjectDetailPage').then(m => ({ default: m.ProjectDetailPage })));
 const MyTasksPage       = lazy(() => import('@/pages/MyTasksPage').then(m => ({ default: m.MyTasksPage })));
@@ -37,6 +38,7 @@ export default function App() {
               }
             >
               <Route path="/" element={<DashboardPage />} />
+              <Route path="/summary" element={<SummaryPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
               <Route path="/tasks" element={<MyTasksPage />} />
@@ -45,7 +47,7 @@ export default function App() {
               <Route
                 path="/team"
                 element={
-                  <RoleGate allowedRoles={['owner']}>
+                  <RoleGate allowedRoles={['owner', 'hr', 'team_lead']}>
                     <TeamPage />
                   </RoleGate>
                 }

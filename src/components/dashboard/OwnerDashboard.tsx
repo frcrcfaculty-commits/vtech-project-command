@@ -55,10 +55,10 @@ export function OwnerDashboard() {
       {/* Header */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-[var(--color-text,#1A1A2E)]">
+          <h1 className="text-2xl md:text-3xl font-bold text-white">
             Dashboard
           </h1>
-          <p className="text-sm text-[var(--color-text-secondary,#6B7280)] mt-1">
+          <p className="text-sm text-white/75 mt-1">
             Overview of all projects and team performance
           </p>
         </div>
@@ -76,8 +76,8 @@ export function OwnerDashboard() {
               className={cn(
                 'px-4 py-2 min-h-[36px] text-sm font-medium rounded-sm transition-all whitespace-nowrap',
                 dateRange === key
-                  ? 'bg-white/5 text-[var(--color-primary,#723B8F)] shadow-sm'
-                  : 'text-white/50 hover:text-white/70'
+                  ? 'bg-white/15 text-white shadow-sm'
+                  : 'text-white/65 hover:text-white/90'
               )}
             >
               {label}
@@ -112,23 +112,23 @@ export function OwnerDashboard() {
                 strokeWidth={1.2}
               />
 
-              <p className="text-3xl font-bold text-[var(--color-text,#1A1A2E)] mb-1">
+              <p className="text-3xl font-bold text-white mb-1">
                 {kpi.value}
               </p>
-              <p className="text-sm text-[var(--color-text-secondary,#6B7280)] mb-3">
+              <p className="text-sm text-white/85 mb-3">
                 {kpi.label}
               </p>
 
               <div className="flex items-center text-xs font-medium">
                 {isGood ? (
-                  <ArrowUp className="w-3.5 h-3.5 mr-1 text-[var(--color-success,#2E7D32)]" />
+                  <ArrowUp className="w-3.5 h-3.5 mr-1 text-emerald-400" />
                 ) : (
-                  <ArrowDown className="w-3.5 h-3.5 mr-1 text-[var(--color-danger,#C62828)]" />
+                  <ArrowDown className="w-3.5 h-3.5 mr-1 text-red-400" />
                 )}
-                <span className={isGood ? 'text-[var(--color-success,#2E7D32)]' : 'text-[var(--color-danger,#C62828)]'}>
+                <span className={isGood ? 'text-emerald-400' : 'text-red-400'}>
                   {Math.abs(typeof kpi.trend === 'number' ? kpi.trend : 0)}%
                 </span>
-                <span className="text-white/40 ml-1">vs last month</span>
+                <span className="text-white/65 ml-1">vs last month</span>
               </div>
             </div>
           );

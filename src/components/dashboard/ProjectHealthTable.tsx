@@ -55,12 +55,12 @@ export function ProjectHealthTable() {
 
   const getTypeIcon = (type: string) => {
     switch(type) {
-      case 'boardroom': return <Presentation className="w-4 h-4 mr-2 text-white/50" />;
-      case 'conference_room': return <Users className="w-4 h-4 mr-2 text-white/50" />;
-      case 'residential': return <Home className="w-4 h-4 mr-2 text-white/50" />;
-      case 'experience_centre': return <MonitorPlay className="w-4 h-4 mr-2 text-white/50" />;
-      case 'auditorium': return <Mic className="w-4 h-4 mr-2 text-white/50" />;
-      case 'lighting': return <Lightbulb className="w-4 h-4 mr-2 text-white/50" />;
+      case 'boardroom': return <Presentation className="w-4 h-4 mr-2 text-white/55" />;
+      case 'conference_room': return <Users className="w-4 h-4 mr-2 text-white/55" />;
+      case 'residential': return <Home className="w-4 h-4 mr-2 text-white/55" />;
+      case 'experience_centre': return <MonitorPlay className="w-4 h-4 mr-2 text-white/55" />;
+      case 'auditorium': return <Mic className="w-4 h-4 mr-2 text-white/55" />;
+      case 'lighting': return <Lightbulb className="w-4 h-4 mr-2 text-white/55" />;
       default: return null;
     }
   };
@@ -86,8 +86,8 @@ export function ProjectHealthTable() {
       </div>
       
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[800px] text-left text-sm text-white/60">
-          <thead className="bg-white/5 text-white/70 uppercase font-medium">
+        <table className="w-full min-w-[800px] text-left text-sm text-white/65">
+          <thead className="bg-white/5 text-white/75 uppercase font-medium">
             <tr>
               {[
                 { key: 'name', label: 'Project' },
@@ -135,10 +135,10 @@ export function ProjectHealthTable() {
                     {project.status.replace('_', ' ').toUpperCase()}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-white/80">{project.phase}</td>
+                <td className="px-4 py-3 text-white/85">{project.phase}</td>
                 <td className={cn(
                   "px-4 py-3 font-bold", 
-                  project.daysLeft < 0 ? "text-[var(--color-danger,#C62828)]" : "text-white/80"
+                  project.daysLeft < 0 ? "text-[var(--color-danger,#C62828)]" : "text-white/85"
                 )}>
                   {project.daysLeft}
                 </td>

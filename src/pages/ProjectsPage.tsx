@@ -107,27 +107,26 @@ export function ProjectsPage() {
   return (
     <div className="p-4 md:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-white/90">Projects</h1>
-          <p className="text-sm text-white/50 mt-1">
+          <p className="text-sm text-white/70 mt-1">
             {projects.length} project{projects.length !== 1 ? 's' : ''}
           </p>
         </div>
-        
-        {/* Sort Dropdown - Desktop */}
-        <div className="hidden md:block">
-          <Select
-            options={sortOptions}
-            value={sortBy}
-            onChange={(val) => setSortBy(val as SortOption)}
-            className="w-48"
-          />
-        </div>
+
+        {/* New Project Button - Desktop */}
+        <Button
+          onClick={() => setShowCreateForm(true)}
+          className="hidden md:flex"
+          icon={<Plus className="h-4 w-4" />}
+        >
+          New Project
+        </Button>
       </div>
 
       {/* Filter Bar - Sticky on mobile */}
-      <div className="sticky top-0 z-10 bg-[#F5F7FA] pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+      <div className="sticky top-0 z-10 pb-4 -mx-4 px-4 md:mx-0 md:px-0 mb-4 rounded-lg" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%)' }}>
         {/* Status Pills - Horizontal scroll on mobile */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
           {STATUS_FILTERS.map(filter => (
@@ -135,10 +134,10 @@ export function ProjectsPage() {
               key={filter.value}
               onClick={() => setStatusFilter(filter.value)}
               className={cn(
-                'px-4 py-2 min-h-[36px] rounded-full text-sm font-medium whitespace-nowrap transition-colors',
+                'px-4 py-2 min-h-[36px] rounded-full text-sm font-medium whitespace-nowrap transition-all border',
                 statusFilter === filter.value
-                  ? 'bg-primary text-white'
-                  : 'bg-white/5 text-white/50 hover:bg-white/8'
+                  ? 'bg-[var(--color-secondary)]/20 text-white border-[var(--color-secondary)]/40 shadow-[0_0_12px_rgba(218,46,143,0.15)]'
+                  : 'bg-white/5 text-white/70 border-white/8 hover:bg-white/10 hover:text-white/80 hover:border-white/15'
               )}
             >
               {filter.label}
@@ -146,9 +145,9 @@ export function ProjectsPage() {
           ))}
         </div>
 
-        {/* Dropdowns + Search */}
-        <div className="flex items-center gap-2 mt-3 md:mt-3">
-          <div className="flex-1 md:flex-none md:w-48">
+        {/* Dropdowns + Search + Sort */}
+        <div className="flex flex-wrap items-center gap-2 mt-3 md:mt-3">
+          <div className="flex-1 md:flex-none md:w-40 min-w-[140px] order-1">
             <Select
               options={projectTypeOptions}
               value={projectTypeFilter}
@@ -156,7 +155,7 @@ export function ProjectsPage() {
               className="w-full"
             />
           </div>
-          <div className="flex-1 md:flex-none md:w-40">
+          <div className="flex-1 md:flex-none md:w-36 min-w-[120px] order-2">
             <Select
               options={cityOptions}
               value={cityFilter}
@@ -164,8 +163,17 @@ export function ProjectsPage() {
               className="w-full"
             />
           </div>
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+          {/* Sort - Desktop only in filter bar */}
+          <div className="hidden md:block md:w-36 min-w-[120px] order-3">
+            <Select
+              options={sortOptions}
+              value={sortBy}
+              onChange={(val) => setSortBy(val as SortOption)}
+              className="w-full"
+            />
+          </div>
+          <div className="flex-1 relative min-w-[180px] order-4 md:order-4 md:flex-initial">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/65" />
             <input
               type="text"
               placeholder="Search projects..."
@@ -174,15 +182,15 @@ export function ProjectsPage() {
               className="w-full pl-9 pr-3 min-h-[44px] py-2.5 border border-white/12 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#DA2E8F]"
             />
           </div>
-          
+
           {/* Clear filters button */}
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md hover:bg-white/8 active:bg-white/10 transition-colors"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md hover:bg-white/8 active:bg-white/10 transition-colors order-5"
               title="Clear filters"
             >
-              <X className="h-4 w-4 text-white/50" />
+              <X className="h-4 w-4 text-white/70" />
             </button>
           )}
         </div>
@@ -243,20 +251,11 @@ export function ProjectsPage() {
       {/* FAB - Floating Action Button */}
       <button
         onClick={() => setShowCreateForm(true)}
-        className="fixed bottom-20 right-4 w-14 h-14 bg-accent text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#e65100] active:scale-95 transition-all md:hidden z-20"
-        style={{ boxShadow: '0 4px 12px rgba(255, 111, 0, 0.4)' }}
+        className="fixed bottom-20 right-4 w-14 h-14 text-white rounded-full flex items-center justify-center active:scale-95 transition-all md:hidden z-20"
+        style={{ background: 'linear-gradient(135deg, #723B8F, #DA2E8F)', boxShadow: '0 4px 20px rgba(218,46,143,0.4)' }}
       >
         <Plus className="h-6 w-6" />
       </button>
-
-      {/* FAB - Desktop (top-right) */}
-      <Button
-        onClick={() => setShowCreateForm(true)}
-        className="hidden md:flex fixed top-24 right-6"
-      >
-        <Plus className="h-4 w-4 mr-2" />
-        New Project
-      </Button>
     </div>
   );
 }

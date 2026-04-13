@@ -32,11 +32,11 @@ export function NoEntryAlert() {
               <li 
                 key={i} 
                 className={`flex justify-between items-center text-sm p-2 rounded-md ${
-                  member.consecutiveDays >= 2 ? 'bg-red-500/10 text-red-700 font-medium' : 'bg-white/5 text-white/70'
+                  member.consecutiveDays >= 2 ? 'bg-red-500/10 text-red-700 font-medium' : 'bg-white/5 text-white/75'
                 }`}
               >
                 <span>
-                  <span className="font-semibold">{member.name}</span> <span className="text-white/50 text-xs">({member.team})</span>
+                  <span className="font-semibold">{member.name}</span> <span className="text-white/55 text-xs">({member.team})</span>
                 </span>
                 {member.consecutiveDays >= 2 && (
                   <span className="text-xs text-red-600 flex items-center">

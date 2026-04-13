@@ -21,7 +21,7 @@ export function ActivityFeed() {
     <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 h-full flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Recent Activity</h3>
-        <span className="text-xs text-white/40">Auto-refreshes every 60s</span>
+        <span className="text-xs text-white/65">Auto-refreshes every 60s</span>
       </div>
 
       <ul className="flex-1 space-y-1 overflow-y-auto max-h-[400px]">
@@ -42,16 +42,16 @@ export function ActivityFeed() {
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-white/80 leading-snug">
+                <p className="text-sm text-white/85 leading-snug">
                   <span className="font-semibold">{item.user}</span>{' '}
-                  <span className="text-white/60">{item.action}</span>
+                  <span className="text-white/65">{item.action}</span>
                 </p>
                 <div className="flex items-center gap-2 mt-1.5">
                   <span className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md ${cfg.bg} ${cfg.color}`}>
                     <Icon className="w-3 h-3" />
                     {item.type}
                   </span>
-                  <span className="text-xs text-white/40">{item.time}</span>
+                  <span className="text-xs text-white/65">{item.time}</span>
                 </div>
               </div>
             </li>

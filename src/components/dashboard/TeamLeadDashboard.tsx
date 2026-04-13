@@ -24,7 +24,7 @@ const mockTasksDueThisWeek = [
 ];
 
 const statusBadge: Record<string, { label: string; bg: string; text: string }> = {
-  todo: { label: 'To Do', bg: 'bg-white/8', text: 'text-white/60' },
+  todo: { label: 'To Do', bg: 'bg-white/8', text: 'text-white/65' },
   in_progress: { label: 'In Progress', bg: 'bg-blue-500/10', text: 'text-blue-700' },
   done: { label: 'Done', bg: 'bg-green-500/10', text: 'text-green-700' },
 };
@@ -94,7 +94,7 @@ export function TeamLeadDashboard() {
                 <span className={isGood ? 'text-[var(--color-success,#2E7D32)]' : 'text-[var(--color-danger,#C62828)]'}>
                   {Math.abs(kpi.trend)}%
                 </span>
-                <span className="text-white/40 ml-1">vs last month</span>
+                <span className="text-white/65 ml-1">vs last month</span>
               </div>
             </div>
           );
@@ -126,7 +126,7 @@ export function TeamLeadDashboard() {
                 <p className="font-medium text-[var(--color-text,#1A1A2E)] text-sm truncate">
                   {member.name}
                 </p>
-                <p className="text-xs text-white/50 truncate">
+                <p className="text-xs text-white/55 truncate">
                   {member.currentTask ?? 'No active task'}
                 </p>
               </div>
@@ -134,7 +134,7 @@ export function TeamLeadDashboard() {
               {/* Hours / Warning */}
               <div className="flex-shrink-0 text-right">
                 {member.hoursToday > 0 ? (
-                  <span className="text-sm font-medium text-white/80">{member.hoursToday}h today</span>
+                  <span className="text-sm font-medium text-white/85">{member.hoursToday}h today</span>
                 ) : member.noEntryDays >= 2 ? (
                   <span className="text-xs font-medium text-red-600">🔴 No entries for {member.noEntryDays} days</span>
                 ) : (
@@ -154,8 +154,8 @@ export function TeamLeadDashboard() {
 
         {/* Desktop table / Mobile card list */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left text-sm text-white/60">
-            <thead className="bg-white/5 text-white/70 uppercase font-medium">
+          <table className="w-full text-left text-sm text-white/65">
+            <thead className="bg-white/5 text-white/75 uppercase font-medium">
               <tr>
                 <th className="px-4 py-3">Task</th>
                 <th className="px-4 py-3">Project</th>
@@ -169,7 +169,7 @@ export function TeamLeadDashboard() {
                 const badge = statusBadge[task.status] ?? statusBadge.todo;
                 return (
                   <tr key={task.id} className="hover:bg-white/5 transition-colors">
-                    <td className="px-4 py-3 font-medium text-white/80">{task.title}</td>
+                    <td className="px-4 py-3 font-medium text-white/85">{task.title}</td>
                     <td className="px-4 py-3">{task.project}</td>
                     <td className="px-4 py-3">{task.assignee}</td>
                     <td className="px-4 py-3">{new Date(task.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</td>
@@ -191,10 +191,10 @@ export function TeamLeadDashboard() {
             const badge = statusBadge[task.status] ?? statusBadge.todo;
             return (
               <div key={task.id} className="p-4">
-                <p className="font-medium text-white/80 text-sm">{task.title}</p>
-                <p className="text-xs text-white/50 mt-1">{task.project} · {task.assignee}</p>
+                <p className="font-medium text-white/85 text-sm">{task.title}</p>
+                <p className="text-xs text-white/55 mt-1">{task.project} · {task.assignee}</p>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-xs text-white/50">
+                  <span className="text-xs text-white/55">
                     Due: {new Date(task.dueDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                   </span>
                   <span className={cn('px-2 py-1 rounded-full text-xs font-semibold', badge.bg, badge.text)}>

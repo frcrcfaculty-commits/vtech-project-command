@@ -30,7 +30,7 @@ export function TimeEntryPage() {
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'today'
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-white/50 hover:text-white/70'
+                  : 'border-transparent text-white/70 hover:text-white/70'
               }`}
             >
               Today
@@ -40,7 +40,7 @@ export function TimeEntryPage() {
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'week'
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-white/50 hover:text-white/70'
+                  : 'border-transparent text-white/70 hover:text-white/70'
               }`}
             >
               This Week
@@ -51,7 +51,7 @@ export function TimeEntryPage() {
                 className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                   activeTab === 'verify'
                     ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-white/50 hover:text-white/70'
+                    : 'border-transparent text-white/70 hover:text-white/70'
                 }`}
               >
                 Verify Entries

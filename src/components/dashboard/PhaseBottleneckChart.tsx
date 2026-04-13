@@ -31,11 +31,11 @@ export function PhaseBottleneckChart() {
                   const data = payload[0].payload;
                   return (
                     <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-white/80 mb-1">{data.phase}</p>
-                      <p className="text-sm text-white/60">
-                        Avg: <span className="font-medium text-white/80">{data.avgDays} days</span>
+                      <p className="font-semibold text-white/85 mb-1">{data.phase}</p>
+                      <p className="text-sm text-white/65">
+                        Avg: <span className="font-medium text-white/85">{data.avgDays} days</span>
                       </p>
-                      <p className="text-sm text-white/50">
+                      <p className="text-sm text-white/55">
                         Planned: {data.plannedDays} days
                       </p>
                     </div>

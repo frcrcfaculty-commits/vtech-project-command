@@ -1,27 +1,34 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { Button, Card, Badge, Select, Textarea, Spinner, EmptyState } from '@/components/ui';
+import { ArrowLeft, Edit, Calendar, Clock, CheckCircle, AlertCircle, FileText } from 'lucide-react';
+import { Button, Card, Badge, Select, Textarea, Spinner, EmptyState, Table } from '@/components/ui';
 import { Modal } from '@/components/ui/Modal';
 import { ProjectForm } from '@/components/projects/ProjectForm';
 import { PhaseTracker } from '@/components/projects/PhaseTracker';
+import { supabase } from '@/lib/supabase';
 import { useProjects } from '@/hooks/useProjects';
+import { useAuth } from '@/contexts/AuthContext';
 import { formatDate, calculateDaysElapsed, formatHours, cn } from '@/lib/utils';
 import { PROJECT_TYPES, TEAM_NAMES } from '@/lib/constants';
 import type { IProject, IProjectPhase, ProjectStatus } from '@/lib/types';
 
-type TabType = 'overview' | 'phases' | 'team';
+type TabType = 'overview' | 'phases' | 'team' | 'boq';
 
 export function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { fetchProject, updateProject, loading, error } = useProjects();
-  
+  const { user } = useAuth();
+
   const [project, setProject] = useState<IProject | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [showEditModal, setShowEditModal] = useState(false);
   const [projectNotes, setProjectNotes] = useState('');
   const [savingNotes, setSavingNotes] = useState(false);
+  const [boqItems, setBoqItems] = useState<any[]>([]);
+
+  const userRole = user?.role || 'field_staff';
+  const canViewFullBoq = ['owner', 'sales', 'accounts', 'procurement_manager'].includes(userRole);
 
   const isOwner = true;
   const isTeamLead = false;
@@ -35,9 +42,29 @@ export function ProjectDetailPage() {
     }
   }, [id, fetchProject]);
 
+  const fetchBoqItems = useCallback(async () => {
+    if (!id) return;
+    try {
+      const { data } = await supabase
+        .from('boq_items')
+        .select('*')
+        .eq('project_id', id)
+        .order('category', { ascending: true });
+      setBoqItems(data || []);
+    } catch (err) {
+      console.error('Fetch BOQ error:', err);
+    }
+  }, [id]);
+
   useEffect(() => {
     loadProject();
   }, [loadProject]);
+
+  useEffect(() => {
+    if (activeTab === 'boq') {
+      fetchBoqItems();
+    }
+  }, [activeTab, fetchBoqItems]);
 
   const handleProjectUpdate = async (updates: Partial<IProject>) => {
     if (!project) return;
@@ -112,14 +139,14 @@ export function ProjectDetailPage() {
     <div className="p-4 md:p-6 max-w-6xl mx-auto">
       <button
         onClick={() => navigate('/projects')}
-        className="flex items-center gap-2 text-white/50 hover:text-white/90 mb-4"
+        className="flex items-center gap-2 text-white/70 hover:text-white/90 mb-4"
       >
         <ArrowLeft className="h-4 w-4" />
         <span className="text-sm">Back to Projects</span>
       </button>
 
       <div className="flex gap-1 border-b border-white/10 mb-6">
-        {(['overview', 'phases', 'team'] as TabType[]).map(tab => (
+        {(['overview', 'phases', 'team', 'boq'] as TabType[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -127,7 +154,7 @@ export function ProjectDetailPage() {
               'px-4 py-2 text-sm font-medium border-b-2 -mb-px capitalize',
               activeTab === tab
                 ? 'border-primary text-primary'
-                : 'border-transparent text-white/50 hover:text-white/90'
+                : 'border-transparent text-white/70 hover:text-white/90'
             )}
           >
             {tab}
@@ -168,6 +195,15 @@ export function ProjectDetailPage() {
           project={project}
           phases={phases}
           isOwner={isOwner}
+        />
+      )}
+
+      {activeTab === 'boq' && (
+        <BoqTab
+          items={boqItems}
+          canViewFullBoq={canViewFullBoq}
+          projectId={id || ''}
+          setItems={setBoqItems}
         />
       )}
 
@@ -239,7 +275,7 @@ function OverviewTab({
         <div className="flex items-start justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold text-white/90 mb-1">{project.name}</h1>
-            <p className="text-white/50">{project.client_name}</p>
+            <p className="text-white/70">{project.client_name}</p>
           </div>
           <Badge
             variant={
@@ -254,7 +290,7 @@ function OverviewTab({
 
         </div>
 
-        <div className="flex flex-wrap gap-4 text-sm text-white/50 mb-4">
+        <div className="flex flex-wrap gap-4 text-sm text-white/70 mb-4">
           <div className="flex items-center gap-1">
             <span className="text-base">{getProjectTypeIcon(project.project_type)}</span>
             <span>{projectType?.label || project.project_type}</span>
@@ -321,22 +357,22 @@ function OverviewTab({
         <Card className="text-center">
           <Clock className="h-6 w-6 mx-auto text-secondary mb-2" />
           <p className="text-2xl font-bold text-white/90">{formatHours(totalWorkHours)}</p>
-          <p className="text-xs text-white/50">Work Hours</p>
+          <p className="text-xs text-white/70">Work Hours</p>
         </Card>
         <Card className="text-center">
           <Clock className="h-6 w-6 mx-auto text-accent mb-2" />
           <p className="text-2xl font-bold text-white/90">{formatHours(totalTravelHours)}</p>
-          <p className="text-xs text-white/50">Travel Hours</p>
+          <p className="text-xs text-white/70">Travel Hours</p>
         </Card>
         <Card className="text-center">
           <Calendar className="h-6 w-6 mx-auto text-success mb-2" />
           <p className="text-2xl font-bold text-white/90">{daysElapsed}</p>
-          <p className="text-xs text-white/50">Days Elapsed</p>
+          <p className="text-xs text-white/70">Days Elapsed</p>
         </Card>
         <Card className="text-center">
           <CheckCircle className="h-6 w-6 mx-auto text-primary mb-2" />
           <p className="text-2xl font-bold text-white/90">{completionPercentage}%</p>
-          <p className="text-xs text-white/50">Completion</p>
+          <p className="text-xs text-white/70">Completion</p>
         </Card>
       </div>
 
@@ -416,9 +452,9 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left">
-                <th className="pb-2 font-medium text-white/50">Phase</th>
-                <th className="pb-2 font-medium text-white/50">Team</th>
-                <th className="pb-2 font-medium text-white/50">Hours</th>
+                <th className="pb-2 font-medium text-white/70">Phase</th>
+                <th className="pb-2 font-medium text-white/70">Team</th>
+                <th className="pb-2 font-medium text-white/70">Hours</th>
               </tr>
             </thead>
             <tbody>
@@ -439,7 +475,7 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
                       <Badge variant="pending">{phase.assigned_team?.name || 'Unassigned'}</Badge>
                     )}
                   </td>
-                  <td className="py-3 text-white/50">
+                  <td className="py-3 text-white/70">
                     {teamHoursData.find(t => t.phaseNumber === (phase.phase_order || 0))?.hours || 0}h
                   </td>
                 </tr>
@@ -461,12 +497,12 @@ function TeamTab({ project, phases, isOwner }: TeamTabProps) {
                 </div>
                 <div>
                   <p className="font-medium text-sm">{user.name}</p>
-                  <p className="text-xs text-white/50">{user.team}</p>
+                  <p className="text-xs text-white/70">{user.team}</p>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium">{user.workHours}h work</p>
-                <p className="text-xs text-white/50">{user.travelHours}h travel</p>
+                <p className="text-xs text-white/70">{user.travelHours}h travel</p>
               </div>
             </div>
           ))}
@@ -486,4 +522,120 @@ function getProjectTypeIcon(type: string): string {
     lighting_hvac: '💡',
   };
   return icons[type] || '📁';
+}
+
+interface BoqTabProps {
+  items: any[];
+  canViewFullBoq: boolean;
+  projectId: string;
+  setItems: (items: any[]) => void;
+}
+
+function BoqTab({ items, canViewFullBoq, projectId, setItems }: BoqTabProps) {
+  const [loading, setLoading] = useState(false);
+  const [newItem, setNewItem] = useState({ name: '', category: '', quantity: 1, unit: '', estimated_price: 0, in_stock: true });
+
+  const handleAddItem = async () => {
+    if (!newItem.name || !projectId) return;
+    setLoading(true);
+    try {
+      await supabase.from('boq_items').insert({ ...newItem, project_id: projectId });
+      setNewItem({ name: '', category: '', quantity: 1, unit: '', estimated_price: 0, in_stock: true });
+      const { data } = await supabase.from('boq_items').select('*').eq('project_id', projectId).order('category');
+      if (data) setItems(data);
+    } catch (err) {
+      console.error('Add BOQ item error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const boqColumns = [
+    { key: 'category', label: 'Category' },
+    { key: 'name', label: 'Item Name' },
+    { key: 'quantity', label: 'Qty' },
+    { key: 'unit', label: 'Unit' },
+    ...(canViewFullBoq ? [{ key: 'estimated_price', label: 'Est. Price (₹)', render: (row: any) => row.estimated_price ? `₹${row.estimated_price.toLocaleString()}` : '-' }] : []),
+    { key: 'in_stock', label: 'In Stock', render: (row: any) => row.in_stock ? <Badge status="completed" label="Yes" /> : <Badge status="pending" label="No" /> },
+  ];
+
+  const categories = [...new Set(items.map(i => i.category).filter(Boolean))];
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <div className="flex items-center gap-2 mb-4">
+          <FileText size={20} className="text-secondary" />
+          <h3 className="text-lg font-semibold">Bill of Quantities (BOQ)</h3>
+        </div>
+
+        {!canViewFullBoq && (
+          <div className="p-3 bg-white/5 rounded-lg mb-4 text-sm text-white/70">
+            💡 You can view this section to see what products will be used in this project. Contact the owner or procurement for pricing details.
+          </div>
+        )}
+
+        {canViewFullBoq && (
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-3 mb-4">
+            <input
+              placeholder="Item name"
+              value={newItem.name}
+              onChange={e => setNewItem({ ...newItem, name: e.target.value })}
+              className="md:col-span-2 h-10 rounded-lg px-3 bg-white/5 border border-white/10 text-sm"
+            />
+            <input
+              placeholder="Category"
+              value={newItem.category}
+              onChange={e => setNewItem({ ...newItem, category: e.target.value })}
+              className="h-10 rounded-lg px-3 bg-white/5 border border-white/10 text-sm"
+            />
+            <input
+              type="number"
+              placeholder="Qty"
+              value={newItem.quantity}
+              onChange={e => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 1 })}
+              className="h-10 rounded-lg px-3 bg-white/5 border border-white/10 text-sm"
+            />
+            <input
+              placeholder="Unit"
+              value={newItem.unit}
+              onChange={e => setNewItem({ ...newItem, unit: e.target.value })}
+              className="h-10 rounded-lg px-3 bg-white/5 border border-white/10 text-sm"
+            />
+            <input
+              type="number"
+              placeholder="Price"
+              value={newItem.estimated_price}
+              onChange={e => setNewItem({ ...newItem, estimated_price: parseFloat(e.target.value) || 0 })}
+              className="h-10 rounded-lg px-3 bg-white/5 border border-white/10 text-sm"
+            />
+            <Button onClick={handleAddItem} loading={loading} size="md">Add</Button>
+          </div>
+        )}
+
+        {items.length === 0 ? (
+          <EmptyState icon={FileText} title="No BOQ Items" description="No items have been added to the project BOQ yet." />
+        ) : (
+          categories.map(cat => (
+            <div key={cat} className="mb-4">
+              <h4 className="font-medium text-sm text-white/70 mb-2 uppercase tracking-wide">{cat}</h4>
+              <Table
+                columns={boqColumns}
+                data={items.filter(i => i.category === cat)}
+              />
+            </div>
+          ))
+        )}
+
+        {canViewFullBoq && items.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-white/10 flex justify-between">
+            <span className="text-sm text-white/70">Total Items: {items.length}</span>
+            <span className="text-sm font-medium">
+              Total Estimated: ₹{items.reduce((sum, i) => sum + (i.estimated_price || 0) * i.quantity, 0).toLocaleString()}
+            </span>
+          </div>
+        )}
+      </Card>
+    </div>
+  );
 }

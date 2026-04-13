@@ -1,6 +1,6 @@
 // src/lib/types.ts — STRICT, matches DB schema EXACTLY
 
-export type UserRole = 'owner' | 'team_lead' | 'field_staff';
+export type UserRole = 'owner' | 'team_lead' | 'field_staff' | 'hr' | 'project_manager' | 'procurement_manager' | 'accounts' | 'sales';
 
 export type ProjectType =
   | 'boardroom'

@@ -18,8 +18,8 @@ export function TravelChart() {
     <div className="bg-[var(--color-surface,#ffffff)] rounded-lg shadow-sm border border-white/8 p-4 h-full flex flex-col">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-[var(--color-text,#1A1A2E)]">Travel vs Productive Hours</h3>
-        <p className="text-sm mt-1 text-white/50">
-          Company-wide travel overhead: <span className="font-bold text-white/80">{companyOverhead}%</span>
+        <p className="text-sm mt-1 text-white/55">
+          Company-wide travel overhead: <span className="font-bold text-white/85">{companyOverhead}%</span>
         </p>
         {companyOverhead > 25 && (
           <p className="text-sm text-[var(--color-warning,#F9A825)] font-medium mt-1">
@@ -57,17 +57,17 @@ export function TravelChart() {
                   
                   return (
                     <div className="bg-white/5 border border-white/10 p-3 shadow-md rounded-md">
-                      <p className="font-semibold text-white/80 mb-2">{label}</p>
+                      <p className="font-semibold text-white/85 mb-2">{label}</p>
                       {payload.map((entry, i) => (
-                        <p key={i} className="text-sm text-white/60 flex items-center mb-1">
+                        <p key={i} className="text-sm text-white/65 flex items-center mb-1">
                           <span 
                             className="w-3 h-3 rounded-sm inline-block mr-2" 
                             style={{ backgroundColor: entry.color }}
                           />
-                          {entry.name}: <span className="font-medium ml-1 text-white/80">{entry.value}h</span>
+                          {entry.name}: <span className="font-medium ml-1 text-white/85">{entry.value}h</span>
                         </p>
                       ))}
-                      <div className="mt-2 pt-2 border-t border-white/8 text-sm font-medium text-white/70">
+                      <div className="mt-2 pt-2 border-t border-white/8 text-sm font-medium text-white/75">
                         Travel Overhead: <span className={percent > 30 ? 'text-[var(--color-warning,#F9A825)]' : ''}>{percent}%</span>
                       </div>
                     </div>

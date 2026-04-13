@@ -13,7 +13,7 @@ export function useTeams() {
     setLoading(true);
     setError(null);
     try {
-      let query = supabase.from('users').select('*').order('name');
+      let query = supabase.from('users').select('*').order('full_name');
       if (teamId) query = query.eq('team_id', teamId);
       const { data, error: err } = await query;
       if (err) throw err;
@@ -32,7 +32,7 @@ export function useTeams() {
       const { data, error: err } = await supabase
         .from('users')
         .select('*')
-        .order('name');
+        .order('full_name');
       if (err) throw err;
       setMembers(data ?? []);
     } catch (e) {
