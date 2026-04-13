@@ -31,7 +31,13 @@ export default function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute><AppShell /></ProtectedRoute>}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppShell />
+                </ProtectedRoute>
+              }
+            >
               <Route path="/" element={<DashboardPage />} />
               <Route path="/summary" element={<SummaryPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
@@ -39,8 +45,19 @@ export default function App() {
               <Route path="/tasks" element={<MyTasksPage />} />
               <Route path="/time" element={<TimeEntryPage />} />
               <Route path="/settings" element={<SettingsPage />} />
+
+              {/* Team: owner sees all, HR manages members, team_lead sees their team */}
+              <Route
+                path="/team"
+                element={
+                  <RoleGate allowedRoles={['owner', 'hr', 'team_lead']}>
+                    <TeamPage />
+                  </RoleGate>
+                }
+              />
+
+              {/* BOQ: all authenticated roles can access — price visibility enforced inside the page */}
               <Route path="/boq" element={<BOQPage />} />
-              <Route path="/team" element={<RoleGate allowedRoles={['owner', 'hr', 'team_lead']}><TeamPage /></RoleGate>} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
