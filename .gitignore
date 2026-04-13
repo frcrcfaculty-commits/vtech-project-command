@@ -6,3 +6,6 @@ android/app/build
 *.apk
 .DS_Store
 .vite
+# Transpiled JS files
+src/**/*.js
+!src/**/*.config.js
